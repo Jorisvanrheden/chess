@@ -28,7 +28,7 @@ public:
 		matrix[coordinate.getX()][coordinate.getY()] = piece;
 	}
 
-	Piece* getPieceAt(const Coordinate& coordinate)
+	Piece* getPieceAt(const Coordinate& coordinate) const
 	{
 		if (!isCoordinateValid(coordinate)) return NULL;
 
@@ -78,7 +78,7 @@ public:
 		return true;
 	}
 
-	bool isCoordinateValid(const Coordinate& coordinate) 
+	bool isCoordinateValid(const Coordinate& coordinate) const
 	{
 		//Boundary checking
 		if (coordinate.getX() < 0 || coordinate.getX() >= SIZE_X) return false;
@@ -87,11 +87,11 @@ public:
 		return true;
 	}
 
-	int getSizeX() 
+	int getSizeX() const
 	{
 		return SIZE_X;
 	}
-	int getSizeY() 
+	int getSizeY() const
 	{
 		return SIZE_Y;
 	}

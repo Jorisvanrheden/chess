@@ -56,5 +56,8 @@
     <ClInclude Include="Pawn.h">
       <Filter>Header Files\Pieces</Filter>
     </ClInclude>
+    <ClInclude Include="Bishop.h">
+      <Filter>Header Files\Pieces</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

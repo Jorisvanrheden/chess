@@ -14,6 +14,9 @@ public:
 		board.setPieceAt(Coordinate(1, 0), new Knight(PlayerType::BLACK));
 		board.setPieceAt(Coordinate(7, 0), new Knight(PlayerType::BLACK));
 
+		board.setPieceAt(Coordinate(4, 4), new Bishop(PlayerType::BLACK));
+		board.setPieceAt(Coordinate(5, 5), new Pawn(PlayerType::WHITE));
+
 		//Add pawns (black side)
 		for (int i = 0; i < board.getSizeX(); i++) 
 		{
