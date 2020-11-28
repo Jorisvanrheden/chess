@@ -7,6 +7,11 @@ public:
 	Knight(const PlayerType& type) : Piece(type) {}
 	~Knight() {}
 
+	int getID()
+	{
+		return 2;
+	}
+
 	std::vector<Coordinate> findAvailableMoves(const Coordinate& coordinate, const Board& board)
 	{
 		//A Knight has a range of 5x5 (given that the knight is the center coordinate)

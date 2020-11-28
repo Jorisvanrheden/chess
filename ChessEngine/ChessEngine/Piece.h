@@ -12,6 +12,7 @@ class Piece
 public:
 	Piece(const PlayerType& type);
 
+	virtual int getID() = 0;
 	virtual std::vector<Coordinate> findAvailableMoves(const Coordinate& coordinate, const Board& board) = 0;
 
 	bool isSameType(Piece* piece) 

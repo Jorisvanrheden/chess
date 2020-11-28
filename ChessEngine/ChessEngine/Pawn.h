@@ -7,6 +7,11 @@ public:
 	Pawn(const PlayerType& type) : Piece(type) {}
 	~Pawn() {}
 
+	int getID()
+	{
+		return 1;
+	}
+
 	std::vector<Coordinate> findAvailableMoves(const Coordinate& coordinate, const Board& board)
 	{
 		//A pawn can only move up or down (depending on it's type)

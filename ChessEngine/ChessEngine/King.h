@@ -7,6 +7,11 @@ public:
 	King(const PlayerType& type) : Piece(type) {}
 	~King() {}
 
+	int getID() 
+	{
+		return 6;
+	}
+
 	std::vector<Coordinate> findAvailableMoves(const Coordinate& coordinate, const Board& board)
 	{
 		//A rook traverses the horizontal and verticals (with unlimited range)

@@ -7,6 +7,11 @@ public:
 	Bishop(const PlayerType& type) : Piece(type) {}
 	~Bishop() {}
 
+	int getID()
+	{
+		return 3;
+	}
+
 	std::vector<Coordinate> findAvailableMoves(const Coordinate& coordinate, const Board& board)
 	{
 		//A bishop traverses the diagonals (with unlimited range)

@@ -13,11 +13,22 @@ int main()
 	Board board;
 	board.load(new DefaultBoardPopulator());
 
-	std::vector<Coordinate> availablePositions = board.getAvailableMoves(Coordinate(5, 5));
-	for (int i = 0; i < availablePositions.size(); i++) 
+	//print default
+	//board.print();
+
+	Coordinate origin(3, 3);
+	std::vector<Coordinate> availablePositions = board.getAvailableMoves(origin);
+	if (availablePositions.size() > 0) 
+	{
+		board.movePiece(origin, availablePositions[0]);
+	}
+	/*for (int i = 0; i < availablePositions.size(); i++) 
 	{
 		availablePositions[i].print();
-	}
+	}*/
+
+	//print result
+	board.print();
 
 	getchar();
 	return 0;

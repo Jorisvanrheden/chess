@@ -6,6 +6,11 @@ class Queen : public Piece
 public:
 	Queen(const PlayerType& type) : Piece(type) {}
 	~Queen() {}
+	
+	int getID()
+	{
+		return 5;
+	}
 
 	std::vector<Coordinate> findAvailableMoves(const Coordinate& coordinate, const Board& board)
 	{

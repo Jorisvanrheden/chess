@@ -21,6 +21,12 @@ public:
 	}
 	~Board() {}
 
+	void movePiece(const Coordinate& origin, const Coordinate& target) 
+	{
+		matrix[target.getX()][target.getY()] = getPieceAt(origin);
+		matrix[origin.getX()][origin.getY()] = NULL;
+	}
+
 	void setPieceAt(const Coordinate& coordinate, Piece* piece) 
 	{
 		if (!isCoordinateValid(coordinate)) return;
@@ -94,6 +100,23 @@ public:
 	int getSizeY() const
 	{
 		return SIZE_Y;
+	}
+
+	void print() 
+	{
+		for (int j = 0; j < SIZE_Y; j++)
+		{
+			for (int i = 0; i < SIZE_X; i++)
+			{
+				int id = 0;
+				Piece* p = getPieceAt(Coordinate(i, j));
+				if (p) id = p->getID();
+
+				std::cout << id << ", ";	
+			}
+
+			std::cout << std::endl;
+		}	
 	}
 
 private:
