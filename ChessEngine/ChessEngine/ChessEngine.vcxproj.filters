@@ -19,10 +19,16 @@
     <Filter Include="Header Files\Board">
       <UniqueIdentifier>{e8a393ad-03c3-4bdb-8f06-f544f6679e06}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Pieces">
+      <UniqueIdentifier>{94e226ef-d5ab-468a-9a39-17e1dea91fe3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ChessEngine.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Piece.cpp">
+      <Filter>Source Files\Pieces</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -57,6 +63,18 @@
       <Filter>Header Files\Pieces</Filter>
     </ClInclude>
     <ClInclude Include="Bishop.h">
+      <Filter>Header Files\Pieces</Filter>
+    </ClInclude>
+    <ClInclude Include="Rook.h">
+      <Filter>Header Files\Pieces</Filter>
+    </ClInclude>
+    <ClInclude Include="Queen.h">
+      <Filter>Header Files\Pieces</Filter>
+    </ClInclude>
+    <ClInclude Include="Direction.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="King.h">
       <Filter>Header Files\Pieces</Filter>
     </ClInclude>
   </ItemGroup>
