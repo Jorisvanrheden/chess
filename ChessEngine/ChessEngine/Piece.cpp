@@ -11,7 +11,7 @@ void Piece::getDirectionalMoves(std::vector<Coordinate>& moves, const Board& boa
 	//only if a limit is used, perform the limit to iteration check
 	if (limit != -1)
 	{
-		if (iteration >= limit) return;
+		if (iteration > limit) return;
 	}
 
 	if (iteration > 0)
