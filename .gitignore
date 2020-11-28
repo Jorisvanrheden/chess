@@ -1,0 +1,17 @@
+*.obj
+*.tlog
+*.log
+*.vcxproj
+*.ipch
+*.exe
+*.pdb
+*.suo
+*.psess
+*.vsp
+*.vspx
+*.cache
+.vs/
+ChessEngine/Debug/
+ChessEngine/Release/
+ChessEngine/x64/
+ChessEngine/ChessEngine/x64/
