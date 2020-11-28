@@ -35,10 +35,47 @@ public:
 		return matrix[coordinate.getX()][coordinate.getY()];
 	}
 
+	std::vector<Coordinate> getAvailableMoves(const Coordinate& coordinate) 
+	{
+		Piece* piece = getPieceAt(coordinate);
+		if (piece == NULL) return std::vector<Coordinate>();
+
+		std::vector<Coordinate> rawMoves = piece->findAvailableMoves(coordinate, *this);
+		return getValidatedMoves(piece, rawMoves);
+	}
+
+	std::vector<Coordinate> getValidatedMoves(Piece* piece, std::vector<Coordinate> moves) 
+	{
+		std::vector<Coordinate> validatedMoves;
+
+		for (int i = 0; i < moves.size(); i++) 
+		{
+			if (isMoveValid(piece, moves[i])) validatedMoves.push_back(moves[i]);
+		}
+
+		return validatedMoves;
+	}
+	
 	//Loading function receives a new set, or existing set
 	void load(IBoardPopulator* populator) 
 	{
 		populator->populate(*this);
+	}
+
+	bool isMoveValid(Piece* piece, const Coordinate& coordinate)
+	{
+		//make sure the coordinate is within the board
+		if (!isCoordinateValid(coordinate)) return false;
+
+		//check if there is already a piece on the target position
+		//- if there is already a piece, it can only be of a different playertype (as own pieces cannot be consumed)
+		Piece* targetedPiece = getPieceAt(coordinate);
+		if (targetedPiece != NULL) 
+		{
+			if (targetedPiece->isSameType(piece)) return false;
+		}
+
+		return true;
 	}
 
 	bool isCoordinateValid(const Coordinate& coordinate) 

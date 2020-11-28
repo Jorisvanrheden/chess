@@ -11,10 +11,13 @@ public:
 
 	void populate(Board& board) 
 	{
-		board.setPieceAt(Coordinate(0, 1), new Knight(PlayerType::BLACK));
-		board.setPieceAt(Coordinate(0, 7), new Knight(PlayerType::BLACK));
+		board.setPieceAt(Coordinate(1, 0), new Knight(PlayerType::BLACK));
+		board.setPieceAt(Coordinate(7, 0), new Knight(PlayerType::BLACK));
 
-		board.setPieceAt(Coordinate(7, 1), new Knight(PlayerType::WHITE));
-		board.setPieceAt(Coordinate(7, 7), new Knight(PlayerType::WHITE));
+		//Add pawns (black side)
+		for (int i = 0; i < board.getSizeX(); i++) 
+		{
+			board.setPieceAt(Coordinate(i, 1), new Pawn(PlayerType::BLACK));
+		}
 	}
 };

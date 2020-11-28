@@ -16,11 +16,11 @@ public:
 
 	virtual std::vector<Coordinate> findAvailableMoves(const Coordinate& coordinate, const Board& board) = 0;
 
-	bool IsSameType(Piece* piece) 
+	bool isSameType(Piece* piece) 
 	{
 		return piece->type == type;
 	}
 
-private:
+protected:
 	PlayerType type;
 };
