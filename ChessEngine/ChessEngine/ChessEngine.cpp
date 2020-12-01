@@ -16,7 +16,13 @@ int main()
 	//print default
 	//board.print();
 
-	Coordinate origin(3, 3);
+	Coordinate pawnPos(3, 1);
+	Coordinate origin(1, 0);
+
+	std::vector<Coordinate> availablePositionsA = board.getAvailableMoves(pawnPos);
+	board.movePiece(pawnPos, availablePositionsA[0]);
+
+
 	std::vector<Coordinate> availablePositions = board.getAvailableMoves(origin);
 	if (availablePositions.size() > 0) 
 	{
