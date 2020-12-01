@@ -24,21 +24,7 @@ public:
 	void movePiece(const Coordinate& origin, const Coordinate& target) 
 	{
 		matrix[target.getX()][target.getY()] = getPieceAt(origin);
-		matrix[origin.getX()][origin.getY()] = NULL;
-	}
-
-	void setPieceAt(const Coordinate& coordinate, Piece* piece) 
-	{
-		if (!isCoordinateValid(coordinate)) return;
-
-		matrix[coordinate.getX()][coordinate.getY()] = piece;
-	}
-
-	Piece* getPieceAt(const Coordinate& coordinate) const
-	{
-		if (!isCoordinateValid(coordinate)) return NULL;
-
-		return matrix[coordinate.getX()][coordinate.getY()];
+		setPieceAt(target, NULL);
 	}
 
 	std::vector<Coordinate> getAvailableMoves(const Coordinate& coordinate) 
@@ -61,12 +47,6 @@ public:
 
 		return validatedMoves;
 	}
-	
-	//Loading function receives a new set, or existing set
-	void load(IBoardPopulator* populator) 
-	{
-		populator->populate(*this);
-	}
 
 	bool isMoveValid(Piece* piece, const Coordinate& coordinate)
 	{
@@ -76,7 +56,7 @@ public:
 		//check if there is already a piece on the target position
 		//- if there is already a piece, it can only be of a different playertype (as own pieces cannot be consumed)
 		Piece* targetedPiece = getPieceAt(coordinate);
-		if (targetedPiece != NULL) 
+		if (targetedPiece != NULL)
 		{
 			if (targetedPiece->isSameType(piece)) return false;
 		}
@@ -92,6 +72,12 @@ public:
 
 		return true;
 	}
+	
+	//Loading function receives a new set, or existing set
+	void load(IBoardPopulator* populator) 
+	{
+		populator->populate(*this);
+	}	
 
 	int getSizeX() const
 	{
@@ -117,6 +103,20 @@ public:
 
 			std::cout << std::endl;
 		}	
+	}
+
+	Piece* getPieceAt(const Coordinate& coordinate) const
+	{
+		if (!isCoordinateValid(coordinate)) return NULL;
+
+		return matrix[coordinate.getX()][coordinate.getY()];
+	}
+
+	void setPieceAt(const Coordinate& coordinate, Piece* piece)
+	{
+		if (!isCoordinateValid(coordinate)) return;
+
+		matrix[coordinate.getX()][coordinate.getY()] = piece;
 	}
 
 private:
