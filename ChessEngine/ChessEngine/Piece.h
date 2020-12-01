@@ -20,14 +20,19 @@ public:
 		return piece->type == type;
 	}
 
-	bool setIsMoved(bool moved) 
+	bool isSameType(PlayerType type)
 	{
-		isMoved = moved;
+		return this->type == type;
+	}
+
+	void addCoordinateToHistory(const Coordinate& coordinate) 
+	{
+		coordinateHistory.push_back(coordinate);
 	}
 
 protected:
 	PlayerType type;
-	bool isMoved = false;
+	std::vector<Coordinate> coordinateHistory;
 
 	void getDirectionalUnits(std::vector<Coordinate>& moves, const Board& board, Coordinate coordinate, const Direction& direction, int limit, int iteration = 0);
 	void getDirectionalMoves(std::vector<Coordinate>& moves, const Board& board, Coordinate coordinate, const Direction& direction, int limit = -1, int iteration = 0);

@@ -10,6 +10,15 @@ public:
 
 	}
 
+	bool operator==(const Coordinate& comparer) const
+	{
+		return comparer.getX() == x && comparer.getY() == y;
+	}
+	bool operator!=(const Coordinate& comparer)
+	{
+		return !operator==(comparer);
+	}
+
 	void print() 
 	{
 		std::cout << x << ", " << y << std::endl;

@@ -22,6 +22,9 @@
     <Filter Include="Source Files\Pieces">
       <UniqueIdentifier>{94e226ef-d5ab-468a-9a39-17e1dea91fe3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Rules">
+      <UniqueIdentifier>{641d3e9a-773a-46bd-9e67-9e9fe541be56}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ChessEngine.cpp">
@@ -76,6 +79,9 @@
     </ClInclude>
     <ClInclude Include="King.h">
       <Filter>Header Files\Pieces</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerSelector.h">
+      <Filter>Header Files\Rules</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

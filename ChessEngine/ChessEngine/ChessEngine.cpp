@@ -1,6 +1,7 @@
 #include <iostream>
 #include "Board.h"
 #include "DefaultBoardPopulator.h"
+#include "PlayerSelector.h"
 
 int main()
 {
@@ -12,6 +13,16 @@ int main()
 
 	Board board;
 	board.load(new DefaultBoardPopulator());
+
+	PlayerSelector s(board);
+	s.movePiece(Coordinate(0, 0), Coordinate(0, 0));
+	s.movePiece(Coordinate(0, 0), Coordinate(0, 0));
+	s.movePiece(Coordinate(0, 0), Coordinate(0, 0));
+	s.movePiece(Coordinate(0, 0), Coordinate(0, 0));
+	s.movePiece(Coordinate(0, 0), Coordinate(0, 0));
+	s.movePiece(Coordinate(0, 0), Coordinate(0, 0));
+	s.movePiece(Coordinate(0, 0), Coordinate(0, 0));
+	s.movePiece(Coordinate(0, 0), Coordinate(0, 0));
 
 	//print default
 	//board.print();

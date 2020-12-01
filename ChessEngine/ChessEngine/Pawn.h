@@ -36,7 +36,7 @@ public:
 		//there both types of moves should be included in the available move set
 
 		//pawns can move 2 units in a straight direction if they haven't been moved yet
-		int moveDistance = (isMoved) ? 1 : 2;
+		int moveDistance = (coordinateHistory.size() > 0) ? 1 : 2;
 		getDirectionalMoves(moves, board, coordinate, direction, moveDistance);
 
 		//pawn can attack diagonally, but only with a distance of 1

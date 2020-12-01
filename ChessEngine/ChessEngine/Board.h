@@ -21,10 +21,27 @@ public:
 	}
 	~Board() {}
 
-	void movePiece(const Coordinate& origin, const Coordinate& target) 
+	//return true if the piece has been succesfully moved 
+	bool movePiece(const Coordinate& origin, const Coordinate& target) 
 	{
-		matrix[target.getX()][target.getY()] = getPieceAt(origin);
-		setPieceAt(target, NULL);
+		if (origin == target) return false;
+
+		Piece* piece = getPieceAt(origin);
+		if (piece != NULL) 
+		{
+			//set the origin to NULL
+			setPieceAt(origin, NULL);
+
+			//set the piece to the new location
+			setPieceAt(target, piece);
+
+			//update the piece's coordinate history
+			piece->addCoordinateToHistory(target);
+
+			return true;
+		}
+
+		return false;
 	}
 
 	std::vector<Coordinate> getAvailableMoves(const Coordinate& coordinate) 
