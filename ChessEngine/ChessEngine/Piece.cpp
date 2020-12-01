@@ -19,24 +19,16 @@ void Piece::getDirectionalMoves(std::vector<Coordinate>& moves, const Board& boa
 		//check if the updated coordinate is still within bounds
 		if (!board.isCoordinateValid(coordinate)) return;
 
+		moves.push_back(coordinate);
+
 		//if a piece is encountered, resolve
 		Piece* obstacle = board.getPieceAt(coordinate);
 		if (obstacle != NULL)
 		{
-			//if the obstacle is a different type, the coordinate is allowed, 
-			//but stops any continuation in that direction
-			if (!obstacle->isSameType(this))
-			{
-				moves.push_back(coordinate);
-				return;
-			}
-			else
-			{
-				return;
-			}
+			//any obstacle will be added to the set of available moves but stops any continuation in that direction						
+			//the board will later verify whether those moves are valid (e.g. moving to a piece of the same type is not allowed)
+			return;
 		}
-
-		moves.push_back(coordinate);
 	}
 
 	//prepare the coordinate for the next iteration
