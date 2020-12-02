@@ -3,14 +3,14 @@
 #include <vector>
 #include "Coordinate.h"
 #include "Direction.h"
-#include "GameFlags.h"
+#include "GameConstants.h"
 
 class Board;
 
 class Piece 
 {
 public:
-	Piece(const PlayerType& type);
+	Piece(const PLAYER_TYPE& type);
 
 	virtual int getID() = 0;
 	virtual std::vector<Coordinate> findAvailableMoves(const Coordinate& coordinate, const Board& board) = 0;
@@ -20,7 +20,7 @@ public:
 		return piece->type == type;
 	}
 
-	bool isSameType(PlayerType type)
+	bool isSameType(PLAYER_TYPE type)
 	{
 		return this->type == type;
 	}
@@ -31,7 +31,7 @@ public:
 	}
 
 protected:
-	PlayerType type;
+	PLAYER_TYPE type;
 	std::vector<Coordinate> coordinateHistory;
 
 	void getDirectionalUnits(std::vector<Coordinate>& moves, const Board& board, Coordinate coordinate, const Direction& direction, int limit, int iteration = 0);

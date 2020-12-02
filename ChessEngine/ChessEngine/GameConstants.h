@@ -1,6 +1,6 @@
 #pragma once
 
-enum PlayerType
+enum PLAYER_TYPE 
 {
 	BLACK,
 	WHITE

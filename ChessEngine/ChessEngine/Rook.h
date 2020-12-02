@@ -4,7 +4,7 @@
 class Rook : public Piece
 {
 public:
-	Rook(const PlayerType& type) : Piece(type) {}
+	Rook(const PLAYER_TYPE& type) : Piece(type) {}
 	~Rook() {}
 
 	int getID()

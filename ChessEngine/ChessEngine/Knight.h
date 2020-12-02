@@ -4,7 +4,7 @@
 class Knight : public Piece 
 {
 public:
-	Knight(const PlayerType& type) : Piece(type) {}
+	Knight(const PLAYER_TYPE& type) : Piece(type) {}
 	~Knight() {}
 
 	int getID()

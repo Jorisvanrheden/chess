@@ -6,32 +6,35 @@
 class DefaultBoardPopulator : public IBoardPopulator 
 {
 public:
-	DefaultBoardPopulator() {}
+	DefaultBoardPopulator(Board& board) 
+	{
+		populate(board);
+	}
 	~DefaultBoardPopulator() {}
 
-	void populate(Board& board) 
+private:
+	void populate(Board& board)
 	{
-		populatePiecesDefault(board, Coordinate(0, 0), new Rook(PlayerType::BLACK), new Rook(PlayerType::WHITE));
-		populatePiecesDefault(board, Coordinate(1, 0), new Knight(PlayerType::BLACK), new Knight(PlayerType::WHITE));
-		populatePiecesDefault(board, Coordinate(2, 0), new Bishop(PlayerType::BLACK), new Bishop(PlayerType::WHITE));
-		populatePiecesDefault(board, Coordinate(5, 0), new Bishop(PlayerType::BLACK), new Bishop(PlayerType::WHITE));
-		populatePiecesDefault(board, Coordinate(6, 0), new Knight(PlayerType::BLACK), new Knight(PlayerType::WHITE));
-		populatePiecesDefault(board, Coordinate(7, 0), new Rook(PlayerType::BLACK), new Rook(PlayerType::WHITE));
+		populatePiecesDefault(board, Coordinate(0, 0), new Rook(PLAYER_TYPE::BLACK), new Rook(PLAYER_TYPE::WHITE));
+		populatePiecesDefault(board, Coordinate(1, 0), new Knight(PLAYER_TYPE::BLACK), new Knight(PLAYER_TYPE::WHITE));
+		populatePiecesDefault(board, Coordinate(2, 0), new Bishop(PLAYER_TYPE::BLACK), new Bishop(PLAYER_TYPE::WHITE));
+		populatePiecesDefault(board, Coordinate(5, 0), new Bishop(PLAYER_TYPE::BLACK), new Bishop(PLAYER_TYPE::WHITE));
+		populatePiecesDefault(board, Coordinate(6, 0), new Knight(PLAYER_TYPE::BLACK), new Knight(PLAYER_TYPE::WHITE));
+		populatePiecesDefault(board, Coordinate(7, 0), new Rook(PLAYER_TYPE::BLACK), new Rook(PLAYER_TYPE::WHITE));
 
-		populatePiecesDefault(board, Coordinate(3, 0), new Queen(PlayerType::BLACK), new Queen(PlayerType::WHITE));
-		populatePiecesDefault(board, Coordinate(4, 0), new King(PlayerType::BLACK), new King(PlayerType::WHITE));
+		populatePiecesDefault(board, Coordinate(3, 0), new Queen(PLAYER_TYPE::BLACK), new Queen(PLAYER_TYPE::WHITE));
+		populatePiecesDefault(board, Coordinate(4, 0), new King(PLAYER_TYPE::BLACK), new King(PLAYER_TYPE::WHITE));
 
-		populatePiecesDefault(board, Coordinate(2, 2), new Queen(PlayerType::WHITE), new Queen(PlayerType::BLACK));
-		populatePiecesDefault(board, Coordinate(4, 2), new Queen(PlayerType::WHITE), new Queen(PlayerType::BLACK));
+		populatePiecesDefault(board, Coordinate(2, 2), new Queen(PLAYER_TYPE::WHITE), new Queen(PLAYER_TYPE::BLACK));
+		populatePiecesDefault(board, Coordinate(4, 2), new Queen(PLAYER_TYPE::WHITE), new Queen(PLAYER_TYPE::BLACK));
 
 		//Add pawns
-		for (int i = 0; i < board.getSizeX(); i++) 
+		for (int i = 0; i < board.getSizeX(); i++)
 		{
-			populatePiecesDefault(board, Coordinate(i, 1), new Pawn(PlayerType::BLACK), new Pawn(PlayerType::WHITE));
+			populatePiecesDefault(board, Coordinate(i, 1), new Pawn(PLAYER_TYPE::BLACK), new Pawn(PLAYER_TYPE::WHITE));
 		}
 	}
 
-private:
 	void populatePiecesDefault(Board& board, Coordinate coordinate, Piece* black, Piece* white)
 	{
 		board.setPieceAt(coordinate, black);

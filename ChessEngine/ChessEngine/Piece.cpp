@@ -1,7 +1,7 @@
 #include "Piece.h"
 #include "Board.h"
 
-Piece::Piece(const PlayerType& type)
+Piece::Piece(const PLAYER_TYPE& type)
 	: type(type)
 {
 }

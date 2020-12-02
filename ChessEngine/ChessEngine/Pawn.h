@@ -4,7 +4,7 @@
 class Pawn : public Piece
 {
 public:
-	Pawn(const PlayerType& type) : Piece(type) {}
+	Pawn(const PLAYER_TYPE& type) : Piece(type) {}
 	~Pawn() {}
 
 	int getID()
@@ -21,10 +21,10 @@ public:
 		
 		switch (type)
 		{
-		case PlayerType::BLACK:
+		case PLAYER_TYPE::BLACK:
 			direction = Direction(0, 1);
 			break;
-		case PlayerType::WHITE:
+		case PLAYER_TYPE::WHITE:
 			direction = Direction(0, -1);
 			break;
 		default:

@@ -1,9 +1,10 @@
 #pragma once
 
-#include "GameFlags.h"
+#include "IPlayerSelector.h"
+#include "GameConstants.h"
 #include "Board.h"
 
-class PlayerSelector 
+class PlayerSelector : public IPlayerSelector
 {
 public:
 	PlayerSelector(const Board& board) : board(board)
@@ -26,20 +27,27 @@ public:
 		}
 	}
 
-	bool canMove(const Coordinate& coordinate)
+	std::vector<Coordinate> getAvailableMoves(const Coordinate& coordinate) 
 	{
-		Piece* piece = board.getPieceAt(coordinate);
-		if (piece != NULL) 
-		{
-			return !piece->isSameType(players[playerIndex]);
-		}
+		if (!canMove(coordinate)) return std::vector<Coordinate>();
 
-		return false;
+		return board.getAvailableMoves(coordinate);
 	}
 
 private:
 	Board board;
 
 	int playerIndex = 0;
-	std::vector<PlayerType> players{ PlayerType::WHITE, PlayerType::BLACK };
+	std::vector<PLAYER_TYPE> players{ PLAYER_TYPE::WHITE, PLAYER_TYPE::BLACK };
+
+	bool canMove(const Coordinate& coordinate)
+	{
+		Piece* piece = board.getPieceAt(coordinate);
+		if (piece != NULL)
+		{
+			return !piece->isSameType(players[playerIndex]);
+		}
+
+		return false;
+	}
 };

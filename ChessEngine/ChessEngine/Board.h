@@ -3,7 +3,6 @@
 #include <malloc.h>
 #include <iostream>
 #include "Piece.h"
-#include "IBoardPopulator.h"
 
 class Board
 {
@@ -71,7 +70,7 @@ public:
 		if (!isCoordinateValid(coordinate)) return false;
 
 		//check if there is already a piece on the target position
-		//- if there is already a piece, it can only be of a different playertype (as own pieces cannot be consumed)
+		//- if there is already a piece, it can only be of a different PLAYER_TYPE (as own pieces cannot be consumed)
 		Piece* targetedPiece = getPieceAt(coordinate);
 		if (targetedPiece != NULL)
 		{
@@ -89,12 +88,6 @@ public:
 
 		return true;
 	}
-	
-	//Loading function receives a new set, or existing set
-	void load(IBoardPopulator* populator) 
-	{
-		populator->populate(*this);
-	}	
 
 	int getSizeX() const
 	{

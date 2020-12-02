@@ -25,6 +25,15 @@
     <Filter Include="Header Files\Rules">
       <UniqueIdentifier>{641d3e9a-773a-46bd-9e67-9e9fe541be56}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\API">
+      <UniqueIdentifier>{03d319f5-f424-40b5-aec4-3bd94997fc50}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\API">
+      <UniqueIdentifier>{aced72e8-5c70-426b-8b1e-7e305da09388}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Timers">
+      <UniqueIdentifier>{c45544cb-e12d-46ee-a10e-12551ebe948a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ChessEngine.cpp">
@@ -32,6 +41,9 @@
     </ClCompile>
     <ClCompile Include="Piece.cpp">
       <Filter>Source Files\Pieces</Filter>
+    </ClCompile>
+    <ClCompile Include="CHESS_API_WRAPPER.cpp">
+      <Filter>Source Files\API</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -42,9 +54,6 @@
       <Filter>Header Files\Pieces</Filter>
     </ClInclude>
     <ClInclude Include="Coordinate.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GameFlags.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="BoardConfiguration.h">
@@ -81,6 +90,21 @@
       <Filter>Header Files\Pieces</Filter>
     </ClInclude>
     <ClInclude Include="PlayerSelector.h">
+      <Filter>Header Files\Rules</Filter>
+    </ClInclude>
+    <ClInclude Include="CHESS_API.h">
+      <Filter>Header Files\API</Filter>
+    </ClInclude>
+    <ClInclude Include="CHESS_API_WRAPPER.h">
+      <Filter>Header Files\API</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Header Files\Rules</Filter>
+    </ClInclude>
+    <ClInclude Include="IPlayerSelector.h">
+      <Filter>Header Files\Rules</Filter>
+    </ClInclude>
+    <ClInclude Include="GameConstants.h">
       <Filter>Header Files\Rules</Filter>
     </ClInclude>
   </ItemGroup>
