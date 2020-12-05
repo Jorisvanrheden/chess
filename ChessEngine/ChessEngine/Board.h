@@ -4,6 +4,8 @@
 #include <iostream>
 #include "Piece.h"
 
+#include "MoveValidationManager.h"
+
 class Board
 {
 public:
@@ -19,6 +21,15 @@ public:
 		}
 	}
 	~Board() {}
+
+	Board* copy() 
+	{
+		Board board;
+
+		board.matrix = this->matrix;
+
+		return &board;
+	}
 
 	//return true if the piece has been succesfully moved 
 	bool movePiece(const Coordinate& origin, const Coordinate& target) 
@@ -58,7 +69,12 @@ public:
 
 		for (int i = 0; i < moves.size(); i++) 
 		{
-			if (isMoveValid(piece, moves[i])) validatedMoves.push_back(moves[i]);
+			//make sure the coordinate is within the board
+			if (!isCoordinateValid(moves[i])) continue;
+
+			if(validationManager.isMoveValid(piece, moves[i])) validatedMoves.push_back(moves[i]);
+
+			//if (isMoveValid(piece, moves[i])) validatedMoves.push_back(moves[i]);
 		}
 
 		return validatedMoves;
@@ -132,6 +148,8 @@ public:
 private:
 	const int SIZE_X = 8;
 	const int SIZE_Y = 8;
+
+	MoveValidationManager validationManager;
 
 	std::vector<std::vector<Piece*>> matrix;
 };
