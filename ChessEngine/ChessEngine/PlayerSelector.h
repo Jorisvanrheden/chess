@@ -45,7 +45,7 @@ private:
 		Piece* piece = board.getPieceAt(coordinate);
 		if (piece != NULL)
 		{
-			return !piece->isSameType(players[playerIndex]);
+			return piece->isSameType(players[playerIndex]);
 		}
 
 		return false;

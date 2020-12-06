@@ -5,11 +5,15 @@
 #include "Piece.h"
 
 #include "MoveValidationManager.h"
+#include "IMoveHandler.h"
+#include "ISpecification.h"
+#include "IFilter.h"
 
 class Board
 {
 public:
-	Board() 
+	Board(MoveValidationManager* validationManager, IMoveHandler* moveHandler, IFilter<Piece>* pieceFilter) 
+		: validationManager(validationManager), moveHandler(moveHandler), pieceFilter(pieceFilter)
 	{
 		//init empty board
 		matrix = std::vector<std::vector<Piece*>>(SIZE_X);
@@ -22,15 +26,6 @@ public:
 	}
 	~Board() {}
 
-	Board* copy() 
-	{
-		Board board;
-
-		board.matrix = this->matrix;
-
-		return &board;
-	}
-
 	//return true if the piece has been succesfully moved 
 	bool movePiece(const Coordinate& origin, const Coordinate& target) 
 	{
@@ -39,14 +34,7 @@ public:
 		Piece* piece = getPieceAt(origin);
 		if (piece != NULL) 
 		{
-			//set the origin to NULL
-			setPieceAt(origin, NULL);
-
-			//set the piece to the new location
-			setPieceAt(target, piece);
-
-			//update the piece's coordinate history
-			piece->addCoordinateToHistory(target);
+			moveHandler->movePiece(*this, piece, origin, target);		
 
 			return true;
 		}
@@ -54,46 +42,55 @@ public:
 		return false;
 	}
 
-	std::vector<Coordinate> getAvailableMoves(const Coordinate& coordinate) 
+	std::vector<Coordinate> getAvailableMoves(const Coordinate& origin) 
 	{
-		Piece* piece = getPieceAt(coordinate);
+		Piece* piece = getPieceAt(origin);
 		if (piece == NULL) return std::vector<Coordinate>();
 
-		std::vector<Coordinate> rawMoves = piece->findAvailableMoves(coordinate, *this);
-		return getValidatedMoves(piece, rawMoves);
+		std::vector<Coordinate> rawMoves = piece->findAvailableMoves(origin, *this);
+		std::vector<Coordinate> boundaryValidatedMoves = getBoundaryValidatedMoves(origin, piece, rawMoves);
+		std::vector<Coordinate> logicValidatedMoves = getLogicValidatedMoves(origin, piece, boundaryValidatedMoves);
+
+		return logicValidatedMoves;
 	}
 
-	std::vector<Coordinate> getValidatedMoves(Piece* piece, std::vector<Coordinate> moves) 
+	std::vector<Coordinate> getPieceBoundaryValidatedMoves(Piece* piece) 
+	{
+		Coordinate origin = piece->getCurrentCoordinate();
+		std::vector<Coordinate> rawMoves = piece->findAvailableMoves(origin, *this);
+		std::vector<Coordinate> boundaryValidatedMoves = getBoundaryValidatedMoves(origin, piece, rawMoves);
+
+		return boundaryValidatedMoves;
+	}
+
+	std::vector<Coordinate> getBoundaryValidatedMoves(const Coordinate& origin, Piece* piece, std::vector<Coordinate> moves) 
 	{
 		std::vector<Coordinate> validatedMoves;
 
-		for (int i = 0; i < moves.size(); i++) 
+		for (int i = 0; i < moves.size(); i++)
 		{
 			//make sure the coordinate is within the board
 			if (!isCoordinateValid(moves[i])) continue;
 
-			if(validationManager.isMoveValid(piece, moves[i])) validatedMoves.push_back(moves[i]);
-
-			//if (isMoveValid(piece, moves[i])) validatedMoves.push_back(moves[i]);
+			validatedMoves.push_back(moves[i]);
 		}
 
 		return validatedMoves;
 	}
 
-	bool isMoveValid(Piece* piece, const Coordinate& coordinate)
+	std::vector<Coordinate> getLogicValidatedMoves(const Coordinate& origin, Piece* piece, std::vector<Coordinate> moves)
 	{
-		//make sure the coordinate is within the board
-		if (!isCoordinateValid(coordinate)) return false;
+		std::vector<Coordinate> validatedMoves;
 
-		//check if there is already a piece on the target position
-		//- if there is already a piece, it can only be of a different PLAYER_TYPE (as own pieces cannot be consumed)
-		Piece* targetedPiece = getPieceAt(coordinate);
-		if (targetedPiece != NULL)
+		for (int i = 0; i < moves.size(); i++)
 		{
-			if (targetedPiece->isSameType(piece)) return false;
+			if (validationManager->isMoveValid(*this, piece, origin, moves[i])) 
+			{
+				validatedMoves.push_back(moves[i]);
+			}
 		}
 
-		return true;
+		return validatedMoves;
 	}
 
 	bool isCoordinateValid(const Coordinate& coordinate) const
@@ -131,6 +128,11 @@ public:
 		}	
 	}
 
+	std::vector<Piece*> filter(ISpecification<Piece>& specification) 
+	{
+		return pieceFilter->filter(getAllPieces(), specification);
+	}
+
 	Piece* getPieceAt(const Coordinate& coordinate) const
 	{
 		if (!isCoordinateValid(coordinate)) return NULL;
@@ -143,13 +145,39 @@ public:
 		if (!isCoordinateValid(coordinate)) return;
 
 		matrix[coordinate.getX()][coordinate.getY()] = piece;
+
+		//Not sure if I want this to be done here.
+		//Also check whether it makes sense to have this coordinate history list per piece?
+		if (piece != NULL)
+		{
+			//update the piece's coordinate history
+			piece->addCoordinateToHistory(coordinate);
+		}
 	}
 
 private:
 	const int SIZE_X = 8;
 	const int SIZE_Y = 8;
 
-	MoveValidationManager validationManager;
+	IFilter<Piece>* pieceFilter;
+	IMoveHandler* moveHandler;
+	MoveValidationManager* validationManager;
 
 	std::vector<std::vector<Piece*>> matrix;
+
+	std::vector<Piece*> getAllPieces() 
+	{
+		std::vector<Piece*> pieces;
+
+		for (int j = 0; j < SIZE_Y; j++)
+		{
+			for (int i = 0; i < SIZE_X; i++)
+			{
+				Piece* piece = getPieceAt(Coordinate(i, j));
+				if (piece) pieces.push_back(piece);
+			}
+		}
+
+		return pieces;
+	}
 };

@@ -25,9 +25,6 @@ private:
 		populatePiecesDefault(board, Coordinate(3, 0), new Queen(PLAYER_TYPE::BLACK), new Queen(PLAYER_TYPE::WHITE));
 		populatePiecesDefault(board, Coordinate(4, 0), new King(PLAYER_TYPE::BLACK), new King(PLAYER_TYPE::WHITE));
 
-		populatePiecesDefault(board, Coordinate(2, 2), new Queen(PLAYER_TYPE::WHITE), new Queen(PLAYER_TYPE::BLACK));
-		populatePiecesDefault(board, Coordinate(4, 2), new Queen(PLAYER_TYPE::WHITE), new Queen(PLAYER_TYPE::BLACK));
-
 		//Add pawns
 		for (int i = 0; i < board.getSizeX(); i++)
 		{

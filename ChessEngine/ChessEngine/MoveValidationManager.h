@@ -3,16 +3,17 @@
 #include "IMoveValidator.h"
 #include "Piece.h"
 #include "Coordinate.h"
+#include "Board.h"
 #include <vector>
 
 class MoveValidationManager
 {
 public:
-	bool isMoveValid(Piece* piece, const Coordinate& coordinate) 
+	bool isMoveValid(const Board& board, Piece* piece, const Coordinate& origin, const Coordinate& target)
 	{
 		for (auto& validator : validators) 
 		{
-			if (!validator->isMoveValid(piece, coordinate)) return false;
+			if (!validator->isMoveValid(board, piece, origin, target)) return false;
 		}
 
 		return true;

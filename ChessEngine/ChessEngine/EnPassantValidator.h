@@ -4,8 +4,8 @@
 
 class EnPassantValidator : public IMoveValidator
 {
-	bool isMoveValid(const Board& board, Piece* piece, const Coordinate& coordinate)
+	bool isMoveValid(const Board& board, Piece* piece, const Coordinate& origin, const Coordinate& target)
 	{
-
+		return true;
 	}
 };

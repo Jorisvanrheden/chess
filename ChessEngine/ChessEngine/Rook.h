@@ -7,9 +7,9 @@ public:
 	Rook(const PLAYER_TYPE& type) : Piece(type) {}
 	~Rook() {}
 
-	int getID()
+	PIECE_TPYE getID()
 	{
-		return 4;
+		return PIECE_TPYE::ROOK;
 	}
 
 	std::vector<Coordinate> findAvailableMoves(const Coordinate& coordinate, const Board& board)

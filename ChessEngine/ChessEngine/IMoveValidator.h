@@ -7,5 +7,5 @@
 class IMoveValidator 
 {
 public:
-	virtual bool isMoveValid(const Board& board, Piece* piece, const Coordinate& coordinate) = 0;
+	virtual bool isMoveValid(const Board& board, Piece* piece, const Coordinate& origin, const Coordinate& target) = 0;
 };

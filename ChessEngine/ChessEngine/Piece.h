@@ -7,15 +7,15 @@
 
 class Board;
 
-class Piece 
+class Piece
 {
 public:
 	Piece(const PLAYER_TYPE& type);
 
-	virtual int getID() = 0;
+	virtual PIECE_TPYE getID() = 0;
 	virtual std::vector<Coordinate> findAvailableMoves(const Coordinate& coordinate, const Board& board) = 0;
 
-	bool isSameType(Piece* piece) 
+	bool isSameType(Piece* piece)
 	{
 		return piece->type == type;
 	}
@@ -25,9 +25,19 @@ public:
 		return this->type == type;
 	}
 
-	void addCoordinateToHistory(const Coordinate& coordinate) 
+	void addCoordinateToHistory(const Coordinate& coordinate)
 	{
 		coordinateHistory.push_back(coordinate);
+	}
+
+	Coordinate getCurrentCoordinate() const
+	{
+		return coordinateHistory[coordinateHistory.size() - 1];
+	}
+
+	PLAYER_TYPE getPlayerType() const
+	{
+		return type;
 	}
 
 protected:
