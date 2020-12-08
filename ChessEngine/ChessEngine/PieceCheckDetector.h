@@ -10,7 +10,7 @@
 class PieceCheckDetector : public IPieceCheckDetector
 {
 public:
-	PieceCheckDetector(PIECE_TPYE pieceType) : pieceType(pieceType)
+	PieceCheckDetector(PIECE_TYPE pieceType) : pieceType(pieceType)
 	{
 
 	}
@@ -42,7 +42,7 @@ public:
 	}
 
 private:
-	PIECE_TPYE pieceType;
+	PIECE_TYPE pieceType;
 
 	bool isPieceChecked(Piece* piece, std::vector<Coordinate> moves)
 	{

@@ -28,7 +28,7 @@ public:
 
 	void initialize() 
 	{
-		IPieceCheckDetector* checkDetector = new PieceCheckDetector(PIECE_TPYE::KING);
+		IPieceCheckDetector* checkDetector = new PieceCheckDetector(PIECE_TYPE::KING);
 
 		MoveValidationManager* validationManager = new MoveValidationManager();
 		validationManager->addValidator(new FriendlyFireValidator());

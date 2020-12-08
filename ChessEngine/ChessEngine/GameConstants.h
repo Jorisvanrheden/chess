@@ -6,7 +6,7 @@ enum PLAYER_TYPE
 	WHITE
 };
 
-enum PIECE_TPYE 
+enum PIECE_TYPE 
 {
 	PAWN = 1,
 	KNIGHT = 2,

@@ -12,7 +12,7 @@ class Piece
 public:
 	Piece(const PLAYER_TYPE& type);
 
-	virtual PIECE_TPYE getID() = 0;
+	virtual PIECE_TYPE getID() = 0;
 	virtual std::vector<Coordinate> findAvailableMoves(const Coordinate& coordinate, const Board& board) = 0;
 
 	bool isSameType(Piece* piece)

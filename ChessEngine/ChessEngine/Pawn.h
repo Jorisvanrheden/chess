@@ -7,9 +7,9 @@ public:
 	Pawn(const PLAYER_TYPE& type) : Piece(type) {}
 	~Pawn() {}
 
-	PIECE_TPYE getID()
+	PIECE_TYPE getID()
 	{
-		return PIECE_TPYE::PAWN;
+		return PIECE_TYPE::PAWN;
 	}
 
 	std::vector<Coordinate> findAvailableMoves(const Coordinate& coordinate, const Board& board)

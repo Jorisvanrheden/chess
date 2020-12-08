@@ -6,7 +6,7 @@
 class PieceTypeSpecification : public ISpecification<Piece>
 {
 public:
-	PieceTypeSpecification(PIECE_TPYE type) : type(type) {}
+	PieceTypeSpecification(PIECE_TYPE type) : type(type) {}
 	~PieceTypeSpecification() {}
 
 	bool isSatisfiedBy(Piece* piece)
@@ -15,5 +15,5 @@ public:
 	}
 
 private:
-	PIECE_TPYE type;
+	PIECE_TYPE type;
 };

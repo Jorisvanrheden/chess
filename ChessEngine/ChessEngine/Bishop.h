@@ -7,9 +7,9 @@ public:
 	Bishop(const PLAYER_TYPE& type) : Piece(type) {}
 	~Bishop() {}
 
-	PIECE_TPYE getID()
+	PIECE_TYPE getID()
 	{
-		return PIECE_TPYE::BISHOP;
+		return PIECE_TYPE::BISHOP;
 	}
 
 	std::vector<Coordinate> findAvailableMoves(const Coordinate& coordinate, const Board& board)
