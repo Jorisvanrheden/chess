@@ -7,9 +7,9 @@ public:
 	Knight(const PLAYER_TYPE& type) : Piece(type) {}
 	~Knight() {}
 
-	PIECE_TPYE getID()
+	PIECE_TYPE getID()
 	{
-		return PIECE_TPYE::KNIGHT;
+		return PIECE_TYPE::KNIGHT;
 	}
 
 	std::vector<Coordinate> findAvailableMoves(const Coordinate& coordinate, const Board& board)

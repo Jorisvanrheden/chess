@@ -46,8 +46,8 @@ private:
 
 	bool isPieceChecked(Piece* piece, std::vector<Coordinate> moves)
 	{
-		Coordinate kingCoordinate = piece->getCurrentCoordinate();
+		Coordinate coordinate = piece->getCurrentCoordinate();
 
-		return (std::find(moves.begin(), moves.end(), kingCoordinate) != moves.end());
+		return (std::find(moves.begin(), moves.end(), coordinate) != moves.end());
 	}
 };

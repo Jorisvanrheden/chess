@@ -55,6 +55,9 @@
     <Filter Include="Header Files\Rules\Check Logic">
       <UniqueIdentifier>{b4076112-7753-4029-9668-743fe529bbd4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Rules\Players">
+      <UniqueIdentifier>{ada4fc9a-33d4-45f8-b1c7-922c38545028}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ChessEngine.cpp">
@@ -107,20 +110,11 @@
     <ClInclude Include="King.h">
       <Filter>Header Files\Pieces</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerSelector.h">
-      <Filter>Header Files\Rules</Filter>
-    </ClInclude>
     <ClInclude Include="CHESS_API.h">
       <Filter>Header Files\API</Filter>
     </ClInclude>
     <ClInclude Include="CHESS_API_WRAPPER.h">
       <Filter>Header Files\API</Filter>
-    </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>Header Files\Rules</Filter>
-    </ClInclude>
-    <ClInclude Include="IPlayerSelector.h">
-      <Filter>Header Files\Rules</Filter>
     </ClInclude>
     <ClInclude Include="GameConstants.h">
       <Filter>Header Files\Rules</Filter>
@@ -181,6 +175,15 @@
     </ClInclude>
     <ClInclude Include="IPieceCheckDetector.h">
       <Filter>Header Files\Rules\Check Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="IPlayerSelector.h">
+      <Filter>Header Files\Rules\Players</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Header Files\Rules\Players</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerSelector.h">
+      <Filter>Header Files\Rules\Players</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
