@@ -13,9 +13,12 @@
 
 #include "FriendyFireValidatorh.h"
 #include "EnPassantValidator.h"
-#include "KingCheckValidator.h"
+#include "PieceCheckValidator.h"
 
 #include "PieceFilter.h"
+
+#include "BoardAnalyzer.h"
+#include "PieceCheckDetector.h"
 
 class CHESS_API
 {
@@ -25,16 +28,20 @@ public:
 
 	void initialize() 
 	{
+		IPieceCheckDetector* checkDetector = new PieceCheckDetector(PIECE_TPYE::KING);
+
 		MoveValidationManager* validationManager = new MoveValidationManager();
 		validationManager->addValidator(new FriendlyFireValidator());
 		validationManager->addValidator(new EnPassantValidator());
-		validationManager->addValidator(new KingCheckValidator());
+		validationManager->addValidator(new PieceCheckValidator(checkDetector));
 
 		IMoveHandler* moveHandler = new DefaultMoveHandler();
 
 		IFilter<Piece>* pieceFilter = new PieceFilter();
 
-		board = new	Board(validationManager, moveHandler, pieceFilter);
+		IBoardAnalyzer* boardAnalyzer = new BoardAnalyzer(checkDetector);
+
+		board = new	Board(validationManager, moveHandler, pieceFilter, boardAnalyzer);
 		populator = new TestingBoardPopulator(*board);
 		playerSelector = new PlayerSelector(*board);
 

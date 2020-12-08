@@ -8,12 +8,16 @@
 #include "IMoveHandler.h"
 #include "ISpecification.h"
 #include "IFilter.h"
+#include "IBoardAnalyzer.h"
 
 class Board
 {
 public:
-	Board(MoveValidationManager* validationManager, IMoveHandler* moveHandler, IFilter<Piece>* pieceFilter) 
-		: validationManager(validationManager), moveHandler(moveHandler), pieceFilter(pieceFilter)
+	Board(MoveValidationManager* validationManager, IMoveHandler* moveHandler, IFilter<Piece>* pieceFilter, IBoardAnalyzer* boardAnalyzer) 
+		: validationManager(validationManager), 
+		  moveHandler(moveHandler), 
+		  pieceFilter(pieceFilter),
+		  boardAnalyzer(boardAnalyzer)
 	{
 		//init empty board
 		matrix = std::vector<std::vector<Piece*>>(SIZE_X);
@@ -40,6 +44,11 @@ public:
 		}
 
 		return false;
+	}
+
+	int analyzeStatus(PLAYER_TYPE player) 
+	{
+		return boardAnalyzer->analyzeStatus(*this, player);
 	}
 
 	std::vector<Coordinate> getAvailableMoves(const Coordinate& origin) 
@@ -162,6 +171,7 @@ private:
 	IFilter<Piece>* pieceFilter;
 	IMoveHandler* moveHandler;
 	MoveValidationManager* validationManager;
+	IBoardAnalyzer* boardAnalyzer;
 
 	std::vector<std::vector<Piece*>> matrix;
 

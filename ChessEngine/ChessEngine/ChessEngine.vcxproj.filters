@@ -49,6 +49,12 @@
     <Filter Include="Header Files\Rules\Filter">
       <UniqueIdentifier>{f3ad0aa9-20ce-4611-bde8-c244841d374e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Board Analyzer">
+      <UniqueIdentifier>{cfb0ac98-3beb-4840-88fe-7e9ddba43ee2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Rules\Check Logic">
+      <UniqueIdentifier>{b4076112-7753-4029-9668-743fe529bbd4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ChessEngine.cpp">
@@ -125,9 +131,6 @@
     <ClInclude Include="IMoveValidator.h">
       <Filter>Header Files\Rules\Move Validation</Filter>
     </ClInclude>
-    <ClInclude Include="KingCheckValidator.h">
-      <Filter>Header Files\Rules\Move Validation\Logic Validators</Filter>
-    </ClInclude>
     <ClInclude Include="EnPassantValidator.h">
       <Filter>Header Files\Rules\Move Validation\Logic Validators</Filter>
     </ClInclude>
@@ -163,6 +166,21 @@
     </ClInclude>
     <ClInclude Include="TestingBoardPopulator.h">
       <Filter>Header Files\Board</Filter>
+    </ClInclude>
+    <ClInclude Include="IBoardAnalyzer.h">
+      <Filter>Header Files\Board Analyzer</Filter>
+    </ClInclude>
+    <ClInclude Include="BoardAnalyzer.h">
+      <Filter>Header Files\Board Analyzer</Filter>
+    </ClInclude>
+    <ClInclude Include="PieceCheckValidator.h">
+      <Filter>Header Files\Rules\Move Validation\Logic Validators</Filter>
+    </ClInclude>
+    <ClInclude Include="PieceCheckDetector.h">
+      <Filter>Header Files\Rules\Check Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="IPieceCheckDetector.h">
+      <Filter>Header Files\Rules\Check Logic</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
