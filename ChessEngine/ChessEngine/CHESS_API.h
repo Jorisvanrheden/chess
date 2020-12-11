@@ -42,10 +42,8 @@ public:
 		IBoardAnalyzer* boardAnalyzer = new BoardAnalyzer(checkDetector);
 
 		board = new	Board(validationManager, moveHandler, pieceFilter, boardAnalyzer);
-		populator = new TestingBoardPopulator(*board);
+		populator = new DefaultBoardPopulator(*board);
 		playerSelector = new PlayerSelector(*board);
-
-		board->print();
 	}
 
 	std::vector<Coordinate> getMoves(const Coordinate& coordinate) 
@@ -56,6 +54,11 @@ public:
 	void movePiece(const Coordinate& origin, const Coordinate& target) 
 	{
 		playerSelector->movePiece(origin, target);
+	}
+
+	void getBoardStatus() 
+	{
+		board->print();
 	}
 
 private:

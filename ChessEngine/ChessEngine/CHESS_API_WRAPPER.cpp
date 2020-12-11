@@ -20,7 +20,7 @@ void CHESS_API_WRAPPER::CHESS_API_InitializeBoard()
 
 void CHESS_API_WRAPPER::CHESS_API_GetBoardStatus()
 {
-	
+	api->getBoardStatus();
 }
 
 void CHESS_API_WRAPPER::CHESS_API_GetMoves(int x, int y)
@@ -28,6 +28,10 @@ void CHESS_API_WRAPPER::CHESS_API_GetMoves(int x, int y)
 	Coordinate coordinate(x, y);
 	std::vector<Coordinate> moves = api->getMoves(coordinate);
 
+	for (int i = 0; i < moves.size(); i++) 
+	{
+		std::cout << moves[i].getX() << ", " << moves[i].getY() << std::endl;
+	}
 	//return coordinates
 }
 

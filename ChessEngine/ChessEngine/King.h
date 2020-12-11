@@ -19,16 +19,16 @@ public:
 		std::vector<Coordinate> moves;
 
 		//horizontal and vertical
-		getDirectionalMoves(moves, board, coordinate, Direction(1, 0), 1);
-		getDirectionalMoves(moves, board, coordinate, Direction(-1, 0), 1);
-		getDirectionalMoves(moves, board, coordinate, Direction(0, 1), 1);
-		getDirectionalMoves(moves, board, coordinate, Direction(0, -1), 1);
+		getMovesInDirection(moves, board, coordinate, Direction(1, 0), 1);
+		getMovesInDirection(moves, board, coordinate, Direction(-1, 0), 1);
+		getMovesInDirection(moves, board, coordinate, Direction(0, 1), 1);
+		getMovesInDirection(moves, board, coordinate, Direction(0, -1), 1);
 
 		//diagonal
-		getDirectionalMoves(moves, board, coordinate, Direction(1, 1), 1);
-		getDirectionalMoves(moves, board, coordinate, Direction(-1, 1), 1);
-		getDirectionalMoves(moves, board, coordinate, Direction(1, -1), 1);
-		getDirectionalMoves(moves, board, coordinate, Direction(-1, -1), 1);
+		getMovesInDirection(moves, board, coordinate, Direction(1, 1), 1);
+		getMovesInDirection(moves, board, coordinate, Direction(-1, 1), 1);
+		getMovesInDirection(moves, board, coordinate, Direction(1, -1), 1);
+		getMovesInDirection(moves, board, coordinate, Direction(-1, -1), 1);
 
 		return moves;
 	}

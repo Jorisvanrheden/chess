@@ -18,10 +18,10 @@ public:
 		//the first obstacle it encounters in any diagonal defines the limit
 		std::vector<Coordinate> moves;
 	
-		getDirectionalMoves(moves, board, coordinate, Direction(1, 0));
-		getDirectionalMoves(moves, board, coordinate, Direction(-1, 0));
-		getDirectionalMoves(moves, board, coordinate, Direction(0, 1));
-		getDirectionalMoves(moves, board, coordinate, Direction(0, -1));
+		getMovesInDirection(moves, board, coordinate, Direction(1, 0));
+		getMovesInDirection(moves, board, coordinate, Direction(-1, 0));
+		getMovesInDirection(moves, board, coordinate, Direction(0, 1));
+		getMovesInDirection(moves, board, coordinate, Direction(0, -1));
 
 		return moves;
 	}

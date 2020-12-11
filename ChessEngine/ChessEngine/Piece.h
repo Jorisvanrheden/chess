@@ -44,6 +44,5 @@ protected:
 	PLAYER_TYPE type;
 	std::vector<Coordinate> coordinateHistory;
 
-	void getDirectionalUnits(std::vector<Coordinate>& moves, const Board& board, Coordinate coordinate, const Direction& direction, int limit, int iteration = 0);
-	void getDirectionalMoves(std::vector<Coordinate>& moves, const Board& board, Coordinate coordinate, const Direction& direction, int limit = -1, int iteration = 0);
+	void getMovesInDirection(std::vector<Coordinate>& moves, const Board& board, Coordinate coordinate, const Direction& direction, int limit = -1, bool includeHit = true);
 };

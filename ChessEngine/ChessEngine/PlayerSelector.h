@@ -7,7 +7,7 @@
 class PlayerSelector : public IPlayerSelector
 {
 public:
-	PlayerSelector(const Board& board) : board(board)
+	PlayerSelector(Board& board) : board(board)
 	{
 		//start with white
 		playerIndex = 0;
@@ -43,7 +43,7 @@ public:
 	}
 
 private:
-	Board board;
+	Board& board;
 
 	int playerIndex = 0;
 	std::vector<PLAYER_TYPE> players{ PLAYER_TYPE::WHITE, PLAYER_TYPE::BLACK };

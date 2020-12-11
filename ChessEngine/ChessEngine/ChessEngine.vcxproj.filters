@@ -19,9 +19,6 @@
     <Filter Include="Header Files\Board">
       <UniqueIdentifier>{e8a393ad-03c3-4bdb-8f06-f544f6679e06}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Pieces">
-      <UniqueIdentifier>{94e226ef-d5ab-468a-9a39-17e1dea91fe3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Rules">
       <UniqueIdentifier>{641d3e9a-773a-46bd-9e67-9e9fe541be56}</UniqueIdentifier>
     </Filter>
@@ -63,11 +60,11 @@
     <ClCompile Include="ChessEngine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Piece.cpp">
-      <Filter>Source Files\Pieces</Filter>
-    </ClCompile>
     <ClCompile Include="CHESS_API_WRAPPER.cpp">
       <Filter>Source Files\API</Filter>
+    </ClCompile>
+    <ClCompile Include="Piece.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -177,9 +174,6 @@
       <Filter>Header Files\Rules\Check Logic</Filter>
     </ClInclude>
     <ClInclude Include="IPlayerSelector.h">
-      <Filter>Header Files\Rules\Players</Filter>
-    </ClInclude>
-    <ClInclude Include="Player.h">
       <Filter>Header Files\Rules\Players</Filter>
     </ClInclude>
     <ClInclude Include="PlayerSelector.h">

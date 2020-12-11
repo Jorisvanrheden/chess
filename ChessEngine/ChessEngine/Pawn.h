@@ -37,12 +37,36 @@ public:
 
 		//pawns can move 2 units in a straight direction if they haven't been moved yet
 		int moveDistance = (coordinateHistory.size() > 1) ? 1 : 2;
-		getDirectionalMoves(moves, board, coordinate, direction, moveDistance);
+		getMovesInDirection(moves, board, coordinate, direction, moveDistance, false);
 
-		//pawn can attack diagonally, but only with a distance of 1
-		getDirectionalUnits(moves, board, coordinate, Direction(1, direction.getY()), 1);
-		getDirectionalUnits(moves, board, coordinate, Direction(-1, direction.getY()), 1);
+		//pawns can attack diagonally, but only with a distance of 1
+		//to the the diagonal, we get the perpendicular directions
+		std::vector<Direction> perpendicularDirections = getPerpendicularDirections(direction);
+		for (auto& perpendicular : perpendicularDirections)
+		{
+			//also add the direction for one unit, otherwise we'd be checking next to the pawn, not diagonally
+			int x = coordinate.getX() + direction.getX() + perpendicular.getX();
+			int y = coordinate.getY() + direction.getY() + perpendicular.getY();
+			Coordinate diagonal = Coordinate(x, y);
+			if (board.getPieceAt(diagonal) != NULL)
+			{
+				moves.push_back(diagonal);
+			}
+		}
 
 		return moves;
+	}
+
+	std::vector<Direction> getPerpendicularDirections(const Direction& direction) 
+	{
+		std::vector<Direction> directions;
+
+		//clockwise
+		directions.push_back(Direction(direction.getY(), -direction.getX()));
+
+		//counter clockwise
+		directions.push_back(Direction(-direction.getY(), direction.getX()));
+
+		return directions;
 	}
 };
