@@ -2,6 +2,8 @@
 
 #define CHESS_ENGINE_API __declspec(dllexport)
 
+#include <string>
+
 class CHESS_API_WRAPPER
 {
 public:
@@ -12,6 +14,8 @@ public:
 
 	// INITIALIZATION METHODS
 	void CHESS_ENGINE_API CHESS_API_InitializeBoard();
+
+	void CHESS_ENGINE_API CHESS_API_LoadBoard(const std::string& filepath);
 
 	// REFRESH/UPDATE METHODS
 	// - board status should return:

@@ -13,6 +13,11 @@
 class Board
 {
 public:
+	Board(const Board& board) 
+	{
+		
+	}
+
 	Board(MoveValidationManager* validationManager, IMoveHandler* moveHandler, IFilter<Piece>* pieceFilter, IBoardAnalyzer* boardAnalyzer) 
 		: validationManager(validationManager), 
 		  moveHandler(moveHandler), 

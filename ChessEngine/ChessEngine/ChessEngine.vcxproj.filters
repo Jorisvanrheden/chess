@@ -28,9 +28,6 @@
     <Filter Include="Source Files\API">
       <UniqueIdentifier>{aced72e8-5c70-426b-8b1e-7e305da09388}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Timers">
-      <UniqueIdentifier>{c45544cb-e12d-46ee-a10e-12551ebe948a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Rules\Move Validation">
       <UniqueIdentifier>{6e4a4817-3ba8-44ce-85a4-a7f287d99d0e}</UniqueIdentifier>
     </Filter>
@@ -54,6 +51,9 @@
     </Filter>
     <Filter Include="Header Files\Rules\Players">
       <UniqueIdentifier>{ada4fc9a-33d4-45f8-b1c7-922c38545028}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Parser">
+      <UniqueIdentifier>{66116906-e308-4946-b23b-5bb365113e65}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -178,6 +178,9 @@
     </ClInclude>
     <ClInclude Include="PlayerSelector.h">
       <Filter>Header Files\Rules\Players</Filter>
+    </ClInclude>
+    <ClInclude Include="Parser.h">
+      <Filter>Header Files\Parser</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -18,6 +18,11 @@ void CHESS_API_WRAPPER::CHESS_API_InitializeBoard()
 	api->initialize();
 }
 
+void CHESS_API_WRAPPER::CHESS_API_LoadBoard(const std::string& filepath)
+{
+	api->load(filepath);
+}
+
 void CHESS_API_WRAPPER::CHESS_API_GetBoardStatus()
 {
 	api->getBoardStatus();

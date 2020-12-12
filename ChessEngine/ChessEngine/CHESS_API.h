@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Board.h"
+#include "Parser.h"
 
 //TODO: refactor these dependencies by using an abstract factory
 // then make an implementation for a default game first
@@ -44,6 +45,12 @@ public:
 		board = new	Board(validationManager, moveHandler, pieceFilter, boardAnalyzer);
 		populator = new DefaultBoardPopulator(*board);
 		playerSelector = new PlayerSelector(*board);
+	}
+
+	void load(const std::string& filepath) 
+	{
+		Parser parser(*board);
+		MoveContext context = parser.parse(filepath);
 	}
 
 	std::vector<Coordinate> getMoves(const Coordinate& coordinate) 
