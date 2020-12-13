@@ -55,6 +55,9 @@
     <Filter Include="Header Files\Parser">
       <UniqueIdentifier>{66116906-e308-4946-b23b-5bb365113e65}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Rules\Move Set">
+      <UniqueIdentifier>{0662b56b-d569-4a9f-926b-ffc443d379d5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ChessEngine.cpp">
@@ -181,6 +184,15 @@
     </ClInclude>
     <ClInclude Include="Parser.h">
       <Filter>Header Files\Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="IMoveSet.h">
+      <Filter>Header Files\Rules\Move Set</Filter>
+    </ClInclude>
+    <ClInclude Include="MoveSetSingle.h">
+      <Filter>Header Files\Rules\Move Set</Filter>
+    </ClInclude>
+    <ClInclude Include="MoveSetMultiple.h">
+      <Filter>Header Files\Rules\Move Set</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

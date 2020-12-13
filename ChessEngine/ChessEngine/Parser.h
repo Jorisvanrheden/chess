@@ -5,13 +5,20 @@
 #include "Coordinate.h"
 #include "GameConstants.h"
 #include "Board.h"
+#include "IPlayerSelector.h"
 #include "SamePlayerTypeSpecification.h"
 #include "PieceTypeSpecification.h"
+#include "AndSpecification.h"
+
+#include "MoveSetSingle.h"
+#include "MoveSetMultiple.h"
 
 #include <fstream>
 #include <iostream>
 #include <sstream>
 #include <cctype>
+
+#include <time.h>
 
 struct PlayerMove 
 {
@@ -41,7 +48,7 @@ struct MoveContext
 class Parser
 {
 public:
-	Parser(Board& board) : board(board) {}
+	Parser(Board& board, IPlayerSelector& playerSelector) : board(board), playerSelector(playerSelector) {}
 	~Parser() {}
 
 	MoveContext parse(const std::string& filepath)
@@ -88,18 +95,44 @@ public:
 				{
 					context.playerMoveSets.push_back(PlayerMoveSet(moves));
 					moves.clear();
+
+					std::cout << "MOVE NUMBER: " << context.playerMoveSets.size() << std::endl;
 				}
 
 				continue;
 			}
 
-			PlayerMove move = parseMove(strings[i]);
+			if (strings[i] == "O-O" || strings[i] == "O-O-O")
+			{
+				//hard code castling for now
+				PieceTypeSpecification kingSpec(PIECE_TYPE::KING);
+				SamePlayerTypeSpecification playerSpec(playerSelector.getActivePlayer());
+				AndSpecification<Piece> andSpec(kingSpec, playerSpec);
 
-			board.movePiece(move.from, move.to);
-			board.print();
+				PieceTypeSpecification rookSpec(PIECE_TYPE::ROOK);
+				AndSpecification<Piece> andSpec2(rookSpec, playerSpec);
 
-			//add to collection
-			moves.push_back(move);
+				//get the king that is about to castle
+				auto king = board.filter(andSpec);
+
+				//get the rooks 
+				auto rooks = board.filter(andSpec2);
+
+				IMoveSet* moveSet = castle(strings[i], king, rooks);
+				playerSelector.moveSet(moveSet);
+				//board.print();
+			}
+			else 
+			{
+				PlayerMove move = parseMove(strings[i]);
+
+				MoveSetSingle singleMove(move.from, move.to);
+				playerSelector.moveSet(&singleMove);
+				//board.print();
+
+				//add to collection
+				moves.push_back(move);
+			}
 		}
 
 		return context;
@@ -111,26 +144,40 @@ public:
 		int iterator = 0;
 
 		PIECE_TYPE type = getPieceType(moveString, iterator);
-		int xSpecifier = getXComponent(moveString, iterator);
+		Coordinate xyComponent = getXYComponent(moveString, iterator);
 		bool isAttack = getIsMoveAttack(moveString, iterator);
 		Coordinate target = getTargetCoordinate(moveString, iterator);
-		Coordinate start = getStartCoordinate(target, moveString, type, xSpecifier);
+		Coordinate start = getStartCoordinate(target, moveString, type, xyComponent);
 
 		return PlayerMove(type, start, target);
 	}
 
-	int getXComponent(const std::string& moveString, int& iterator) 
+	Coordinate getXYComponent(const std::string& moveString, int& iterator) 
 	{
 		//check if the current iteration is a lower case
 		//if its a lower case, AND the next as well, we are dealing with an x-specifier
 		int x = -1;
-		if (std::islower(moveString[iterator]) && std::islower(moveString[iterator + 1]))
-		{
-			x = moveString[iterator] - 'a';
-			iterator++;
-		}
+		int y = -1;
 
-		return x;
+		if (moveString[iterator] != 'x') 
+		{
+			if (std::islower(moveString[iterator]) && std::islower(moveString[iterator + 1]))
+			{
+				x = moveString[iterator] - 'a';
+				iterator++;
+			}
+
+			if (std::isdigit(moveString[iterator]) && std::islower(moveString[iterator + 1])) 
+			{
+				y = moveString[iterator] - '0';
+				y = board.getSizeY() - y;
+				//white starts at the bottom by default, so the y is inverted
+
+				iterator++;
+			}
+		}
+		
+		return Coordinate(x, y);
 	}
 
 	bool getIsMoveAttack(const std::string& moveString, int& iterator) 
@@ -178,23 +225,29 @@ public:
 		return type;
 	}
 
-	Coordinate getStartCoordinate(const Coordinate& target, const std::string& moveString, PIECE_TYPE pieceType, int xSpecifier)
+	Coordinate getStartCoordinate(const Coordinate& target, const std::string& moveString, PIECE_TYPE pieceType, Coordinate xyComponent)
 	{
 		PieceTypeSpecification pieceSpec(pieceType);
+		SamePlayerTypeSpecification playerSpec(playerSelector.getActivePlayer());
+		AndSpecification<Piece> andSpec(pieceSpec, playerSpec);
 
-		auto piecesOfType = board.filter(pieceSpec);
+		auto piecesOfType = board.filter(andSpec);
 
 		std::vector<Piece*> potentialPieces;
 
 		//get the x, y components by going through board and checking which piece has the target in their available moves
 		for (auto& piece : piecesOfType)
 		{
-			if (xSpecifier != -1) 
+			if (xyComponent.getX() != -1)
 			{
-				if (piece->getCurrentCoordinate().getX() != xSpecifier) continue;
+				if (piece->getCurrentCoordinate().getX() != xyComponent.getX()) continue;
+			}
+			if (xyComponent.getY() != -1)
+			{
+				if (piece->getCurrentCoordinate().getY() != xyComponent.getY()) continue;
 			}
 
-			std::vector<Coordinate> moves = board.getAvailableMoves(piece->getCurrentCoordinate());
+			std::vector<Coordinate> moves = playerSelector.getAvailableMoves(piece->getCurrentCoordinate());
 
 			if (containsMove(moves, target)) potentialPieces.push_back(piece);
 		}
@@ -219,6 +272,9 @@ public:
 		{
 			int x = moveString[iterator] - 'a';
 			int y = moveString[iterator + 1] - '0';
+			//white starts at the bottom by default, so the y is inverted
+
+			y = board.getSizeY() - y;
 
 			return Coordinate(x, y);
 		}
@@ -228,6 +284,7 @@ public:
 
 private:
 		Board& board;
+		IPlayerSelector& playerSelector;
 
 		bool containsMove(std::vector<Coordinate> moves, Coordinate move) 
 		{
@@ -237,5 +294,45 @@ private:
 			}
 
 			return false;
+		}
+
+		IMoveSet* castle(const std::string& moveString, std::vector<Piece*> kings, std::vector<Piece*> rooks) 
+		{
+			for (auto& rook : rooks)
+			{
+				int kingFrom = 4;
+				int kingTo = 0;
+
+				int rookFrom = 0;
+				int rookTo = 0;
+
+				if (moveString == "O-O") 
+				{
+					kingTo = 6;
+					rookFrom = 7;
+					rookTo = 5;
+				}
+				else if (moveString == "O-O-O") 
+				{
+					kingTo = 2;
+					rookFrom = 0;
+					rookTo = 3;
+				}
+
+				if (rook->getCurrentCoordinate().getX() != rookFrom) continue;
+
+				std::vector<std::tuple<Coordinate, Coordinate>> multipleMoves;
+
+				Coordinate kingOrigin(kingFrom, kings[0]->getCurrentCoordinate().getY());
+				Coordinate kingTarget(kingTo, kings[0]->getCurrentCoordinate().getY());
+
+				Coordinate rookOrigin(rookFrom, rook->getCurrentCoordinate().getY());
+				Coordinate rookTarget(rookTo, rook->getCurrentCoordinate().getY());
+
+				multipleMoves.push_back(std::tuple<Coordinate, Coordinate>{kingOrigin, kingTarget});
+				multipleMoves.push_back(std::tuple<Coordinate, Coordinate>{rookOrigin, rookTarget});
+
+				return new MoveSetMultiple(multipleMoves);
+			}	
 		}
 };

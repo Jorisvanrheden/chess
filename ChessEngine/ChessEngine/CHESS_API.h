@@ -49,7 +49,7 @@ public:
 
 	void load(const std::string& filepath) 
 	{
-		Parser parser(*board);
+		Parser parser(*board, *playerSelector);
 		MoveContext context = parser.parse(filepath);
 	}
 
@@ -60,7 +60,8 @@ public:
 
 	void movePiece(const Coordinate& origin, const Coordinate& target) 
 	{
-		playerSelector->movePiece(origin, target);
+		MoveSetSingle moveSingle(origin, target);
+		playerSelector->moveSet(&moveSingle);
 	}
 
 	void getBoardStatus() 

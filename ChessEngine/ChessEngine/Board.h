@@ -13,11 +13,6 @@
 class Board
 {
 public:
-	Board(const Board& board) 
-	{
-		
-	}
-
 	Board(MoveValidationManager* validationManager, IMoveHandler* moveHandler, IFilter<Piece>* pieceFilter, IBoardAnalyzer* boardAnalyzer) 
 		: validationManager(validationManager), 
 		  moveHandler(moveHandler), 
@@ -140,6 +135,8 @@ public:
 
 			std::cout << std::endl;
 		}	
+
+		std::cout << "\n\n\n" << std::endl;
 	}
 
 	std::vector<Piece*> filter(ISpecification<Piece>& specification) 

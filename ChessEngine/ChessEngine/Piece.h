@@ -30,6 +30,14 @@ public:
 		coordinateHistory.push_back(coordinate);
 	}
 
+	void removeLastCoordinate()
+	{
+		if (coordinateHistory.size() > 0) 
+		{
+			coordinateHistory.pop_back();
+		}
+	}
+
 	Coordinate getCurrentCoordinate() const
 	{
 		return coordinateHistory[coordinateHistory.size() - 1];

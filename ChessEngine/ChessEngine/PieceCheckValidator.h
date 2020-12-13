@@ -26,7 +26,12 @@ public:
 		copy.movePiece(origin, target);
 
 		//if the piece is checked, the move is not valid
-		return !checkDetector->isChecked(copy, piece->getPlayerType());
+		bool result = !checkDetector->isChecked(copy, piece->getPlayerType());
+
+		//remove the history from the piece since it's played on a copied board
+		piece->removeLastCoordinate();
+
+		return result;
 	}
 	
 private:
