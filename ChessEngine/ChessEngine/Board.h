@@ -10,6 +10,8 @@
 #include "IFilter.h"
 #include "IBoardAnalyzer.h"
 
+#include "ISpecialMove.h"
+
 class Board
 {
 public:
@@ -166,9 +168,26 @@ public:
 		}
 	}
 
+	IMoveSet* processSpecialMove(const std::string& moveString, PLAYER_TYPE type) 
+	{
+		for (const auto& specialMove : specialMoves) 
+		{
+			IMoveSet* move = specialMove->getMove(moveString, type);
+			if (move) return move;
+		}
+		return NULL;
+	}
+
+	void addSpecialMove(ISpecialMove* move) 
+	{
+		specialMoves.push_back(move);
+	}
+
 private:
 	const int SIZE_X = 8;
 	const int SIZE_Y = 8;
+
+	std::vector<ISpecialMove*> specialMoves;
 
 	IFilter<Piece>* pieceFilter;
 	IMoveHandler* moveHandler;

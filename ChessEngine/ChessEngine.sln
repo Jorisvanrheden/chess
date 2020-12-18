@@ -6,22 +6,25 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ChessEngine", "ChessEngine\ChessEngine.vcxproj", "{B17290B8-CBAB-4FF4-9CF5-4070E8BD7D75}"
 EndProject
 Global
-	GlobalSection(Performance) = preSolution
-		HasPerformanceSessions = true
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|ARM = Debug|ARM
 		Debug|x64 = Debug|x64
 		Debug|x86 = Debug|x86
+		Release|ARM = Release|ARM
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B17290B8-CBAB-4FF4-9CF5-4070E8BD7D75}.Debug|ARM.ActiveCfg = Debug|ARM
+		{B17290B8-CBAB-4FF4-9CF5-4070E8BD7D75}.Debug|ARM.Build.0 = Debug|ARM
 		{B17290B8-CBAB-4FF4-9CF5-4070E8BD7D75}.Debug|x64.ActiveCfg = Debug|x64
 		{B17290B8-CBAB-4FF4-9CF5-4070E8BD7D75}.Debug|x64.Build.0 = Debug|x64
 		{B17290B8-CBAB-4FF4-9CF5-4070E8BD7D75}.Debug|x86.ActiveCfg = Debug|Win32
 		{B17290B8-CBAB-4FF4-9CF5-4070E8BD7D75}.Debug|x86.Build.0 = Debug|Win32
-		{B17290B8-CBAB-4FF4-9CF5-4070E8BD7D75}.Release|x64.ActiveCfg = Release|x64
-		{B17290B8-CBAB-4FF4-9CF5-4070E8BD7D75}.Release|x64.Build.0 = Release|x64
+		{B17290B8-CBAB-4FF4-9CF5-4070E8BD7D75}.Release|ARM.ActiveCfg = Release|ARM
+		{B17290B8-CBAB-4FF4-9CF5-4070E8BD7D75}.Release|ARM.Build.0 = Release|ARM
+		{B17290B8-CBAB-4FF4-9CF5-4070E8BD7D75}.Release|x64.ActiveCfg = Release|Win32
+		{B17290B8-CBAB-4FF4-9CF5-4070E8BD7D75}.Release|x64.Build.0 = Release|Win32
 		{B17290B8-CBAB-4FF4-9CF5-4070E8BD7D75}.Release|x86.ActiveCfg = Release|Win32
 		{B17290B8-CBAB-4FF4-9CF5-4070E8BD7D75}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
@@ -30,5 +33,8 @@ Global
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {844C4490-4BE7-4448-9701-CBEAC92290F7}
+	EndGlobalSection
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
 	EndGlobalSection
 EndGlobal

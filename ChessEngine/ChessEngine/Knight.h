@@ -29,6 +29,7 @@ public:
 		return moves;
 	}
 
+private:
 	void addMovesToCollection(std::vector<Coordinate>& moves, std::vector<Coordinate> newMoves) 
 	{
 		moves.insert(moves.end(), newMoves.begin(), newMoves.end());

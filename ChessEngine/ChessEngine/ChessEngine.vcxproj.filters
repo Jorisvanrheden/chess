@@ -194,5 +194,11 @@
     <ClInclude Include="MoveSetMultiple.h">
       <Filter>Header Files\Rules\Move Set</Filter>
     </ClInclude>
+    <ClInclude Include="CastleCombination.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ISpecialMove.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

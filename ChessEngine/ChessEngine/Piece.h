@@ -6,6 +6,7 @@
 #include "GameConstants.h"
 
 class Board;
+class IMoveSet;
 
 class Piece
 {
@@ -37,7 +38,7 @@ public:
 			coordinateHistory.pop_back();
 		}
 	}
-
+	
 	Coordinate getCurrentCoordinate() const
 	{
 		return coordinateHistory[coordinateHistory.size() - 1];

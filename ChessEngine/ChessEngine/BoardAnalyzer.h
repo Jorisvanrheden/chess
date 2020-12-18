@@ -13,8 +13,9 @@ public:
 	~BoardAnalyzer() {}
 
 	// 0 = not game over
-	// 1 = game over (checkmate)
-	// 2 = game over (stalemate)
+	// 1 = checked
+	// 2 = game over (checkmate)
+	// 3 = game over (stalemate)
 	int analyzeStatus(Board& board, PLAYER_TYPE player)
 	{
 		//look at the available(logic validated) moves for each piece of that player
@@ -25,11 +26,14 @@ public:
 		if (!canMove) 
 		{
 			//if a player has no available moves, but the player is checked, it's checkmate
-			if (isPlayerChecked) return 1;
+			if (isPlayerChecked) return 2;
 
 			//if a player has no available moves, but is also not checked, it's stalemate
-			else return 2;
+			else return 3;
 		}
+
+		//if the player is checked return
+		if (isPlayerChecked) return 1;
 		
 		return 0;
 	}

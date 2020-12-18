@@ -102,37 +102,24 @@ public:
 				continue;
 			}
 
-			if (strings[i] == "O-O" || strings[i] == "O-O-O")
+			//check if the string is a special move and can be processed by the board
+			IMoveSet* moveSet = NULL;
+			moveSet = board.processSpecialMove(strings[i], playerSelector.getActivePlayer());
+
+			if (moveSet) 
 			{
-				//hard code castling for now
-				PieceTypeSpecification kingSpec(PIECE_TYPE::KING);
-				SamePlayerTypeSpecification playerSpec(playerSelector.getActivePlayer());
-				AndSpecification<Piece> andSpec(kingSpec, playerSpec);
-
-				PieceTypeSpecification rookSpec(PIECE_TYPE::ROOK);
-				AndSpecification<Piece> andSpec2(rookSpec, playerSpec);
-
-				//get the king that is about to castle
-				auto king = board.filter(andSpec);
-
-				//get the rooks 
-				auto rooks = board.filter(andSpec2);
-
-				IMoveSet* moveSet = castle(strings[i], king, rooks);
-				playerSelector.moveSet(moveSet);
-				//board.print();
+				//moves.push_back(moveSet);
 			}
-			else 
+
+			if (!moveSet)
 			{
 				PlayerMove move = parseMove(strings[i]);
-
-				MoveSetSingle singleMove(move.from, move.to);
-				playerSelector.moveSet(&singleMove);
-				//board.print();
-
-				//add to collection
-				moves.push_back(move);
+				moveSet = new MoveSetSingle(move.from, move.to);
 			}
+
+			playerSelector.moveSet(moveSet);
+
+			board.print();
 		}
 
 		return context;
@@ -294,45 +281,5 @@ private:
 			}
 
 			return false;
-		}
-
-		IMoveSet* castle(const std::string& moveString, std::vector<Piece*> kings, std::vector<Piece*> rooks) 
-		{
-			for (auto& rook : rooks)
-			{
-				int kingFrom = 4;
-				int kingTo = 0;
-
-				int rookFrom = 0;
-				int rookTo = 0;
-
-				if (moveString == "O-O") 
-				{
-					kingTo = 6;
-					rookFrom = 7;
-					rookTo = 5;
-				}
-				else if (moveString == "O-O-O") 
-				{
-					kingTo = 2;
-					rookFrom = 0;
-					rookTo = 3;
-				}
-
-				if (rook->getCurrentCoordinate().getX() != rookFrom) continue;
-
-				std::vector<std::tuple<Coordinate, Coordinate>> multipleMoves;
-
-				Coordinate kingOrigin(kingFrom, kings[0]->getCurrentCoordinate().getY());
-				Coordinate kingTarget(kingTo, kings[0]->getCurrentCoordinate().getY());
-
-				Coordinate rookOrigin(rookFrom, rook->getCurrentCoordinate().getY());
-				Coordinate rookTarget(rookTo, rook->getCurrentCoordinate().getY());
-
-				multipleMoves.push_back(std::tuple<Coordinate, Coordinate>{kingOrigin, kingTarget});
-				multipleMoves.push_back(std::tuple<Coordinate, Coordinate>{rookOrigin, rookTarget});
-
-				return new MoveSetMultiple(multipleMoves);
-			}	
 		}
 };
