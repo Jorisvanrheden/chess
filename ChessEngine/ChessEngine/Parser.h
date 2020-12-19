@@ -34,15 +34,15 @@ public:
 struct PlayerMoveSet
 {
 public:
-	PlayerMoveSet(std::vector<PlayerMove> moves) : moves(moves) {}
+	PlayerMoveSet(std::vector<IMoveSet*> moves) : moves(moves) {}
 
 	//size indicates player size
-	std::vector<PlayerMove> moves;
+	std::vector<IMoveSet*> moves;
 };
 
 struct MoveContext
 {
-	std::vector<PlayerMoveSet> playerMoveSets;
+	std::vector<IMoveSet*> playerMoveSets;
 };
 
 class Parser
@@ -83,7 +83,7 @@ public:
 
 		MoveContext context;
 
-		std::vector<PlayerMove> moves;
+		std::vector<IMoveSet*> moves;
 
 		//moves can be split using the "1." or "2." strings
 		for (int i = 0; i < strings.size(); i++) 
@@ -93,7 +93,7 @@ public:
 			{
 				if (moves.size() > 0) 
 				{
-					context.playerMoveSets.push_back(PlayerMoveSet(moves));
+					//context.playerMoveSets.push_back(PlayerMoveSet(moves));
 					moves.clear();
 
 					std::cout << "MOVE NUMBER: " << context.playerMoveSets.size() << std::endl;

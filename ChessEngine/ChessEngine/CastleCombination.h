@@ -3,6 +3,7 @@
 #include "ISpecialMove.h"
 #include "Piece.h"
 #include "MoveSetMultiple.h"
+#include "PieceCheckDetector.h"
 
 class CastleCombination : public ISpecialMove
 {
@@ -48,6 +49,35 @@ public:
 		return new MoveSetMultiple(multipleMoves);
 	}
 
+	bool isRelevantPiece(Piece* piece) 
+	{
+		return piece == king;
+	}
+
+	std::vector<Coordinate> getInitiatingMoves(const Board& board)
+	{
+		std::vector<Coordinate> moves;
+
+		//No possibility for castling if the king already moved before
+		if (king->getMoveCount() > 1) return moves;
+
+		//No possibility for castling if the king is checked
+		PieceCheckDetector checkDetector(king->getID());
+		if (checkDetector.isChecked(board, king->getPlayerType())) return moves;
+
+		if (rook_short->getMoveCount() == 1) 
+		{
+			moves.push_back(getKingTargetLocation(rook_short));
+		}
+
+		if (rook_long->getMoveCount() == 1) 
+		{
+			moves.push_back(getKingTargetLocation(rook_long));
+		}
+
+		return moves;
+	}
+
 private:
 	Piece* king;
 	Piece* rook_short;
@@ -56,4 +86,14 @@ private:
 	const int CASTLE_KING_STEPS = 2;
 	const std::string CASTLE_SHORT = "O-O";
 	const std::string CASTLE_LONG = "O-O-O";
+
+	Coordinate getKingTargetLocation(Piece* activeRook)
+	{
+		Direction dir(activeRook->getCurrentCoordinate().getX() - king->getCurrentCoordinate().getX(),
+					  activeRook->getCurrentCoordinate().getY() - king->getCurrentCoordinate().getY());
+
+		Coordinate kingTarget(king->getCurrentCoordinate().getX() + dir.getX() * CASTLE_KING_STEPS, king->getCurrentCoordinate().getY());
+
+		return kingTarget;
+	}
 };

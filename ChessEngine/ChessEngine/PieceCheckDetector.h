@@ -15,7 +15,7 @@ public:
 
 	}
 
-	bool isChecked(Board& board, PLAYER_TYPE player)
+	bool isChecked(const Board& board, PLAYER_TYPE player)
 	{
 		//analyze the board state:
 		// - get the king (position) of the same type as piece

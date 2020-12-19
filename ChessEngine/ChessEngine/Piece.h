@@ -44,6 +44,11 @@ public:
 		return coordinateHistory[coordinateHistory.size() - 1];
 	}
 
+	int getMoveCount() const 
+	{
+		return coordinateHistory.size();
+	}
+
 	PLAYER_TYPE getPlayerType() const
 	{
 		return type;

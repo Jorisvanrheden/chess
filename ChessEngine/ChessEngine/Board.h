@@ -59,13 +59,27 @@ public:
 		if (piece == NULL) return std::vector<Coordinate>();
 
 		std::vector<Coordinate> rawMoves = piece->findAvailableMoves(origin, *this);
+
+		//also find raw special moves?
+		for (int i = 0; i < specialMoves.size(); i++) 
+		{
+			if (specialMoves[i]->isRelevantPiece(piece)) 
+			{
+				std::vector<Coordinate> sMoves = specialMoves[i]->getInitiatingMoves(*this);
+				for (const auto& m : sMoves) 
+				{
+					rawMoves.push_back(m);
+				}
+			}
+		}
+
 		std::vector<Coordinate> boundaryValidatedMoves = getBoundaryValidatedMoves(origin, piece, rawMoves);
 		std::vector<Coordinate> logicValidatedMoves = getLogicValidatedMoves(origin, piece, boundaryValidatedMoves);
 
 		return logicValidatedMoves;
 	}
 
-	std::vector<Coordinate> getPieceBoundaryValidatedMoves(Piece* piece) 
+	std::vector<Coordinate> getPieceBoundaryValidatedMoves(Piece* piece) const
 	{
 		Coordinate origin = piece->getCurrentCoordinate();
 		std::vector<Coordinate> rawMoves = piece->findAvailableMoves(origin, *this);
@@ -74,7 +88,7 @@ public:
 		return boundaryValidatedMoves;
 	}
 
-	std::vector<Coordinate> getBoundaryValidatedMoves(const Coordinate& origin, Piece* piece, std::vector<Coordinate> moves) 
+	std::vector<Coordinate> getBoundaryValidatedMoves(const Coordinate& origin, Piece* piece, std::vector<Coordinate> moves) const
 	{
 		std::vector<Coordinate> validatedMoves;
 
@@ -141,7 +155,7 @@ public:
 		std::cout << "\n\n\n" << std::endl;
 	}
 
-	std::vector<Piece*> filter(ISpecification<Piece>& specification) 
+	std::vector<Piece*> filter(ISpecification<Piece>& specification) const
 	{
 		return pieceFilter->filter(getAllPieces(), specification);
 	}
@@ -196,7 +210,7 @@ private:
 
 	std::vector<std::vector<Piece*>> matrix;
 
-	std::vector<Piece*> getAllPieces() 
+	std::vector<Piece*> getAllPieces() const
 	{
 		std::vector<Piece*> pieces;
 

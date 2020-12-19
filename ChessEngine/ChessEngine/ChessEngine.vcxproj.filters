@@ -58,6 +58,9 @@
     <Filter Include="Header Files\Rules\Move Set">
       <UniqueIdentifier>{0662b56b-d569-4a9f-926b-ffc443d379d5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Rules\Special Moves">
+      <UniqueIdentifier>{d10807df-287b-4a11-8e96-ab3041c5298b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ChessEngine.cpp">
@@ -195,10 +198,10 @@
       <Filter>Header Files\Rules\Move Set</Filter>
     </ClInclude>
     <ClInclude Include="CastleCombination.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Rules\Special Moves</Filter>
     </ClInclude>
     <ClInclude Include="ISpecialMove.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Rules\Special Moves</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
