@@ -53,26 +53,38 @@ public:
 		return boardAnalyzer->analyzeStatus(*this, player);
 	}
 
+	bool verifyMove(const Coordinate& origin, const Coordinate& target) 
+	{
+		std::vector<Coordinate> moves = getAvailableMoves(origin);
+
+		for (const auto& move : moves) 
+		{
+			if (move == target) return true;
+		}
+		return false;
+	}
+
+	IMoveSet* getMoveSet(const Coordinate& origin, const Coordinate& target) 
+	{
+		Piece* piece = getPieceAt(origin);
+		for (int i = 0; i < piece->specialMoves.size(); i++) 
+		{
+			if (piece->specialMoves[i]->isPartOfSpecialMove(target)) 
+			{
+				
+			}
+		}
+
+		return NULL;
+		//return new MoveSetSingle(origin, target);
+	}
+
 	std::vector<Coordinate> getAvailableMoves(const Coordinate& origin) 
 	{
 		Piece* piece = getPieceAt(origin);
 		if (piece == NULL) return std::vector<Coordinate>();
 
 		std::vector<Coordinate> rawMoves = piece->findAvailableMoves(origin, *this);
-
-		//also find raw special moves?
-		for (int i = 0; i < specialMoves.size(); i++) 
-		{
-			if (specialMoves[i]->isRelevantPiece(piece)) 
-			{
-				std::vector<Coordinate> sMoves = specialMoves[i]->getInitiatingMoves(*this);
-				for (const auto& m : sMoves) 
-				{
-					rawMoves.push_back(m);
-				}
-			}
-		}
-
 		std::vector<Coordinate> boundaryValidatedMoves = getBoundaryValidatedMoves(origin, piece, rawMoves);
 		std::vector<Coordinate> logicValidatedMoves = getLogicValidatedMoves(origin, piece, boundaryValidatedMoves);
 
@@ -182,26 +194,9 @@ public:
 		}
 	}
 
-	IMoveSet* processSpecialMove(const std::string& moveString, PLAYER_TYPE type) 
-	{
-		for (const auto& specialMove : specialMoves) 
-		{
-			IMoveSet* move = specialMove->getMove(moveString, type);
-			if (move) return move;
-		}
-		return NULL;
-	}
-
-	void addSpecialMove(ISpecialMove* move) 
-	{
-		specialMoves.push_back(move);
-	}
-
 private:
 	const int SIZE_X = 8;
 	const int SIZE_Y = 8;
-
-	std::vector<ISpecialMove*> specialMoves;
 
 	IFilter<Piece>* pieceFilter;
 	IMoveHandler* moveHandler;

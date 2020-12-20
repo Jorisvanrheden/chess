@@ -42,9 +42,12 @@ private:
 			}
 		}
 
-		//Adding special moves to the board
-		board.addSpecialMove(new CastleCombination(board.getPieceAt(Coordinate(4, 0)), board.getPieceAt(Coordinate(7, 0)), board.getPieceAt(Coordinate(0, 0))));
-		board.addSpecialMove(new CastleCombination(board.getPieceAt(Coordinate(4, 7)), board.getPieceAt(Coordinate(7, 7)), board.getPieceAt(Coordinate(0, 7))));
+		//Adding special moves to the pieces
+		Piece* king_white = board.getPieceAt(Coordinate(4, 0));
+		king_white->addSpecialMove(new CastleCombination(king_white, board.getPieceAt(Coordinate(7, 0)), board.getPieceAt(Coordinate(0, 0))));
+
+		Piece* king_black = board.getPieceAt(Coordinate(4, 7));
+		king_black->addSpecialMove(new CastleCombination(king_black, board.getPieceAt(Coordinate(7, 7)), board.getPieceAt(Coordinate(0, 7))));
 	}
 
 	Piece* createPiece(int index, PLAYER_TYPE type) 

@@ -43,8 +43,8 @@ private:
 
 
 		//Adding special moves to the board
-		board.addSpecialMove(new CastleCombination(king_black, rook_short_black, rook_long_black));
-		board.addSpecialMove(new CastleCombination(king_white, rook_short_white, rook_long_white));
+		//board.addSpecialMove(new CastleCombination(king_black, rook_short_black, rook_long_black));
+		//board.addSpecialMove(new CastleCombination(king_white, rook_short_white, rook_long_white));
 	}
 
 	void populatePiecesDefault(Board& board, Coordinate coordinate, Piece* black, Piece* white)

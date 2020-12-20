@@ -104,7 +104,14 @@ public:
 
 			//check if the string is a special move and can be processed by the board
 			IMoveSet* moveSet = NULL;
-			moveSet = board.processSpecialMove(strings[i], playerSelector.getActivePlayer());
+
+			PieceTypeSpecification pieceSpec(PIECE_TYPE::KING);
+			SamePlayerTypeSpecification playerSpec(playerSelector.getActivePlayer());
+			/*AndSpecification andSpec(pieceSpec, playerSpec);
+
+			auto kings = board.filter(andSpec);*/
+
+			//moveSet = kings[0]->//board.processSpecialMove(strings[i], playerSelector.getActivePlayer());
 
 			if (moveSet) 
 			{

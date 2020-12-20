@@ -14,6 +14,16 @@ public:
 	}
 	~CastleCombination() {}
 
+	bool isPartOfSpecialMove(const Coordinate& target) 
+	{
+		return true;
+	}
+
+	IMoveSet* getMove(const Coordinate& target, PLAYER_TYPE type) 
+	{
+		return NULL;
+	}
+
 	IMoveSet* getMove(const std::string& moveString, PLAYER_TYPE type) 
 	{
 		if (moveString != CASTLE_SHORT && moveString != CASTLE_LONG) return NULL;
@@ -49,11 +59,6 @@ public:
 		return new MoveSetMultiple(multipleMoves);
 	}
 
-	bool isRelevantPiece(Piece* piece) 
-	{
-		return piece == king;
-	}
-
 	std::vector<Coordinate> getInitiatingMoves(const Board& board)
 	{
 		std::vector<Coordinate> moves;
@@ -62,15 +67,15 @@ public:
 		if (king->getMoveCount() > 1) return moves;
 
 		//No possibility for castling if the king is checked
-		PieceCheckDetector checkDetector(king->getID());
-		if (checkDetector.isChecked(board, king->getPlayerType())) return moves;
+		//PieceCheckDetector checkDetector(king->getID());
+		//if (checkDetector.isChecked(board, king->getPlayerType())) return moves;
 
-		if (rook_short->getMoveCount() == 1) 
+		if (checkIfCastlingPossible(board, rook_short))
 		{
 			moves.push_back(getKingTargetLocation(rook_short));
 		}
 
-		if (rook_long->getMoveCount() == 1) 
+		if (checkIfCastlingPossible(board, rook_long))
 		{
 			moves.push_back(getKingTargetLocation(rook_long));
 		}
@@ -86,6 +91,29 @@ private:
 	const int CASTLE_KING_STEPS = 2;
 	const std::string CASTLE_SHORT = "O-O";
 	const std::string CASTLE_LONG = "O-O-O";
+
+	bool checkIfCastlingPossible(const Board& board, Piece* activeRook) 
+	{
+		if (activeRook->getMoveCount() != 1) return false;
+
+		Direction dir(activeRook->getCurrentCoordinate().getX() - king->getCurrentCoordinate().getX(),
+					  activeRook->getCurrentCoordinate().getY() - king->getCurrentCoordinate().getY());
+
+		//loop through all spaces between the king and the active rook
+		//if there is still a piece, castling is not possible
+
+		int xDiff = abs(king->getCurrentCoordinate().getX() - activeRook->getCurrentCoordinate().getX());
+		int yDiff = abs(king->getCurrentCoordinate().getY() - activeRook->getCurrentCoordinate().getY());
+
+		for (int i = 1; i < xDiff; i++)
+		{
+			int distanceX = i * dir.getX();
+			int distanceY = i * dir.getY();
+
+			Coordinate coord(king->getCurrentCoordinate().getX() + distanceX, king->getCurrentCoordinate().getY() + distanceY);
+			if (board.getPieceAt(coord)) return false;
+		}
+	}
 
 	Coordinate getKingTargetLocation(Piece* activeRook)
 	{

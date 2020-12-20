@@ -33,6 +33,27 @@ public:
 		}
 	}
 
+	//void movePiece(const Coordinate& origin, const Coordinate& target)
+	//{
+	//	if (!canMove(origin)) return;
+
+	//	//move the piece on the board
+	//	bool movedSuccesfully = board.movePiece(origin, target);
+	//	if (movedSuccesfully) 
+	//	{
+	//		for (int i = 0; i < players.size(); i++) 
+	//		{
+	//			if (i == playerIndex) continue;
+
+	//			int playerStatus = board.analyzeStatus(players[i]);
+	//			std::cout << "Player " << i << " -> " << playerStatus << std::endl;
+	//		}
+
+	//		//iterate active player index
+	//		playerIndex = (playerIndex + 1) % players.size();
+	//	}
+	//}
+
 	std::vector<Coordinate> getAvailableMoves(const Coordinate& coordinate) 
 	{
 		if (!canMove(coordinate)) return std::vector<Coordinate>();

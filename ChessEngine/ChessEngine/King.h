@@ -30,6 +30,8 @@ public:
 		getMovesInDirection(moves, board, coordinate, Direction(1, -1), 1);
 		getMovesInDirection(moves, board, coordinate, Direction(-1, -1), 1);
 
+		addTest(board, moves);
+
 		return moves;
 	}
 };

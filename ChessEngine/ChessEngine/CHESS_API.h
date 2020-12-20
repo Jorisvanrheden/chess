@@ -60,17 +60,17 @@ public:
 
 	void movePiece(const Coordinate& origin, const Coordinate& target) 
 	{
-		//retrieve the possible moves for piece one more time
-
 		//validate if the target is indeed a valid move
-
-		//if valid
-
-		//check if the target and combination value are from a special move
-		//if it is, create that moveset instead
-
-		MoveSetSingle moveSingle(origin, target);
-		playerSelector->moveSet(&moveSingle);
+		bool containsMove = board->verifyMove(origin, target);		
+		if (containsMove) 
+		{
+			IMoveSet* moveSet = board->getMoveSet(origin, target);
+			playerSelector->moveSet(moveSet);
+		}
+		else 
+		{
+			std::cout << "This move is not valid given the origin location" << std::endl;
+		}
 	}
 
 	void getBoardStatus() 
