@@ -54,23 +54,10 @@ public:
 	//	}
 	//}
 
-	std::vector<Coordinate> getAvailableMoves(const Coordinate& coordinate) 
-	{
-		if (!canMove(coordinate)) return std::vector<Coordinate>();
-
-		return board.getAvailableMoves(coordinate);
-	}
-
 	PLAYER_TYPE getActivePlayer() 
 	{
 		return players[playerIndex];
 	}
-
-private:
-	Board& board;
-
-	int playerIndex = 0;
-	std::vector<PLAYER_TYPE> players{ PLAYER_TYPE::WHITE, PLAYER_TYPE::BLACK };
 
 	bool canMove(const Coordinate& coordinate)
 	{
@@ -82,4 +69,10 @@ private:
 
 		return false;
 	}
+
+private:
+	Board& board;
+
+	int playerIndex = 0;
+	std::vector<PLAYER_TYPE> players{ PLAYER_TYPE::WHITE, PLAYER_TYPE::BLACK };
 };

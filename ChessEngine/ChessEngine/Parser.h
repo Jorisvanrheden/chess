@@ -241,7 +241,7 @@ public:
 				if (piece->getCurrentCoordinate().getY() != xyComponent.getY()) continue;
 			}
 
-			std::vector<Coordinate> moves = playerSelector.getAvailableMoves(piece->getCurrentCoordinate());
+			std::vector<Coordinate> moves = board.getValidatedMoves(piece->getCurrentCoordinate());
 
 			if (containsMove(moves, target)) potentialPieces.push_back(piece);
 		}

@@ -31,9 +31,23 @@ void CHESS_API_WRAPPER::CHESS_API_GetBoardStatus()
 void CHESS_API_WRAPPER::CHESS_API_GetMoves(int x, int y)
 {
 	Coordinate coordinate(x, y);
-	std::vector<Coordinate> moves = api->getMoves(coordinate);
+	std::vector<Coordinate> moves = api->getValidatedMoves(coordinate);
 
+	std::cout << "**VALIDATED MOVES**" << std::endl;
 	for (int i = 0; i < moves.size(); i++) 
+	{
+		std::cout << moves[i].getX() << ", " << moves[i].getY() << std::endl;
+	}
+	//return coordinates
+}
+
+void CHESS_API_WRAPPER::CHESS_API_GetMovesRaw(int x, int y)
+{
+	Coordinate coordinate(x, y);
+	std::vector<Coordinate> moves = api->getRawMoves(coordinate);
+
+	std::cout << "**RAW MOVES**" << std::endl;
+	for (int i = 0; i < moves.size(); i++)
 	{
 		std::cout << moves[i].getX() << ", " << moves[i].getY() << std::endl;
 	}

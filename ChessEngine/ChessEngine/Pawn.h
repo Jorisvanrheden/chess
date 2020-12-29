@@ -47,11 +47,7 @@ public:
 			//also add the direction for one unit, otherwise we'd be checking next to the pawn, not diagonally
 			int x = coordinate.getX() + direction.getX() + perpendicular.getX();
 			int y = coordinate.getY() + direction.getY() + perpendicular.getY();
-			Coordinate diagonal = Coordinate(x, y);
-			if (board.getPieceAt(diagonal) != NULL)
-			{
-				moves.push_back(diagonal);
-			}
+			moves.push_back(Coordinate(x,y));
 		}
 
 		return moves;

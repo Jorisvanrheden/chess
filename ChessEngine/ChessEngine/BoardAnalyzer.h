@@ -49,7 +49,7 @@ private:
 		//loop through all pieces and check if it contains any logic validated moves 
 		for (auto& piece : pieces) 
 		{
-			auto availableMoves = board.getAvailableMoves(piece->getCurrentCoordinate());
+			auto availableMoves = board.getValidatedMoves(piece->getCurrentCoordinate());
 			if (availableMoves.size() > 0) return true;
 		}
 		return false;

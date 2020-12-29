@@ -55,7 +55,7 @@ public:
 
 	bool verifyMove(const Coordinate& origin, const Coordinate& target) 
 	{
-		std::vector<Coordinate> moves = getAvailableMoves(origin);
+		std::vector<Coordinate> moves = getValidatedMoves(origin);
 
 		for (const auto& move : moves) 
 		{
@@ -79,7 +79,15 @@ public:
 		//return new MoveSetSingle(origin, target);
 	}
 
-	std::vector<Coordinate> getAvailableMoves(const Coordinate& origin) 
+	std::vector<Coordinate> getRawMoves(const Coordinate& origin)
+	{
+		Piece* piece = getPieceAt(origin);
+		if (piece == NULL) return std::vector<Coordinate>();
+
+		return piece->findAvailableMoves(origin, *this);
+	}
+
+	std::vector<Coordinate> getValidatedMoves(const Coordinate& origin) 
 	{
 		Piece* piece = getPieceAt(origin);
 		if (piece == NULL) return std::vector<Coordinate>();
@@ -110,21 +118,6 @@ public:
 			if (!isCoordinateValid(moves[i])) continue;
 
 			validatedMoves.push_back(moves[i]);
-		}
-
-		return validatedMoves;
-	}
-
-	std::vector<Coordinate> getLogicValidatedMoves(const Coordinate& origin, Piece* piece, std::vector<Coordinate> moves)
-	{
-		std::vector<Coordinate> validatedMoves;
-
-		for (int i = 0; i < moves.size(); i++)
-		{
-			if (validationManager->isMoveValid(*this, piece, origin, moves[i])) 
-			{
-				validatedMoves.push_back(moves[i]);
-			}
 		}
 
 		return validatedMoves;
@@ -219,5 +212,20 @@ private:
 		}
 
 		return pieces;
+	}
+
+	std::vector<Coordinate> getLogicValidatedMoves(const Coordinate& origin, Piece* piece, std::vector<Coordinate> moves)
+	{
+		std::vector<Coordinate> validatedMoves;
+
+		for (int i = 0; i < moves.size(); i++)
+		{
+			if (validationManager->isMoveValid(*this, piece, origin, moves[i]))
+			{
+				validatedMoves.push_back(moves[i]);
+			}
+		}
+
+		return validatedMoves;
 	}
 };

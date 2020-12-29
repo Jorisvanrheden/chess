@@ -53,13 +53,25 @@ public:
 		MoveContext context = parser.parse(filepath);
 	}
 
-	std::vector<Coordinate> getMoves(const Coordinate& coordinate) 
+	std::vector<Coordinate> getValidatedMoves(const Coordinate& coordinate) 
 	{
-		return playerSelector->getAvailableMoves(coordinate);
+		return board->getValidatedMoves(coordinate);
+	}
+
+	std::vector<Coordinate> getRawMoves(const Coordinate& coordinate)
+	{
+		return board->getRawMoves(coordinate);
 	}
 
 	void movePiece(const Coordinate& origin, const Coordinate& target) 
 	{
+		//check if the piece at origin is the type that should move now
+		if (!playerSelector->canMove(origin)) 
+		{
+			std::cout << "It is not the turn of the owner of the selected piece" << std::endl;
+			return;
+		}
+
 		//validate if the target is indeed a valid move
 		bool containsMove = board->verifyMove(origin, target);		
 		if (containsMove) 

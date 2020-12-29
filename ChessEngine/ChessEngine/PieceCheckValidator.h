@@ -3,11 +3,6 @@
 #include "IMoveValidator.h"
 #include "IPieceCheckDetector.h"
 
-#include "PieceTypeSpecification.h"
-#include "OtherPlayerTypeSpecification.h"	
-#include "SamePlayerTypeSpecification.h"	
-#include "AndSpecification.h"
-
 class PieceCheckValidator : public IMoveValidator
 {
 public:

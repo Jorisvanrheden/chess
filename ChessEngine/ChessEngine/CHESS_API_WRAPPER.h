@@ -30,6 +30,7 @@ public:
 
 	// INTERACTIVE METHODS
 	void CHESS_ENGINE_API CHESS_API_GetMoves(int x, int y);
+	void CHESS_ENGINE_API CHESS_API_GetMovesRaw(int x, int y);
 	void CHESS_ENGINE_API CHESS_API_MovePiece(int x_origin, int y_origin, int x_target, int y_target);
 };
 

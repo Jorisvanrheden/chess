@@ -9,9 +9,10 @@ int main()
 	//wrapper.CHESS_API_LoadBoard("D:\\repos\\chess\\ChessEngine\\database\\database.pgn");
 
 	wrapper.CHESS_API_GetBoardStatus();
-	wrapper.CHESS_API_GetMoves(4, 7);
+	wrapper.CHESS_API_GetMoves(4, 0);
+	wrapper.CHESS_API_GetMovesRaw(4, 0);
 
-	wrapper.CHESS_API_MovePiece(4, 7, 6, 7);
+	wrapper.CHESS_API_MovePiece(4, 0, 5, 0);
 	/*wrapper.CHESS_API_GetMoves(0, 6);
 	wrapper.CHESS_API_MovePiece(0, 6, 0, 4);
 	wrapper.CHESS_API_GetBoardStatus();
