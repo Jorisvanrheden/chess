@@ -104,19 +104,8 @@ public:
 				continue;
 			}
 
-			//check if the string is a special move and can be processed by the board
-			IMoveSet* moveSet = getCastlingMoveSet(strings[i]);
-	
-			if (moveSet) 
-			{
-				moves.push_back(moveSet);
-			}
-
-			if (!moveSet)
-			{
-				PlayerMove move = parseMove(strings[i]);
-				moveSet = new MoveSetSingle(move.from, move.to);
-			}
+			IMoveSet* moveSet = getMoveSet(strings[i]);
+			moves.push_back(moveSet);			
 
 			playerSelector.moveSet(moveSet);
 
@@ -126,31 +115,43 @@ public:
 		return context;
 	}
 
-	IMoveSet* getCastlingMoveSet(const std::string& move) 
+	IMoveSet* getMoveSet(const std::string& move)
 	{
-		if (move == "O-O" || move == "O-O")
+		//check if the string is a special move and can be processed by the board
+		if (move == CASTLE_SHORT || move == CASTLE_LONG) 
 		{
-			PieceTypeSpecification pieceSpec(PIECE_TYPE::KING);
-			SamePlayerTypeSpecification playerSpec(playerSelector.getActivePlayer());
-			AndSpecification<Piece> andSpec(pieceSpec, playerSpec);
-
-			auto kings = board.filter(andSpec);
-			for (const auto& king : kings)
-			{
-				King* kingPiece = (King*)king;
-
-				if (move == "O-O")
-				{
-					return kingPiece->combination->getMoveSetShortCastle();
-				}
-				else if (move == "O-O-O")
-				{
-					return kingPiece->combination->getMoveSetLongCastle();
-				}
-			}
+			return getCastlingMoveSet(move);
 		}
 
-		return NULL;
+		return getParsedMoveSet(move);
+	}
+
+	IMoveSet* getCastlingMoveSet(const std::string& move) 
+	{
+		PieceTypeSpecification pieceSpec(PIECE_TYPE::KING);
+		SamePlayerTypeSpecification playerSpec(playerSelector.getActivePlayer());
+		AndSpecification<Piece> andSpec(pieceSpec, playerSpec);
+
+		auto kings = board.filter(andSpec);
+		for (const auto& king : kings)
+		{
+			King* kingPiece = (King*)king;
+
+			if (move == CASTLE_SHORT)
+			{
+				return kingPiece->combination->getMoveSetShortCastle();
+			}
+			else if (move == CASTLE_LONG)
+			{
+				return kingPiece->combination->getMoveSetLongCastle();
+			}
+		}
+	}
+
+	IMoveSet* getParsedMoveSet(const std::string& move) 
+	{
+		PlayerMove playerMove = parseMove(move);
+		return new MoveSetSingle(playerMove.from, playerMove.to);
 	}
 
 	PlayerMove parseMove(const std::string& moveString) 
@@ -300,6 +301,9 @@ public:
 private:
 	Board& board;
 	IPlayerSelector& playerSelector;
+
+	const std::string CASTLE_SHORT = "O-O";
+	const std::string CASTLE_LONG = "O-O-O";
 
 	bool containsMove(std::vector<Coordinate> moves, Coordinate move) 
 	{

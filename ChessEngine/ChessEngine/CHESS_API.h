@@ -43,7 +43,7 @@ public:
 		IBoardAnalyzer* boardAnalyzer = new BoardAnalyzer(checkDetector);
 
 		board = new	Board(validationManager, moveHandler, pieceFilter, boardAnalyzer);
-		populator = new TestingBoardPopulator(*board);
+		populator = new DefaultBoardPopulator(*board);
 		playerSelector = new PlayerSelector(*board);
 	}
 
