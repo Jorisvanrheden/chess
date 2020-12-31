@@ -1,8 +1,6 @@
 #include "Piece.h"
 #include "Board.h"
 
-#include "ISpecialMove.h"
-
 Piece::Piece(const PLAYER_TYPE& type)
 	: type(type)
 {
@@ -45,17 +43,4 @@ void Piece::getMovesInDirection(std::vector<Coordinate>& moves, const Board& boa
 
 		iteration++;
 	}	
-}
-
-void Piece::addTest(const Board& board, std::vector<Coordinate>& moves)
-{
-	//also find raw special moves?
-	for (int i = 0; i < specialMoves.size(); i++)
-	{
-		std::vector<Coordinate> sMoves = specialMoves[i]->getInitiatingMoves(board);
-		for (const auto& m : sMoves)
-		{
-			moves.push_back(m);
-		}
-	}
 }

@@ -1,6 +1,5 @@
 #pragma once
 
-#include <malloc.h>
 #include <iostream>
 #include "Piece.h"
 
@@ -9,8 +8,6 @@
 #include "ISpecification.h"
 #include "IFilter.h"
 #include "IBoardAnalyzer.h"
-
-#include "ISpecialMove.h"
 
 class Board
 {
@@ -66,25 +63,18 @@ public:
 
 	IMoveSet* getMoveSet(const Coordinate& origin, const Coordinate& target) 
 	{
-		Piece* piece = getPieceAt(origin);
-		for (int i = 0; i < piece->specialMoves.size(); i++) 
-		{
-			if (piece->specialMoves[i]->isPartOfSpecialMove(target)) 
-			{
-				
-			}
-		}
-
-		return NULL;
-		//return new MoveSetSingle(origin, target);
+		return moveHandler->getMoveSet(*this, origin, target);
 	}
 
-	std::vector<Coordinate> getRawMoves(const Coordinate& origin)
+	std::vector<Coordinate> getRawMoves(const Coordinate& origin) const
 	{
 		Piece* piece = getPieceAt(origin);
 		if (piece == NULL) return std::vector<Coordinate>();
 
-		return piece->findAvailableMoves(origin, *this);
+		std::vector<Coordinate> rawMoves = piece->findAvailableMoves(origin, *this);
+		std::vector<Coordinate> boundaryValidatedMoves = getBoundaryValidatedMoves(origin, piece, rawMoves);
+
+		return boundaryValidatedMoves;
 	}
 
 	std::vector<Coordinate> getValidatedMoves(const Coordinate& origin) 
@@ -97,15 +87,6 @@ public:
 		std::vector<Coordinate> logicValidatedMoves = getLogicValidatedMoves(origin, piece, boundaryValidatedMoves);
 
 		return logicValidatedMoves;
-	}
-
-	std::vector<Coordinate> getPieceBoundaryValidatedMoves(Piece* piece) const
-	{
-		Coordinate origin = piece->getCurrentCoordinate();
-		std::vector<Coordinate> rawMoves = piece->findAvailableMoves(origin, *this);
-		std::vector<Coordinate> boundaryValidatedMoves = getBoundaryValidatedMoves(origin, piece, rawMoves);
-
-		return boundaryValidatedMoves;
 	}
 
 	std::vector<Coordinate> getBoundaryValidatedMoves(const Coordinate& origin, Piece* piece, std::vector<Coordinate> moves) const

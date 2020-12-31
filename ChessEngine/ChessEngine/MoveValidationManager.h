@@ -11,6 +11,7 @@ class MoveValidationManager
 public:
 	bool isMoveValid(const Board& board, Piece* piece, const Coordinate& origin, const Coordinate& target)
 	{
+		//Go through all logic validators
 		for (auto& validator : validators) 
 		{
 			if (!validator->isMoveValid(board, piece, origin, target)) return false;

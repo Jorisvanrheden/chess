@@ -5,7 +5,6 @@
 #include "Direction.h"
 #include "GameConstants.h"
 
-class ISpecialMove;
 class Board;
 class IMoveSet;
 
@@ -55,18 +54,9 @@ public:
 		return type;
 	}
 
-	void addSpecialMove(ISpecialMove* specialMove) 
-	{
-		specialMoves.push_back(specialMove);
-	}
-
-	std::vector<ISpecialMove*> specialMoves;
-
 protected:
 	PLAYER_TYPE type;
 	std::vector<Coordinate> coordinateHistory;
 
-
-	void addTest(const Board& board, std::vector<Coordinate>& moves);
 	void getMovesInDirection(std::vector<Coordinate>& moves, const Board& board, Coordinate coordinate, const Direction& direction, int limit = -1, bool includeHit = true);
 };

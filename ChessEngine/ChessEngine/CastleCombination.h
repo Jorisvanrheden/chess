@@ -1,11 +1,10 @@
 #pragma once
 
-#include "ISpecialMove.h"
 #include "Piece.h"
 #include "MoveSetMultiple.h"
 #include "PieceCheckDetector.h"
 
-class CastleCombination : public ISpecialMove
+class CastleCombination
 {
 public:
 	CastleCombination(Piece* king, Piece* rook_short, Piece* rook_long) 
@@ -14,49 +13,14 @@ public:
 	}
 	~CastleCombination() {}
 
-	bool isPartOfSpecialMove(const Coordinate& target) 
+	IMoveSet* getMoveSetShortCastle() 
 	{
-		return true;
+		return getMoveSet(rook_short);
 	}
 
-	IMoveSet* getMove(const Coordinate& target, PLAYER_TYPE type) 
+	IMoveSet* getMoveSetLongCastle()
 	{
-		return NULL;
-	}
-
-	IMoveSet* getMove(const std::string& moveString, PLAYER_TYPE type) 
-	{
-		if (moveString != CASTLE_SHORT && moveString != CASTLE_LONG) return NULL;
-
-		if (king == NULL)return NULL;
-		if (king->getPlayerType() != type)return NULL;
-
-		Piece* activeRook = NULL;
-
-		if (moveString == CASTLE_SHORT)
-		{
-			activeRook = rook_short;
-		}
-		else if (moveString == CASTLE_LONG)
-		{
-			activeRook = rook_long;
-		}
-
-		std::vector<std::tuple<Coordinate, Coordinate>> multipleMoves;
-
-		Direction dir(activeRook->getCurrentCoordinate().getX() - king->getCurrentCoordinate().getX(), 
-					  activeRook->getCurrentCoordinate().getY() - king->getCurrentCoordinate().getY());
-
-		Coordinate kingOrigin(king->getCurrentCoordinate().getX(), king->getCurrentCoordinate().getY());
-		Coordinate kingTarget(king->getCurrentCoordinate().getX() + dir.getX() * CASTLE_KING_STEPS, king->getCurrentCoordinate().getY());
-
-		Coordinate rookOrigin(activeRook->getCurrentCoordinate().getX(), activeRook->getCurrentCoordinate().getY());
-		Coordinate rookTarget(kingTarget.getX() + dir.getX() * -1, activeRook->getCurrentCoordinate().getY());
-
-		multipleMoves.push_back(std::tuple<Coordinate, Coordinate>{kingOrigin, kingTarget});
-		multipleMoves.push_back(std::tuple<Coordinate, Coordinate>{rookOrigin, rookTarget});
-
-		return new MoveSetMultiple(multipleMoves);
+		return getMoveSet(rook_long);
 	}
 
 	std::vector<Coordinate> getInitiatingMoves(const Board& board)
@@ -83,14 +47,33 @@ public:
 		return moves;
 	}
 
+	IMoveSet* getCastlingMoveSet(const Board& board, const Coordinate& target) 
+	{
+		if (checkIfCastlingPossible(board, rook_short))
+		{
+			if (getKingTargetLocation(rook_short) == target) 
+			{
+				return getMoveSet(rook_short);
+			}
+		}
+
+		if (checkIfCastlingPossible(board, rook_long))
+		{
+			if (getKingTargetLocation(rook_long) == target)
+			{
+				return getMoveSet(rook_long);
+			}
+		}
+
+		return NULL;
+	}
+
 private:
 	Piece* king;
 	Piece* rook_short;
 	Piece* rook_long;
 
 	const int CASTLE_KING_STEPS = 2;
-	const std::string CASTLE_SHORT = "O-O";
-	const std::string CASTLE_LONG = "O-O-O";
 
 	bool checkIfCastlingPossible(const Board& board, Piece* activeRook) 
 	{
@@ -101,7 +84,6 @@ private:
 
 		//loop through all spaces between the king and the active rook
 		//if there is still a piece, castling is not possible
-
 		int xDiff = abs(king->getCurrentCoordinate().getX() - activeRook->getCurrentCoordinate().getX());
 		int yDiff = abs(king->getCurrentCoordinate().getY() - activeRook->getCurrentCoordinate().getY());
 
@@ -111,8 +93,11 @@ private:
 			int distanceY = i * dir.getY();
 
 			Coordinate coord(king->getCurrentCoordinate().getX() + distanceX, king->getCurrentCoordinate().getY() + distanceY);
-			if (board.getPieceAt(coord)) return false;
+			Piece* piece = board.getPieceAt(coord);
+			if (piece) return false;
 		}
+
+		return true;
 	}
 
 	Coordinate getKingTargetLocation(Piece* activeRook)
@@ -123,5 +108,24 @@ private:
 		Coordinate kingTarget(king->getCurrentCoordinate().getX() + dir.getX() * CASTLE_KING_STEPS, king->getCurrentCoordinate().getY());
 
 		return kingTarget;
+	}
+
+	IMoveSet* getMoveSet(Piece* activeRook) 
+	{
+		std::vector<std::tuple<Coordinate, Coordinate>> moves;
+
+		Direction dir(activeRook->getCurrentCoordinate().getX() - king->getCurrentCoordinate().getX(),
+					  activeRook->getCurrentCoordinate().getY() - king->getCurrentCoordinate().getY());
+
+		Coordinate kingOrigin(king->getCurrentCoordinate().getX(), king->getCurrentCoordinate().getY());
+		Coordinate kingTarget(king->getCurrentCoordinate().getX() + dir.getX() * CASTLE_KING_STEPS, king->getCurrentCoordinate().getY());
+
+		Coordinate rookOrigin(activeRook->getCurrentCoordinate().getX(), activeRook->getCurrentCoordinate().getY());
+		Coordinate rookTarget(kingTarget.getX() + dir.getX() * -1, activeRook->getCurrentCoordinate().getY());
+
+		moves.push_back(std::tuple<Coordinate, Coordinate>{kingOrigin, kingTarget});
+		moves.push_back(std::tuple<Coordinate, Coordinate>{rookOrigin, rookTarget});
+
+		return new MoveSetMultiple(moves);
 	}
 };

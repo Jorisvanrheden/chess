@@ -20,6 +20,8 @@
 
 #include <time.h>
 
+#include "PieceCollection.h"
+
 struct PlayerMove 
 {
 public:
@@ -103,19 +105,11 @@ public:
 			}
 
 			//check if the string is a special move and can be processed by the board
-			IMoveSet* moveSet = NULL;
-
-			PieceTypeSpecification pieceSpec(PIECE_TYPE::KING);
-			SamePlayerTypeSpecification playerSpec(playerSelector.getActivePlayer());
-			/*AndSpecification andSpec(pieceSpec, playerSpec);
-
-			auto kings = board.filter(andSpec);*/
-
-			//moveSet = kings[0]->//board.processSpecialMove(strings[i], playerSelector.getActivePlayer());
-
+			IMoveSet* moveSet = getCastlingMoveSet(strings[i]);
+	
 			if (moveSet) 
 			{
-				//moves.push_back(moveSet);
+				moves.push_back(moveSet);
 			}
 
 			if (!moveSet)
@@ -130,6 +124,33 @@ public:
 		}
 
 		return context;
+	}
+
+	IMoveSet* getCastlingMoveSet(const std::string& move) 
+	{
+		if (move == "O-O" || move == "O-O")
+		{
+			PieceTypeSpecification pieceSpec(PIECE_TYPE::KING);
+			SamePlayerTypeSpecification playerSpec(playerSelector.getActivePlayer());
+			AndSpecification<Piece> andSpec(pieceSpec, playerSpec);
+
+			auto kings = board.filter(andSpec);
+			for (const auto& king : kings)
+			{
+				King* kingPiece = (King*)king;
+
+				if (move == "O-O")
+				{
+					return kingPiece->combination->getMoveSetShortCastle();
+				}
+				else if (move == "O-O-O")
+				{
+					return kingPiece->combination->getMoveSetLongCastle();
+				}
+			}
+		}
+
+		return NULL;
 	}
 
 	PlayerMove parseMove(const std::string& moveString) 
@@ -277,16 +298,16 @@ public:
 	}
 
 private:
-		Board& board;
-		IPlayerSelector& playerSelector;
+	Board& board;
+	IPlayerSelector& playerSelector;
 
-		bool containsMove(std::vector<Coordinate> moves, Coordinate move) 
+	bool containsMove(std::vector<Coordinate> moves, Coordinate move) 
+	{
+		for (int i = 0; i < moves.size(); i++) 
 		{
-			for (int i = 0; i < moves.size(); i++) 
-			{
-				if (moves[i] == move) return true;
-			}
-
-			return false;
+			if (moves[i] == move) return true;
 		}
+
+		return false;
+	}
 };

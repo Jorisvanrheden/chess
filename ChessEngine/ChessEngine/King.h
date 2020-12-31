@@ -1,6 +1,8 @@
 #pragma once
 #include "Piece.h"
 
+#include "CastleCombination.h"
+
 class King : public Piece
 {
 public:
@@ -30,8 +32,16 @@ public:
 		getMovesInDirection(moves, board, coordinate, Direction(1, -1), 1);
 		getMovesInDirection(moves, board, coordinate, Direction(-1, -1), 1);
 
-		addTest(board, moves);
+		std::vector<Coordinate> castleMoves = combination->getInitiatingMoves(board);
+		for (int i = 0; i < castleMoves.size(); i++) 
+		{
+			moves.push_back(castleMoves[i]);
+		}
 
 		return moves;
 	}
+
+	CastleCombination* combination;
+
+private:
 };

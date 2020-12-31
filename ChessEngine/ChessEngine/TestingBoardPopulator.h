@@ -15,7 +15,7 @@ public:
 private:
 	void populate(Board& board)
 	{
-		/*int board_represetation[8][8]
+		int board_represetation[8][8]
 		{
 			{4,2,3,5,6,3,2,4},
 			{1,1,1,1,1,1,1,1},	
@@ -24,19 +24,7 @@ private:
 			{0,0,0,0,0,0,0,0},
 			{0,0,0,0,0,0,0,0},
 			{7,7,7,7,7,7,7,7},
-			{10,8,9,11,12,0, 0, 10}
-		};*/
-
-		int board_represetation[8][8]
-		{
-			{0,12,0,0,6,0,0,0},
-			{1,1,1,1,1,1,1,1},
-			{0,0,0,0,0,0,0,0},
-			{0,0,0,0,0,0,0,0},
-			{0,0,0,0,0,0,0,0},
-			{0,0,0,0,0,0,0,0},
-			{0,0,0,0,0,0,0,0},
-			{0,0,0,0,0,0,0,0}
+			{10,0, 0, 0,12,0, 0, 10}
 		};
 
 		for (int i = 0; i < 8; i++) 
@@ -54,12 +42,11 @@ private:
 			}
 		}
 
-		//Adding special moves to the pieces
-		/*Piece* king_white = board.getPieceAt(Coordinate(4, 0));
-		king_white->addSpecialMove(new CastleCombination(king_white, board.getPieceAt(Coordinate(7, 0)), board.getPieceAt(Coordinate(0, 0))));
+		King* king_black = (King*)board.getPieceAt(Coordinate(4, 0));
+		King* king_white = (King*)board.getPieceAt(Coordinate(4, 7));
 
-		Piece* king_black = board.getPieceAt(Coordinate(4, 7));
-		king_black->addSpecialMove(new CastleCombination(king_black, board.getPieceAt(Coordinate(7, 7)), board.getPieceAt(Coordinate(0, 7))));*/
+		king_black->combination = new CastleCombination(king_black, board.getPieceAt(Coordinate(7,0)), board.getPieceAt(Coordinate(0, 0)));
+		king_white->combination = new CastleCombination(king_white, board.getPieceAt(Coordinate(7, 7)), board.getPieceAt(Coordinate(0, 7)));
 	}
 
 	Piece* createPiece(int index, PLAYER_TYPE type) 
