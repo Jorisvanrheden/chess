@@ -6,7 +6,8 @@ int main()
 	CHESS_API_WRAPPER wrapper;
 
 	wrapper.CHESS_API_InitializeBoard();
-	wrapper.CHESS_API_LoadBoard("D:\\repos\\chess\\ChessEngine\\database\\database.pgn");
+	//wrapper.CHESS_API_LoadBoard("D:\\repos\\chess\\ChessEngine\\database\\database.pgn");
+	wrapper.CHESS_API_GetMoves(4, 6);
 
 	/*wrapper.CHESS_API_GetBoardStatus();
 	wrapper.CHESS_API_GetMoves(4, 7);

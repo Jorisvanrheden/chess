@@ -62,5 +62,5 @@ public:
 	}
 
 private:
-	Direction& direction;
+	Direction direction;
 };

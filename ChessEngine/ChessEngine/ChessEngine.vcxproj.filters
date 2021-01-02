@@ -200,8 +200,5 @@
     <ClInclude Include="CastleCombination.h">
       <Filter>Header Files\Rules\Special Moves</Filter>
     </ClInclude>
-    <ClInclude Include="PawnAttackValidator.h">
-      <Filter>Header Files\Rules\Move Validation\Logic Validators</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>
