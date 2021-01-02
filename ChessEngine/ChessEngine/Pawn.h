@@ -4,7 +4,9 @@
 class Pawn : public Piece
 {
 public:
-	Pawn(const PLAYER_TYPE& type) : Piece(type) {}
+	Pawn(const PLAYER_TYPE& type, Direction direction) 
+		: Piece(type), direction(direction) 
+	{}
 	~Pawn() {}
 
 	PIECE_TYPE getID()
@@ -16,20 +18,6 @@ public:
 	{
 		//A pawn can only move up or down (depending on it's type)
 		std::vector<Coordinate> moves;
-
-		Direction direction(0, 1);
-		
-		switch (type)
-		{
-		case PLAYER_TYPE::BLACK:
-			direction = Direction(0, 1);
-			break;
-		case PLAYER_TYPE::WHITE:
-			direction = Direction(0, -1);
-			break;
-		default:
-			break;
-		}
 
 		//pawns are different in the sense that their movement vector does not equal the attack vector
 		//they move only up and down, but attack diagonally
@@ -72,4 +60,7 @@ public:
 
 		return directions;
 	}
+
+private:
+	Direction& direction;
 };

@@ -56,7 +56,19 @@ private:
 		switch (index)
 		{
 		case PIECE_TYPE::PAWN:
-			return new Pawn(type);
+		{
+			Direction direction(0, 1);
+
+			if (type == PLAYER_TYPE::BLACK)
+			{
+				direction = Direction(0, 1);
+			}
+			else if (type == PLAYER_TYPE::WHITE)
+			{
+				direction = Direction(0, -1);
+			}
+			return new Pawn(type, direction);
+		}
 		case PIECE_TYPE::KNIGHT:
 			return new Knight(type);
 		case PIECE_TYPE::BISHOP:

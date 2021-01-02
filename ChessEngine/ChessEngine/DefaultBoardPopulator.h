@@ -2,12 +2,11 @@
 
 #include "IBoardPopulator.h"
 #include "PieceCollection.h"
-#include "CastleCombination.h"
 
-class DefaultBoardPopulator : public IBoardPopulator 
+class DefaultBoardPopulator : public IBoardPopulator
 {
 public:
-	DefaultBoardPopulator(Board& board) 
+	DefaultBoardPopulator(Board& board)
 	{
 		populate(board);
 	}
@@ -16,40 +15,75 @@ public:
 private:
 	void populate(Board& board)
 	{
-		Rook* rook_short_white = new Rook(PLAYER_TYPE::WHITE);
-		Rook* rook_short_black = new Rook(PLAYER_TYPE::BLACK);
-
-		Rook* rook_long_white = new Rook(PLAYER_TYPE::WHITE);
-		Rook* rook_long_black = new Rook(PLAYER_TYPE::BLACK);
-
-		King* king_white = new King(PLAYER_TYPE::WHITE);
-		King* king_black = new King(PLAYER_TYPE::BLACK);
-
-		populatePiecesDefault(board, Coordinate(0, 0), rook_long_black, rook_long_white);
-		populatePiecesDefault(board, Coordinate(1, 0), new Knight(PLAYER_TYPE::BLACK), new Knight(PLAYER_TYPE::WHITE));
-		populatePiecesDefault(board, Coordinate(2, 0), new Bishop(PLAYER_TYPE::BLACK), new Bishop(PLAYER_TYPE::WHITE));
-		populatePiecesDefault(board, Coordinate(5, 0), new Bishop(PLAYER_TYPE::BLACK), new Bishop(PLAYER_TYPE::WHITE));
-		populatePiecesDefault(board, Coordinate(6, 0), new Knight(PLAYER_TYPE::BLACK), new Knight(PLAYER_TYPE::WHITE));
-		populatePiecesDefault(board, Coordinate(7, 0), rook_short_black, rook_short_white);
-
-		populatePiecesDefault(board, Coordinate(3, 0), new Queen(PLAYER_TYPE::BLACK), new Queen(PLAYER_TYPE::WHITE));
-		populatePiecesDefault(board, Coordinate(4, 0), king_black, king_white);
-
-		//Add pawns
-		for (int i = 0; i < board.getSizeX(); i++)
+		int board_represetation[8][8]
 		{
-			populatePiecesDefault(board, Coordinate(i, 1), new Pawn(PLAYER_TYPE::BLACK), new Pawn(PLAYER_TYPE::WHITE));
+			{4,2,3,5,6,3,2,4},
+			{1,1,1,1,1,1,1,1},
+			{0,0,0,0,0,0,0,0},
+			{0,0,0,0,0,0,0,0},
+			{0,0,0,0,0,0,0,0},
+			{0,0,0,0,0,0,0,0},
+			{7,7,7,7,7,7,7,7},
+			{10,8,9,11,12,9,8,10}
+		};
+
+		for (int i = 0; i < 8; i++)
+		{
+			for (int j = 0; j < 8; j++)
+			{
+				Coordinate coord(i, j);
+				PLAYER_TYPE type = (board_represetation[i][j] > PIECE_COUNT) ? PLAYER_TYPE::WHITE : PLAYER_TYPE::BLACK;
+				Piece* piece = createPiece(board_represetation[i][j], type);
+
+				if (piece)
+				{
+					board.setPieceAt(Coordinate(j, i), piece);
+				}
+			}
 		}
 
-		king_black->combination = new CastleCombination(king_black, rook_short_black, rook_long_black);
-		king_white->combination = new CastleCombination(king_white, rook_short_white, rook_long_white);
+		King* king_black = (King*)board.getPieceAt(Coordinate(4, 0));
+		King* king_white = (King*)board.getPieceAt(Coordinate(4, 7));
+
+		king_black->combination = new CastleCombination(king_black, board.getPieceAt(Coordinate(7, 0)), board.getPieceAt(Coordinate(0, 0)));
+		king_white->combination = new CastleCombination(king_white, board.getPieceAt(Coordinate(7, 7)), board.getPieceAt(Coordinate(0, 7)));
 	}
 
-	void populatePiecesDefault(Board& board, Coordinate coordinate, Piece* black, Piece* white)
+	Piece* createPiece(int index, PLAYER_TYPE type)
 	{
-		board.setPieceAt(coordinate, black);
+		if (index > PIECE_COUNT)index -= PIECE_COUNT;
 
-		//mirrored
-		board.setPieceAt(Coordinate(coordinate.getX(), board.getSizeY() - coordinate.getY() - 1), white);
+		switch (index)
+		{
+		case PIECE_TYPE::PAWN: 
+		{
+			Direction direction(0, 1);
+
+			if (type == PLAYER_TYPE::BLACK)
+			{
+				direction = Direction(0, 1);
+			}
+			else if (type == PLAYER_TYPE::WHITE)
+			{
+				direction = Direction(0, -1);
+			}
+			return new Pawn(type, direction);
+		}		
+		case PIECE_TYPE::KNIGHT:
+			return new Knight(type);
+		case PIECE_TYPE::BISHOP:
+			return new Bishop(type);
+		case PIECE_TYPE::ROOK:
+			return new Rook(type);
+		case PIECE_TYPE::QUEEN:
+			return new Queen(type);
+		case PIECE_TYPE::KING:
+			return new King(type);
+
+		default:
+			return NULL;
+		}
 	}
+
+	const int PIECE_COUNT = 6;
 };
