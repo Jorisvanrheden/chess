@@ -107,7 +107,8 @@ public:
 			IMoveSet* moveSet = getMoveSet(strings[i]);
 			moves.push_back(moveSet);			
 
-			playerSelector.moveSet(moveSet);
+			board.applyMoveSet(moveSet);
+			playerSelector.nextPlayer();
 
 			board.print();
 		}

@@ -29,7 +29,7 @@ public:
 
 		//pawns can attack diagonally, but only with a distance of 1
 		//to the the diagonal, we get the perpendicular directions
-		std::vector<Direction> perpendicularDirections = getPerpendicularDirections(direction);
+		std::vector<Direction> perpendicularDirections = Direction::getPerpendicularDirections(direction);
 		for (auto& perpendicular : perpendicularDirections)
 		{
 			//also add the direction for one unit, otherwise we'd be checking next to the pawn, not diagonally
@@ -45,20 +45,8 @@ public:
 			}
 		}
 
+
 		return moves;
-	}
-
-	std::vector<Direction> getPerpendicularDirections(const Direction& direction) 
-	{
-		std::vector<Direction> directions;
-
-		//clockwise
-		directions.push_back(Direction(direction.getY(), -direction.getX()));
-
-		//counter clockwise
-		directions.push_back(Direction(-direction.getY(), direction.getX()));
-
-		return directions;
 	}
 
 private:

@@ -9,17 +9,9 @@
 #include "TestingBoardPopulator.h"
 
 #include "PlayerSelector.h"
-
-#include "DefaultMoveHandler.h"
-
-#include "FriendyFireValidatorh.h"
-#include "EnPassantValidator.h"
-#include "PieceCheckValidator.h"
-
-#include "PieceFilter.h"
-
 #include "BoardAnalyzer.h"
-#include "PieceCheckDetector.h"
+
+#include "ChessFactoryDefault.h"
 
 class CHESS_API
 {
@@ -29,22 +21,15 @@ public:
 
 	void initialize() 
 	{
-		IPieceCheckDetector* checkDetector = new PieceCheckDetector(PIECE_TYPE::KING);
+		IChessFactory* factory = new ChessFactoryDefault();
+		IBoardAnalyzer* analyzer			  = factory->createBoardAnalyzer();
+		IMoveHandler* moveHandler			  = factory->createMoveHandler();
+		IFilter<Piece>* filter				  = factory->createPieceFilter();
+		MoveValidationManager* moveValidation = factory->createMoveValidationManager();
 
-		MoveValidationManager* validationManager = new MoveValidationManager();
-		validationManager->addValidator(new FriendlyFireValidator());
-		validationManager->addValidator(new EnPassantValidator());
-		validationManager->addValidator(new PieceCheckValidator(checkDetector));
-
-		IMoveHandler* moveHandler = new DefaultMoveHandler();
-
-		IFilter<Piece>* pieceFilter = new PieceFilter();
-
-		IBoardAnalyzer* boardAnalyzer = new BoardAnalyzer(checkDetector);
-
-		board = new	Board(validationManager, moveHandler, pieceFilter, boardAnalyzer);
+		board = new	Board(moveValidation, moveHandler, filter, analyzer);
 		populator = new DefaultBoardPopulator(*board);
-		playerSelector = new PlayerSelector(*board);
+		playerSelector = new PlayerSelector();
 	}
 
 	void load(const std::string& filepath) 
@@ -66,7 +51,7 @@ public:
 	void movePiece(const Coordinate& origin, const Coordinate& target) 
 	{
 		//check if the piece at origin is the type that should move now
-		if (!playerSelector->canMove(origin)) 
+		if (!playerSelector->canMove(*board, origin)) 
 		{
 			std::cout << "It is not the turn of the owner of the selected piece" << std::endl;
 			return;
@@ -77,7 +62,13 @@ public:
 		if (containsMove) 
 		{
 			IMoveSet* moveSet = board->getMoveSet(origin, target);
-			playerSelector->moveSet(moveSet);
+			
+			bool moveSetResult = board->applyMoveSet(moveSet);
+			if (moveSetResult) 
+			{
+				board->analyzeStatus(playerSelector->getActivePlayer());
+				playerSelector->nextPlayer();
+			}
 		}
 		else 
 		{

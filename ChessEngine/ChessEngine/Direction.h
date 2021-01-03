@@ -22,6 +22,20 @@ public:
 	{
 		return y;
 	}
+
+	static std::vector<Direction> getPerpendicularDirections(const Direction& direction) 
+	{
+		std::vector<Direction> directions;
+
+		//clockwise
+		directions.push_back(Direction(direction.getY(), -direction.getX()));
+
+		//counter clockwise
+		directions.push_back(Direction(-direction.getY(), direction.getX()));
+
+		return directions;
+	}
+
 private:
 	int x;
 	int y;

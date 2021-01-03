@@ -9,6 +9,8 @@
 #include "IFilter.h"
 #include "IBoardAnalyzer.h"
 
+#include "IMoveSet.h"
+
 class Board
 {
 public:
@@ -29,25 +31,11 @@ public:
 	}
 	~Board() {}
 
-	//return true if the piece has been succesfully moved 
-	bool movePiece(const Coordinate& origin, const Coordinate& target) 
+	void analyzeStatus(PLAYER_TYPE player) 
 	{
-		if (origin == target) return false;
+		int playerStatus = boardAnalyzer->analyzeStatus(*this, player);
 
-		Piece* piece = getPieceAt(origin);
-		if (piece != NULL) 
-		{
-			moveHandler->movePiece(*this, piece, origin, target);		
-
-			return true;
-		}
-
-		return false;
-	}
-
-	int analyzeStatus(PLAYER_TYPE player) 
-	{
-		return boardAnalyzer->analyzeStatus(*this, player);
+		std::cout << "Player " << (int)player << " -> " << playerStatus << std::endl;
 	}
 
 	bool verifyMove(const Coordinate& origin, const Coordinate& target) 
@@ -59,6 +47,32 @@ public:
 			if (move == target) return true;
 		}
 		return false;
+	}
+
+	//return true if the piece has been succesfully moved 
+	bool movePiece(const Coordinate& origin, const Coordinate& target)
+	{
+		if (origin == target) return false;
+
+		Piece* piece = getPieceAt(origin);
+		if (piece != NULL)
+		{
+			moveHandler->movePiece(*this, piece, origin, target);
+
+			return true;
+		}
+
+		return false;
+	}
+
+	bool applyMoveSet(IMoveSet* moveSet) 
+	{
+		bool result = moveSet->move(*this);
+		if (!result) return false;
+
+		history.push_back(moveSet);
+
+		return true;
 	}
 
 	IMoveSet* getMoveSet(const Coordinate& origin, const Coordinate& target) 
@@ -171,6 +185,9 @@ public:
 private:
 	const int SIZE_X = 8;
 	const int SIZE_Y = 8;
+
+	//Store the history of all movesets in the board
+	std::vector<IMoveSet*> history;
 
 	IFilter<Piece>* pieceFilter;
 	IMoveHandler* moveHandler;
