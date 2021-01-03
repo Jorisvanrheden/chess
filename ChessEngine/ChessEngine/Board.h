@@ -8,34 +8,51 @@
 #include "ISpecification.h"
 #include "IFilter.h"
 #include "IBoardAnalyzer.h"
-
+#include "IBoardPopulator.h"
 #include "IMoveSet.h"
 
 class Board
 {
 public:
-	Board(MoveValidationManager* validationManager, IMoveHandler* moveHandler, IFilter<Piece>* pieceFilter, IBoardAnalyzer* boardAnalyzer) 
+	Board(MoveValidationManager* validationManager, IMoveHandler* moveHandler, IFilter<Piece>* pieceFilter, IBoardAnalyzer* boardAnalyzer, IBoardPopulator* boardPopulator)
 		: validationManager(validationManager), 
 		  moveHandler(moveHandler), 
 		  pieceFilter(pieceFilter),
-		  boardAnalyzer(boardAnalyzer)
+		  boardAnalyzer(boardAnalyzer),
+		  boardPopulator(boardPopulator)
 	{
 		//init empty board
-		matrix = std::vector<std::vector<Piece*>>(SIZE_X);
-		for (int i = 0; i < SIZE_X; i++)
+		matrix = std::vector<std::vector<Piece*>>(boardPopulator->getWidth());
+		for (int i = 0; i < boardPopulator->getWidth(); i++)
 		{
-			std::vector<Piece*> row(SIZE_Y);
+			std::vector<Piece*> row(boardPopulator->getHeight());
 
 			matrix[i] = row;
 		}
 	}
 	~Board() {}
 
+	void populate() 
+	{
+		boardPopulator->populate(*this);
+	}
+
 	void analyzeStatus(PLAYER_TYPE player) 
 	{
 		int playerStatus = boardAnalyzer->analyzeStatus(*this, player);
 
-		std::cout << "Player " << (int)player << " -> " << playerStatus << std::endl;
+		if (playerStatus == 0) 
+		{
+			std::cout << "nothing happening" << std::endl;
+		}
+		if (playerStatus == 1)
+		{
+			std::cout << "CHECKED" << std::endl;
+		}
+		if (playerStatus == 2)
+		{
+			std::cout << "CHECKU MATUH" << std::endl;
+		}
 	}
 
 	bool verifyMove(const Coordinate& origin, const Coordinate& target) 
@@ -121,26 +138,26 @@ public:
 	bool isCoordinateValid(const Coordinate& coordinate) const
 	{
 		//Boundary checking
-		if (coordinate.getX() < 0 || coordinate.getX() >= SIZE_X) return false;
-		if (coordinate.getY() < 0 || coordinate.getY() >= SIZE_Y) return false;
+		if (coordinate.getX() < 0 || coordinate.getX() >= boardPopulator->getWidth()) return false;
+		if (coordinate.getY() < 0 || coordinate.getY() >= boardPopulator->getHeight()) return false;
 
 		return true;
 	}
 
 	int getSizeX() const
 	{
-		return SIZE_X;
+		return boardPopulator->getWidth();
 	}
 	int getSizeY() const
 	{
-		return SIZE_Y;
+		return boardPopulator->getHeight();
 	}
 
 	void print() 
 	{
-		for (int j = 0; j < SIZE_Y; j++)
+		for (int j = 0; j < boardPopulator->getHeight(); j++)
 		{
-			for (int i = 0; i < SIZE_X; i++)
+			for (int i = 0; i < boardPopulator->getWidth(); i++)
 			{
 				int id = 0;
 				Piece* p = getPieceAt(Coordinate(i, j));
@@ -157,10 +174,10 @@ public:
 
 	std::vector<std::vector<int>> getBoardStatus() 
 	{
-		std::vector<std::vector<int>> boardStatus(SIZE_X, std::vector<int>(SIZE_Y));
-		for (int i = 0; i < SIZE_X; i++) 
+		std::vector<std::vector<int>> boardStatus(boardPopulator->getWidth(), std::vector<int>(boardPopulator->getHeight()));
+		for (int i = 0; i < boardPopulator->getWidth(); i++)
 		{
-			for (int j = 0; j < SIZE_Y; j++) 
+			for (int j = 0; j < boardPopulator->getHeight(); j++)
 			{
 				Piece* piece = getPieceAt(Coordinate(i, j));
 				if (piece) 
@@ -205,9 +222,6 @@ public:
 	}
 
 private:
-	const int SIZE_X = 8;
-	const int SIZE_Y = 8;
-
 	//Store the history of all movesets in the board
 	std::vector<IMoveSet*> history;
 
@@ -215,6 +229,7 @@ private:
 	IMoveHandler* moveHandler;
 	MoveValidationManager* validationManager;
 	IBoardAnalyzer* boardAnalyzer;
+	IBoardPopulator* boardPopulator;
 
 	std::vector<std::vector<Piece*>> matrix;
 
@@ -222,9 +237,9 @@ private:
 	{
 		std::vector<Piece*> pieces;
 
-		for (int j = 0; j < SIZE_Y; j++)
+		for (int j = 0; j < boardPopulator->getHeight(); j++)
 		{
-			for (int i = 0; i < SIZE_X; i++)
+			for (int i = 0; i < boardPopulator->getWidth(); i++)
 			{
 				Piece* piece = getPieceAt(Coordinate(i, j));
 				if (piece) pieces.push_back(piece);

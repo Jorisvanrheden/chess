@@ -3,6 +3,7 @@
 #include "IChessFactory.h"
 
 #include "BoardAnalyzer.h"
+#include "DefaultBoardPopulator.h"
 #include "PieceCheckDetector.h"
 
 #include "FriendyFireValidatorh.h"
@@ -28,6 +29,11 @@ public:
 	IBoardAnalyzer* createBoardAnalyzer() 
 	{
 		return new BoardAnalyzer(checkDetector);
+	}
+
+	IBoardPopulator* createBoardPopulator() 
+	{
+		return new DefaultBoardPopulator();
 	}
 
 	IMoveHandler* createMoveHandler() 

@@ -6,34 +6,45 @@
 class TestingBoardPopulator : public IBoardPopulator
 {
 public:
-	TestingBoardPopulator(Board& board)
+	TestingBoardPopulator()
 	{
-		populate(board);
+
 	}
 	~TestingBoardPopulator() {}
 
 private:
+	const int SIZE_X = 8;
+	const int SIZE_Y = 8;
+
+	int getWidth()
+	{
+		return SIZE_X;
+	}
+	int getHeight()
+	{
+		return SIZE_Y;
+	}
 	void populate(Board& board)
 	{
-		int board_represetation[8][8]
+		std::vector<std::vector<int>> board_representation
 		{
 			{4,2,3,5,6,3,2,4},
-			{1,1,1,1,1,1,1,1},	
+			{1,1,1,1,1,1,1,1},
 			{0,0,0,0,0,0,0,0},
 			{0,0,0,0,0,0,0,0},
 			{0,0,0,0,0,0,0,0},
 			{0,0,0,0,0,0,0,0},
 			{7,7,7,7,7,7,7,7},
-			{10,0, 0, 0,12,0, 0, 10}
+			{10,8,9,11,12,9,8,10}
 		};
 
-		for (int i = 0; i < 8; i++) 
+		for (int i = 0; i < SIZE_X; i++) 
 		{
-			for (int j = 0; j < 8; j++) 
+			for (int j = 0; j < SIZE_Y; j++)
 			{
 				Coordinate coord(i, j);
-				PLAYER_TYPE type = (board_represetation[i][j] > PIECE_COUNT) ? PLAYER_TYPE::WHITE : PLAYER_TYPE::BLACK;
-				Piece* piece = createPiece(board_represetation[i][j], type);
+				PLAYER_TYPE type = (board_representation[i][j] > PIECE_COUNT) ? PLAYER_TYPE::WHITE : PLAYER_TYPE::BLACK;
+				Piece* piece = createPiece(board_representation[i][j], type);
 
 				if (piece) 
 				{

@@ -11,10 +11,8 @@ namespace ChessAPI
 		~ChessAPIWrapper();
 
 		cli::array<cli::array<int>^>^ GetBoardStatus();
-		int GetMoves(int x, int y);	
-	
-	private:
-	
+		cli::array<int>^ GetMoves(int x, int y);	
+		void MovePiece(int x_origin, int y_origin, int x_target, int y_target);
 	};
 }
 

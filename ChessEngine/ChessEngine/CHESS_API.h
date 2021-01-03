@@ -24,10 +24,12 @@ public:
 		IMoveHandler* moveHandler			  = factory->createMoveHandler();
 		IFilter<Piece>* filter				  = factory->createPieceFilter();
 		MoveValidationManager* moveValidation = factory->createMoveValidationManager();
+		IBoardPopulator* populator			  = factory->createBoardPopulator();
 
-		board = new	Board(moveValidation, moveHandler, filter, analyzer);
-		populator = new DefaultBoardPopulator(*board);
+		board = new	Board(moveValidation, moveHandler, filter, analyzer, populator);
 		playerSelector = new PlayerSelector();
+
+		board->populate();
 	}
 
 	void load(const std::string& filepath) 
@@ -66,6 +68,7 @@ public:
 			{
 				board->analyzeStatus(playerSelector->getActivePlayer());
 				playerSelector->nextPlayer();
+				board->analyzeStatus(playerSelector->getActivePlayer());
 			}
 		}
 		else 
@@ -76,7 +79,7 @@ public:
 
 	std::vector<std::vector<int>> getBoardStatus()
 	{
-		board->print();
+		//board->print();
 		return board->getBoardStatus();
 	}
 

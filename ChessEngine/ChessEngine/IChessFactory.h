@@ -12,6 +12,7 @@ class IChessFactory
 {
 public:
 	virtual IBoardAnalyzer* createBoardAnalyzer() = 0;
+	virtual IBoardPopulator* createBoardPopulator() = 0;
 	virtual IMoveHandler* createMoveHandler() = 0;
 	virtual IFilter<Piece>* createPieceFilter() = 0;
 	virtual MoveValidationManager* createMoveValidationManager() = 0;
