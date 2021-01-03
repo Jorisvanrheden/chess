@@ -23,13 +23,15 @@ void CHESS_API_WRAPPER::CHESS_API_LoadBoard(const std::string& filepath)
 	api->load(filepath);
 }
 
-void CHESS_API_WRAPPER::CHESS_API_GetBoardStatus()
+std::vector<std::vector<int>> CHESS_API_WRAPPER::CHESS_API_GetBoardStatus()
 {
-	api->getBoardStatus();
+	return api->getBoardStatus();
 }
 
-void CHESS_API_WRAPPER::CHESS_API_GetMoves(int x, int y)
+std::vector<int> CHESS_API_WRAPPER::CHESS_API_GetMoves(int x, int y)
 {
+	std::vector<int> xComponents;
+
 	Coordinate coordinate(x, y);
 	std::vector<Coordinate> moves = api->getValidatedMoves(coordinate);
 
@@ -37,7 +39,11 @@ void CHESS_API_WRAPPER::CHESS_API_GetMoves(int x, int y)
 	for (int i = 0; i < moves.size(); i++) 
 	{
 		std::cout << moves[i].getX() << ", " << moves[i].getY() << std::endl;
+
+		xComponents.push_back(moves[i].getY());
 	}
+
+	return xComponents;
 	//return coordinates
 }
 

@@ -1,8 +1,13 @@
 #pragma once
 
-#define CHESS_ENGINE_API __declspec(dllexport)
+#ifdef EXPORT
+	#define CHESS_ENGINE_API __declspec(dllexport)
+#else
+	#define CHESS_ENGINE_API __declspec(dllimport)
+#endif
 
 #include <string>
+#include <vector>
 
 class CHESS_API_WRAPPER
 {
@@ -26,10 +31,10 @@ public:
 	//	 -> -1 = not a valid square
 	//   -> 0  = empty square
 	//   -> >0 = piece id's
-	void CHESS_ENGINE_API CHESS_API_GetBoardStatus();
+	std::vector<std::vector<int>> CHESS_ENGINE_API CHESS_API_GetBoardStatus();
 
 	// INTERACTIVE METHODS
-	void CHESS_ENGINE_API CHESS_API_GetMoves(int x, int y);
+	std::vector<int> CHESS_ENGINE_API CHESS_API_GetMoves(int x, int y);
 	void CHESS_ENGINE_API CHESS_API_GetMovesRaw(int x, int y);
 	void CHESS_ENGINE_API CHESS_API_MovePiece(int x_origin, int y_origin, int x_target, int y_target);
 };

@@ -155,6 +155,28 @@ public:
 		std::cout << "\n\n\n" << std::endl;
 	}
 
+	std::vector<std::vector<int>> getBoardStatus() 
+	{
+		std::vector<std::vector<int>> boardStatus(SIZE_X, std::vector<int>(SIZE_Y));
+		for (int i = 0; i < SIZE_X; i++) 
+		{
+			for (int j = 0; j < SIZE_Y; j++) 
+			{
+				Piece* piece = getPieceAt(Coordinate(i, j));
+				if (piece) 
+				{
+					boardStatus[i][j] = piece->getID();
+				}
+				else 
+				{
+					boardStatus[i][j] = 0;
+				}
+			}
+		}
+
+		return boardStatus;
+	}
+
 	std::vector<Piece*> filter(ISpecification<Piece>& specification) const
 	{
 		return pieceFilter->filter(getAllPieces(), specification);

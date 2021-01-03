@@ -3,8 +3,6 @@
 #include "Board.h"
 #include "Parser.h"
 
-//TODO: refactor these dependencies by using an abstract factory
-// then make an implementation for a default game first
 #include "DefaultBoardPopulator.h"
 #include "TestingBoardPopulator.h"
 
@@ -76,9 +74,10 @@ public:
 		}
 	}
 
-	void getBoardStatus() 
+	std::vector<std::vector<int>> getBoardStatus()
 	{
 		board->print();
+		return board->getBoardStatus();
 	}
 
 private:
