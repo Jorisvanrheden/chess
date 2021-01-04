@@ -23,9 +23,14 @@ void CHESS_API_WRAPPER::CHESS_API_LoadBoard(const std::string& filepath)
 	api->load(filepath);
 }
 
-std::vector<std::vector<int>> CHESS_API_WRAPPER::CHESS_API_GetBoardStatus()
+int CHESS_API_WRAPPER::CHESS_API_GetPlayerCount()
 {
-	return api->getBoardStatus();
+	return api->getPlayerCount();
+}
+
+std::vector<std::vector<int>> CHESS_API_WRAPPER::CHESS_API_GetBoardStatus(int playerID)
+{
+	return api->getBoardStatus(playerID);
 }
 
 std::vector<int> CHESS_API_WRAPPER::CHESS_API_GetMoves(int x, int y)

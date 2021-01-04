@@ -172,7 +172,7 @@ public:
 		std::cout << "\n\n\n" << std::endl;
 	}
 
-	std::vector<std::vector<int>> getBoardStatus() 
+	std::vector<std::vector<int>> getBoardStatus(int playerID) 
 	{
 		std::vector<std::vector<int>> boardStatus(boardPopulator->getWidth(), std::vector<int>(boardPopulator->getHeight()));
 		for (int i = 0; i < boardPopulator->getWidth(); i++)
@@ -180,7 +180,7 @@ public:
 			for (int j = 0; j < boardPopulator->getHeight(); j++)
 			{
 				Piece* piece = getPieceAt(Coordinate(i, j));
-				if (piece) 
+				if (piece && piece->isSameType((PLAYER_TYPE)playerID)) 
 				{
 					boardStatus[i][j] = piece->getID();
 				}

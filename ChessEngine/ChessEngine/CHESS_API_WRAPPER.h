@@ -31,7 +31,10 @@ public:
 	//	 -> -1 = not a valid square
 	//   -> 0  = empty square
 	//   -> >0 = piece id's
-	std::vector<std::vector<int>> CHESS_ENGINE_API CHESS_API_GetBoardStatus();
+	std::vector<std::vector<int>> CHESS_ENGINE_API CHESS_API_GetBoardStatus(int playerID);
+
+	// DATA GETTERS
+	int CHESS_ENGINE_API CHESS_API_GetPlayerCount();
 
 	// INTERACTIVE METHODS
 	std::vector<int> CHESS_ENGINE_API CHESS_API_GetMoves(int x, int y);

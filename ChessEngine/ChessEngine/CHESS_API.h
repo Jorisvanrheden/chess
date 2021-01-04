@@ -77,10 +77,14 @@ public:
 		}
 	}
 
-	std::vector<std::vector<int>> getBoardStatus()
+	int getPlayerCount() 
 	{
-		//board->print();
-		return board->getBoardStatus();
+		return playerSelector->getPlayerCount();
+	}
+
+	std::vector<std::vector<int>> getBoardStatus(int playerID)
+	{
+		return board->getBoardStatus(playerID);
 	}
 
 private:

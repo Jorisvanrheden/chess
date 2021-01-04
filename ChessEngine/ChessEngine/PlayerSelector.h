@@ -36,6 +36,11 @@ public:
 		return false;
 	}
 
+	int getPlayerCount() 
+	{
+		return players.size();
+	}
+
 private:
 	int playerIndex = 0;
 	std::vector<PLAYER_TYPE> players{ PLAYER_TYPE::WHITE, PLAYER_TYPE::BLACK };

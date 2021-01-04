@@ -21,9 +21,14 @@ ChessAPIWrapper::~ChessAPIWrapper()
 	delete wrapper;
 }
 
-cli::array<cli::array<int>^>^ ChessAPIWrapper::GetBoardStatus()
+int ChessAPIWrapper::GetPlayerCount()
 {
-	std::vector<std::vector<int>> boardStatus = wrapper->CHESS_API_GetBoardStatus();
+	return wrapper->CHESS_API_GetPlayerCount();
+}
+
+cli::array<cli::array<int>^>^ ChessAPIWrapper::GetBoardStatus(int playerID)
+{
+	std::vector<std::vector<int>> boardStatus = wrapper->CHESS_API_GetBoardStatus(playerID);
 
 	int xSize = boardStatus.size();
 	int ySize = boardStatus[0].size();
