@@ -35,25 +35,31 @@ std::vector<std::vector<int>> CHESS_API_WRAPPER::CHESS_API_GetBoardStatus(int pl
 
 std::vector<int> CHESS_API_WRAPPER::CHESS_API_GetMoves(int x, int y)
 {
-	std::vector<int> xComponents;
+	std::vector<int> moves1d;
 
 	Coordinate coordinate(x, y);
 	std::vector<Coordinate> moves = api->getValidatedMoves(coordinate);
 
 	std::cout << "**VALIDATED MOVES**" << std::endl;
+
+	//Store all moves in a one dimensional string.
+	//This approach makes it easier for marshalling 
+	//(instead of using other data structures, which would need
 	for (int i = 0; i < moves.size(); i++) 
 	{
 		std::cout << moves[i].getX() << ", " << moves[i].getY() << std::endl;
 
-		xComponents.push_back(moves[i].getY());
+		moves1d.push_back(moves[i].getX());
+		moves1d.push_back(moves[i].getY());
 	}
 
-	return xComponents;
-	//return coordinates
+	return moves1d;
 }
 
-void CHESS_API_WRAPPER::CHESS_API_GetMovesRaw(int x, int y)
+std::vector<int> CHESS_API_WRAPPER::CHESS_API_GetMovesRaw(int x, int y)
 {
+	std::vector<int> moves1d;
+
 	Coordinate coordinate(x, y);
 	std::vector<Coordinate> moves = api->getRawMoves(coordinate);
 
@@ -61,8 +67,12 @@ void CHESS_API_WRAPPER::CHESS_API_GetMovesRaw(int x, int y)
 	for (int i = 0; i < moves.size(); i++)
 	{
 		std::cout << moves[i].getX() << ", " << moves[i].getY() << std::endl;
+
+		moves1d.push_back(moves[i].getX());
+		moves1d.push_back(moves[i].getY());
 	}
-	//return coordinates
+	
+	return moves1d;
 }
 
 void CHESS_API_WRAPPER::CHESS_API_MovePiece(int x_origin, int y_origin, int x_target, int y_target)

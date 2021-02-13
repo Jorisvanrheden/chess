@@ -47,10 +47,28 @@ cli::array<cli::array<int>^>^ ChessAPIWrapper::GetBoardStatus(int playerID)
 	return map;
 }
 
-cli::array<int>^ ChessAPIWrapper::GetMoves(int x, int y)
+cli::array<int>^ ChessAPIWrapper::GetLegalMoves(int x, int y)
 {
 	std::vector<int> moves = wrapper->CHESS_API_GetMoves(x, y);
-	cli::array<int>^ row = gcnew cli::array<int>(0);
+	cli::array<int>^ row = gcnew cli::array<int>(moves.size());
+
+	for (int i = 0; i < moves.size(); i++)
+	{
+		row[i] = moves[i];
+	}
+
+	return row;
+}
+
+cli::array<int>^ ChessAPIWrapper::GetRawMoves(int x, int y)
+{
+	std::vector<int> moves = wrapper->CHESS_API_GetMovesRaw(x, y);
+	cli::array<int>^ row = gcnew cli::array<int>(moves.size());
+
+	for (int i = 0; i < moves.size(); i++)
+	{
+		row[i] = moves[i];
+	}
 
 	return row;
 }
@@ -59,5 +77,3 @@ void ChessAPIWrapper::MovePiece(int x_origin, int y_origin, int x_target, int y_
 {
 	wrapper->CHESS_API_MovePiece(x_origin, y_origin, x_target, y_target);
 }
-
-
