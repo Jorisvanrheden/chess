@@ -6,7 +6,7 @@
 class BoardAnalyzer : public IBoardAnalyzer
 {
 public:
-	BoardAnalyzer(IPieceCheckDetector* checkDetector) : checkDetector(checkDetector)
+    BoardAnalyzer(IPieceCheckDetector* checkDetector) : checkDetector(checkDetector)
 	{
 
 	}
