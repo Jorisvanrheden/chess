@@ -27,6 +27,13 @@ public:
 	{
 		std::vector<Coordinate> moves;
 
+        //Castling is not possible in the following cases:
+        //- King has moved already
+        //- Rook to castle with has moved already
+        //- King is in check
+        //- End position of castling brings the king in check
+        //- In-between squares of castling brings the king in check
+
 		//No possibility for castling if the king already moved before
 		if (king->getMoveCount() > 1) return moves;
 

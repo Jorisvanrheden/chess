@@ -10,13 +10,13 @@ int main()
 	wrapper.CHESS_API_GetMoves(4, 6);
 
 	/*wrapper.CHESS_API_GetBoardStatus();
-	wrapper.CHESS_API_GetMoves(4, 7);
+	wrapper.CHESS_API_GetMoves(4, 7);  
 
 	wrapper.CHESS_API_MovePiece(4, 7, 2, 7);
 
 	wrapper.CHESS_API_GetBoardStatus();
 
-	wrapper.CHESS_API_GetMoves(2, 7);*/
+	wrapper.CHESS_API_GetMoves(2, 7) ;*/
 
 	/*wrapper.CHESS_API_GetMoves(0, 6);
 	wrapper.CHESS_API_MovePiece(0, 6, 0, 4);

@@ -18,7 +18,7 @@ public:
 	bool isChecked(const Board& board, PLAYER_TYPE player)
 	{
 		//analyze the board state:
-		// - get the king (position) of the same type as piece
+		// - get the selected checkable piece of the same type as the piece
 		SamePlayerTypeSpecification samePlayerTypeSpec(player);
 		PieceTypeSpecification pieceTypeSpec(pieceType);
 		AndSpecification<Piece> playerAndType(samePlayerTypeSpec, pieceTypeSpec);
@@ -27,7 +27,7 @@ public:
 		// - go through all other player types, and collect their boundary validated moves (not logic validated for reasons)
 		OtherPlayerTypeSpecification otherPlayerTypeSpec(player);
 		auto enemyPieces = board.filter(otherPlayerTypeSpec);
-		for (auto& enemyPiece : enemyPieces)
+		for (const auto& enemyPiece : enemyPieces)
 		{
 			// - check if the piece's position is in one of those validated moves
 			std::vector<Coordinate> enemyMoves = board.getRawMoves(enemyPiece->getCurrentCoordinate());
