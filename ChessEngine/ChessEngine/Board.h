@@ -97,42 +97,54 @@ public:
 		return moveHandler->getMoveSet(*this, origin, target);
 	}
 
+    std::vector<Coordinate> getBasicPieceMoves(const Coordinate& origin) const
+    {
+        Piece* piece = getPieceAt(origin);
+        if (piece == NULL) return std::vector<Coordinate>();
+
+        std::vector<Coordinate> moves = piece->findAvailableMoves(origin, *this);
+
+        return getBoundaryValidatedMoves(origin, piece, moves);
+    }
+    
+    //Pieces like the King have additional moves like castling. Moves are separated
+    std::vector<Coordinate> getAllPieceMoves(const Coordinate& origin) const
+    {
+        Piece* piece = getPieceAt(origin);
+        if (piece == NULL) return std::vector<Coordinate>();
+
+        std::vector<Coordinate> moves = piece->findAvailableMoves(origin, *this);
+        std::vector<Coordinate> additionalMoves = piece->findAdditionalMoves(origin, *this);
+
+        moves.insert(moves.end(), additionalMoves.begin(), additionalMoves.end());
+
+        return getBoundaryValidatedMoves(origin, piece, moves);
+    }
+
+    //Raw moves are moves for each piece that are
+    //- The potential moves based on its movement ruleset
+    //- Moves within the board
 	std::vector<Coordinate> getRawMoves(const Coordinate& origin) const
 	{
 		Piece* piece = getPieceAt(origin);
 		if (piece == NULL) return std::vector<Coordinate>();
 
-		std::vector<Coordinate> rawMoves = piece->findAvailableMoves(origin, *this);
-		std::vector<Coordinate> boundaryValidatedMoves = getBoundaryValidatedMoves(origin, piece, rawMoves);
+		std::vector<Coordinate> rawMoves = getAllPieceMoves(origin);
 
-		return boundaryValidatedMoves;
+		return rawMoves;
 	}
 
+    //Validated moves are moves for each piece that are
+    //- Allowed given the logic of the validation manager (pieces in check/friendly fire) 
 	std::vector<Coordinate> getValidatedMoves(const Coordinate& origin) 
 	{
 		Piece* piece = getPieceAt(origin);
 		if (piece == NULL) return std::vector<Coordinate>();
 
-		std::vector<Coordinate> rawMoves = piece->findAvailableMoves(origin, *this);
-		std::vector<Coordinate> boundaryValidatedMoves = getBoundaryValidatedMoves(origin, piece, rawMoves);
-		std::vector<Coordinate> logicValidatedMoves = getLogicValidatedMoves(origin, piece, boundaryValidatedMoves);
+        std::vector<Coordinate> rawMoves = getAllPieceMoves(origin);
+		std::vector<Coordinate> logicValidatedMoves = getLogicValidatedMoves(origin, piece, rawMoves);
 
 		return logicValidatedMoves;
-	}
-
-	std::vector<Coordinate> getBoundaryValidatedMoves(const Coordinate& origin, Piece* piece, std::vector<Coordinate> moves) const
-	{
-		std::vector<Coordinate> validatedMoves;
-
-		for (int i = 0; i < moves.size(); i++)
-		{
-			//make sure the coordinate is within the board
-			if (!isCoordinateValid(moves[i])) continue;
-
-			validatedMoves.push_back(moves[i]);
-		}
-
-		return validatedMoves;
 	}
 
 	bool isCoordinateValid(const Coordinate& coordinate) const
@@ -248,6 +260,21 @@ private:
 
 		return pieces;
 	}
+
+    std::vector<Coordinate> getBoundaryValidatedMoves(const Coordinate& origin, Piece* piece, std::vector<Coordinate> moves) const
+    {
+        std::vector<Coordinate> validatedMoves;
+
+        for (int i = 0; i < moves.size(); i++)
+        {
+            //make sure the coordinate is within the board
+            if (!isCoordinateValid(moves[i])) continue;
+
+            validatedMoves.push_back(moves[i]);
+        }
+
+        return validatedMoves;
+    }
 
 	std::vector<Coordinate> getLogicValidatedMoves(const Coordinate& origin, Piece* piece, std::vector<Coordinate> moves)
 	{

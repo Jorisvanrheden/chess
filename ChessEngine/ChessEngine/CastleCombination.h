@@ -29,17 +29,17 @@ public:
 
         //Castling is not possible in the following cases:
         //- King has moved already
-        //- Rook to castle with has moved already
+        if (king->getMoveCount() > 1) return moves;
+
         //- King is in check
+        PieceCheckDetector checkDetector(king->getID());
+        if (checkDetector.isChecked(board, king->getPlayerType())) return moves;
+
+        //- Rook to castle with has moved already
         //- End position of castling brings the king in check
         //- In-between squares of castling brings the king in check
 
-		//No possibility for castling if the king already moved before
-		if (king->getMoveCount() > 1) return moves;
-
-		//No possibility for castling if the king is checked
-		//PieceCheckDetector checkDetector(king->getID());
-		//if (checkDetector.isChecked(board, king->getPlayerType())) return moves;
+		//No possibility for castling if the king already moved before		
 
 		if (checkIfCastlingPossible(board, rook_short))
 		{
@@ -101,6 +101,16 @@ private:
 
 			Coordinate coord(king->getCurrentCoordinate().getX() + distanceX, king->getCurrentCoordinate().getY() + distanceY);
 			Piece* piece = board.getPieceAt(coord);
+
+            //TODO
+            //- A king-check check must be performed for each of the in between king-rook positions
+            //- Or just check if one of those positions is covered by an enemy 
+            //- Instead of checkdetector, maybe just create a SquareAttackedDetector object or something like that
+            //- To be done tomorrow (SUNDAY) Joris, don't slack
+            PieceCheckDetector checkDetector(king->getID());
+            if (checkDetector.isChecked(board, king->getPlayerType())) return moves;
+
+
 			if (piece) return false;
 		}
 

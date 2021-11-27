@@ -16,8 +16,6 @@ public:
 
 	std::vector<Coordinate> findAvailableMoves(const Coordinate& coordinate, const Board& board)
 	{
-		//A rook traverses the horizontal and verticals (with unlimited range)
-		//the first obstacle it encounters in any diagonal defines the limit
 		std::vector<Coordinate> moves;
 
 		//horizontal and vertical
@@ -32,14 +30,21 @@ public:
 		getMovesInDirection(moves, board, coordinate, Direction(1, -1), 1);
 		getMovesInDirection(moves, board, coordinate, Direction(-1, -1), 1);
 
-		std::vector<Coordinate> castleMoves = combination->getInitiatingMoves(board);
-		for (int i = 0; i < castleMoves.size(); i++) 
-		{
-			moves.push_back(castleMoves[i]);
-		}
-
 		return moves;
 	}
+
+    std::vector<Coordinate> findAdditionalMoves(const Coordinate& coordinate, const Board& board) 
+    {
+        std::vector<Coordinate> moves;
+
+        std::vector<Coordinate> castleMoves = combination->getInitiatingMoves(board);
+        for (int i = 0; i < castleMoves.size(); i++)
+        {
+            moves.push_back(castleMoves[i]);
+        }
+
+        return moves;
+    }
 
 	CastleCombination* combination;
 

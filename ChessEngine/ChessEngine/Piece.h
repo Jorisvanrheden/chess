@@ -15,6 +15,10 @@ public:
 
 	virtual PIECE_TYPE getID() = 0;
 	virtual std::vector<Coordinate> findAvailableMoves(const Coordinate& coordinate, const Board& board) = 0;
+    virtual std::vector<Coordinate> findAdditionalMoves(const Coordinate& coordinate, const Board& board) 
+    {
+        return std::vector<Coordinate>();
+    }
 
 	bool isSameType(Piece* piece)
 	{
