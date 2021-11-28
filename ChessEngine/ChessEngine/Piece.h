@@ -20,10 +20,7 @@ public:
     {
         return std::vector<Coordinate>();
     }
-    virtual std::vector<MoveSet> findAvailableMovesets(const Coordinate& coordinate, const Board& board) 
-    {
-        return std::vector<MoveSet>();
-    }
+    virtual std::vector<MoveSet> transformMoves(const std::vector<Coordinate>& moves, const Board& board);
 
 	bool isSameType(Piece* piece)
 	{

@@ -4,10 +4,12 @@
 #include <tuple>
 #include <math.h>
 
+#include "MoveContent.h"
+
 class MoveSet
 {
 public:
-    MoveSet(std::vector<std::tuple<Coordinate, Coordinate>>& moves);
+    MoveSet(const std::vector<MoveContent>& moves);
 
     bool move(Board& board);
 
@@ -20,8 +22,8 @@ public:
     {
         if (moveIndex >= moves.size()) return Coordinate(0, 0);
 
-        int diffX = abs(std::get<1>(moves[moveIndex]).getX() - std::get<0>(moves[moveIndex]).getX());
-        int diffY = abs(std::get<1>(moves[moveIndex]).getY() - std::get<0>(moves[moveIndex]).getY());
+        int diffX = abs(moves[moveIndex].to.getX() - moves[moveIndex].from.getX());
+        int diffY = abs(moves[moveIndex].to.getY() - moves[moveIndex].from.getY());
 
         return Coordinate(diffX, diffY);
     }
@@ -30,16 +32,21 @@ public:
     {
         if (moveIndex >= moves.size()) return Coordinate(0, 0);
 
-        return std::get<0>(moves[moveIndex]);
+        return moves[moveIndex].from;
     }
 
     Coordinate getTarget(int moveIndex) 
     {
         if (moveIndex >= moves.size()) return Coordinate(0, 0);
     
-        return std::get<1>(moves[moveIndex]);
+        return moves[moveIndex].to;
+    }
+
+    MoveContent getContent(int index) 
+    {
+        return moves[index];
     }
 
 private:
-    std::vector<std::tuple<Coordinate, Coordinate>> moves;
+    std::vector<MoveContent> moves;
 };

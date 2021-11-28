@@ -151,11 +151,10 @@ public:
 	{
 		PlayerMove playerMove = parseMove(move);
 
-        std::vector<std::tuple<Coordinate, Coordinate>> moves;
-
-        moves.push_back(std::tuple<Coordinate, Coordinate>{playerMove.from, playerMove.to});
-
-		return new MoveSet(moves);
+        std::vector<MoveContent> content;
+        //TODO: fix this NULL
+        content.push_back(MoveContent(NULL, playerMove.from, playerMove.to, {}));
+		return new MoveSet(content);
 	}
 
 	PlayerMove parseMove(const std::string& moveString) 

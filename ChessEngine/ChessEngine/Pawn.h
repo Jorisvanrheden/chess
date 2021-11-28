@@ -85,6 +85,11 @@ public:
 		return moves;
 	}
 
+    std::vector<MoveSet> transformMoves(const std::vector<Coordinate>& moves, const Board& board)
+    {
+        return std::vector<MoveSet>();
+    }
+
 private:
 
     const int DISTANCE_DEFAULT = 1;

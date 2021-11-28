@@ -12,11 +12,13 @@ public:
 
     };
     ~MoveContent() {};
-private:
+
     Piece* activePiece;
 
     Coordinate from;
     Coordinate to;
 
     std::vector<Piece*> targets;
+private:
+    
 };

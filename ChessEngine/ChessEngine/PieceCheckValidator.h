@@ -15,10 +15,9 @@ public:
 	bool isMoveValid(Board& board, Piece* piece, const Coordinate& origin, const Coordinate& target)
 	{
         //Create the moveset from the origin and target
-        std::vector<std::tuple<Coordinate, Coordinate>> moves;
-        moves.push_back(std::tuple<Coordinate, Coordinate>{origin, target});
-
-        MoveSet move(moves);
+        std::vector<MoveContent> content;
+        content.push_back(MoveContent(piece, origin, target, {}));
+        MoveSet move(content);
 
         //apply the the moveset to the board
         board.applyMoveSet(&move);

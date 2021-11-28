@@ -18,13 +18,47 @@ Board::Board(MoveValidationManager* validationManager, IMoveHandler* moveHandler
 }
 Board::~Board() {}
 
+void Board::applyMoveContent(const MoveContent& content)
+{
+    //set the origin to NULL
+    setPieceAt(content.from, NULL);
+
+    //set all targets to NULL
+    for (const auto& target : content.targets)
+    {
+        setPieceAt(target->getCurrentCoordinate(), NULL);
+    }
+
+    //set the active piece end location
+    setPieceAt(content.to, content.activePiece);
+
+    //Update the piece's coordinate history
+    content.activePiece->addCoordinateToHistory(content.to);
+}
+
+void Board::undoMoveContent(const MoveContent& content)
+{
+    //To undo, the active piece must be set back to the from position
+    setPieceAt(content.from, content.activePiece);
+
+    //Set the targets back to the pieces that were located there
+    for (const auto& target : content.targets)
+    {
+        setPieceAt(target->getCurrentCoordinate(), target);
+    }
+
+    //Set the target to NULL
+    setPieceAt(content.to, NULL);
+
+    //Undo the piece history update
+    content.activePiece->removeLastCoordinate();
+}
+
 bool Board::applyMoveSet(MoveSet* moveSet)
 {
     for (int i = 0; i < moveSet->getMoveCount(); i++)
     {
-        bool result = movePiece(moveSet->getStart(i), moveSet->getTarget(i));
-
-        if (!result) return false;
+        applyMoveContent(moveSet->getContent(i));
     }
 
     history.push_back(moveSet);
@@ -34,5 +68,15 @@ bool Board::applyMoveSet(MoveSet* moveSet)
 
 void Board::undoLatestMoveSet() 
 {
+    if (history.size() == 0) return;
+
+    MoveSet* moveSet = history[history.size() - 1];
+
+    for (int i = 0; i < moveSet->getMoveCount(); i++)
+    {
+        undoMoveContent(moveSet->getContent(i));
+    }
+
+    //remove the history entry
     history.pop_back();
 }

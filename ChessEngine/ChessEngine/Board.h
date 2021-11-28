@@ -5,6 +5,7 @@
 
 #include "MoveValidationManager.h"
 #include "MoveSet.h"
+#include "MoveContent.h"
 
 #include "IMoveHandler.h"
 #include "ISpecification.h"
@@ -51,31 +52,6 @@ public:
 		}
 		return false;
 	}
-
-    
-
-	//return true if the piece has been succesfully moved 
-	bool movePiece(const Coordinate& origin, const Coordinate& target)
-	{
-		Piece* piece = getPieceAt(origin);
-		if (piece != NULL)
-		{
-            //set the origin to NULL
-            setPieceAt(origin, NULL);
-
-            //set the piece to the new location
-            setPieceAt(target, piece);
-
-            //Verify if this is the correct location to execute this
-            //Update the piece's coordinate history
-            piece->addCoordinateToHistory(target);
-
-			return true;
-		}
-
-		return false;
-	}
-
 
     bool applyMoveSet(MoveSet* moveSet);
     void undoLatestMoveSet();
@@ -229,6 +205,9 @@ private:
 	IBoardPopulator* boardPopulator;
 
 	std::vector<std::vector<Piece*>> matrix;
+
+    void applyMoveContent(const MoveContent& content);
+    void undoMoveContent(const MoveContent& content);
 
 	std::vector<Piece*> getAllPieces() const
 	{

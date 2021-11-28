@@ -21,10 +21,11 @@ public:
 			if (castleMoveSet) return castleMoveSet;
 		}
 
-        std::vector<std::tuple<Coordinate, Coordinate>> moves;
-        moves.push_back(std::tuple<Coordinate, Coordinate>{origin, target});
+        std::vector<MoveContent> content;
+        //TODO: fix this NULL
+        content.push_back(MoveContent(piece, origin, target, {}));
 
 		//otherwise return a single moveset
-		return new MoveSet(moves);
+		return new MoveSet(content);
 	}
 };

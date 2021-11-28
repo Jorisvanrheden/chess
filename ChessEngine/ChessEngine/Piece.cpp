@@ -44,3 +44,24 @@ void Piece::getMovesInDirection(std::vector<Coordinate>& moves, const Board& boa
 		iteration++;
 	}	
 }
+
+std::vector<MoveSet> Piece::transformMoves(const std::vector<Coordinate>& moves, const Board& board)
+{
+    std::vector<MoveSet> sets;
+
+    for (const auto& move : moves) 
+    {
+        Piece* piece = board.getPieceAt(move);
+        if (piece) 
+        {
+            std::vector<MoveContent> content;
+            content.push_back(MoveContent(this, getCurrentCoordinate(), move, { piece }));
+
+            MoveSet set(content);
+
+            sets.push_back(set);
+        }
+    }
+
+    return sets;
+}

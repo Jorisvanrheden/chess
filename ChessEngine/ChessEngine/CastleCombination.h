@@ -128,8 +128,6 @@ private:
 
 	MoveSet* getMoveSet(Piece* activeRook) 
 	{
-		std::vector<std::tuple<Coordinate, Coordinate>> moves;
-
 		Direction dir(activeRook->getCurrentCoordinate().getX() - king->getCurrentCoordinate().getX(),
 					  activeRook->getCurrentCoordinate().getY() - king->getCurrentCoordinate().getY());
 
@@ -139,9 +137,10 @@ private:
 		Coordinate rookOrigin(activeRook->getCurrentCoordinate().getX(), activeRook->getCurrentCoordinate().getY());
 		Coordinate rookTarget(kingTarget.getX() + dir.getX() * -1, activeRook->getCurrentCoordinate().getY());
 
-		moves.push_back(std::tuple<Coordinate, Coordinate>{kingOrigin, kingTarget});
-		moves.push_back(std::tuple<Coordinate, Coordinate>{rookOrigin, rookTarget});
+        std::vector<MoveContent> content;
+        content.push_back(MoveContent(king, kingOrigin, kingTarget, {}));
+        content.push_back(MoveContent(king, rookOrigin, rookTarget, {}));
 
-		return new MoveSet(moves);
+        return new MoveSet(content);
 	}
 };
