@@ -35,7 +35,7 @@ public:
         if (target->getPlayerType() == getPlayerType()) return;
 
         //First check if the enemy pawn is right next to this pawn
-        if (move->getTarget(0).getX() != getCurrentCoordinate().getX()) return;
+        if (abs(move->getTarget(0).getX() - getCurrentCoordinate().getX()) != 1) return;
 
         //Move distance should be the pawn double move
         //First hard code it for vertical moves
@@ -127,6 +127,10 @@ public:
     std::vector<MoveSet*> transformMoves(const std::vector<Coordinate>& moves, const Board& board)
     {
         std::vector<MoveSet*> sets = Piece::transformMoves(moves, board);
+
+        //TODO: the en passant gets added twice, but the first time wihtout targets, because it just uses the
+        //generic way of doing things
+        //Maybe don't even apply the entire base class functionality here, otherwise it might get messy?
 
         addEnPassantSet(sets, board);
 
