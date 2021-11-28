@@ -7,7 +7,6 @@
 #include "MoveSet.h"
 #include "MoveContent.h"
 
-#include "IMoveHandler.h"
 #include "ISpecification.h"
 #include "IFilter.h"
 #include "IBoardAnalyzer.h"
@@ -16,7 +15,7 @@
 class Board
 {
 public:
-    Board(MoveValidationManager* validationManager, IMoveHandler* moveHandler, IFilter<Piece>* pieceFilter, IBoardAnalyzer* boardAnalyzer, IBoardPopulator* boardPopulator);
+    Board(MoveValidationManager* validationManager, IFilter<Piece>* pieceFilter, IBoardAnalyzer* boardAnalyzer, IBoardPopulator* boardPopulator);
     ~Board();
 
 	void populate() 
@@ -58,7 +57,43 @@ public:
 
 	MoveSet* getMoveSet(const Coordinate& origin, const Coordinate& target) 
 	{
-		return moveHandler->getMoveSet(*this, origin, target);
+        //Given a certain start and end position of a selected piece,
+        //The available moveset should be generated
+
+        //First:
+        //- retrieve a list of possible move sets
+        //- compare the start and end position of the initial piece
+        //- if these positions match, use that move set
+
+        Piece* piece = getPieceAt(origin);
+
+        /*std::vector<Coordinate> moves = board.getAllPieceMoves(origin);
+
+        std::vector<MoveSet> sets = piece->transformMoves(moves, board);
+
+        for (auto& set : sets)
+        {
+            for(auto& content : set.getContent())
+        }*/
+
+        //      return piece->transformMoves(moves, board);
+
+              ////if the piece is a king, and the selected target is part of the castling routine
+              ////then return a multiple moveset
+              //if (piece->getID() == PIECE_TYPE::KING) 
+              //{
+              //	King* king = (King*)piece;
+
+              //	MoveSet* castleMoveSet = king->combination->getCastlingMoveSet(board, target);
+              //	if (castleMoveSet) return castleMoveSet;
+              //}
+
+        //      std::vector<MoveContent> content;
+        //      content.push_back(MoveContent(piece, origin, target, {}));
+
+              ////otherwise return a single moveset
+              //return new MoveSet(content);
+        return NULL;
 	}
 
     std::vector<Coordinate> getBasicPieceMoves(const Coordinate& origin) const
@@ -199,7 +234,6 @@ private:
 	std::vector<MoveSet*> history;
 
 	IFilter<Piece>* pieceFilter;
-	IMoveHandler* moveHandler;
 	MoveValidationManager* validationManager;
 	IBoardAnalyzer* boardAnalyzer;
 	IBoardPopulator* boardPopulator;

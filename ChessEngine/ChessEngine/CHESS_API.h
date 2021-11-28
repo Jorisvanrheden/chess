@@ -21,12 +21,11 @@ public:
 	{
 		IChessFactory* factory = new ChessFactoryDefault();
 		IBoardAnalyzer* analyzer			  = factory->createBoardAnalyzer();
-		IMoveHandler* moveHandler			  = factory->createMoveHandler();
 		IFilter<Piece>* filter				  = factory->createPieceFilter();
 		MoveValidationManager* moveValidation = factory->createMoveValidationManager();
 		IBoardPopulator* populator			  = factory->createBoardPopulator();
 
-		board = new	Board(moveValidation, moveHandler, filter, analyzer, populator);
+		board = new	Board(moveValidation, filter, analyzer, populator);
 		playerSelector = new PlayerSelector();
 
 		board->populate();

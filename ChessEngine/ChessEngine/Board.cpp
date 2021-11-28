@@ -1,8 +1,7 @@
 #include "Board.h"
 
-Board::Board(MoveValidationManager* validationManager, IMoveHandler* moveHandler, IFilter<Piece>* pieceFilter, IBoardAnalyzer* boardAnalyzer, IBoardPopulator* boardPopulator)
+Board::Board(MoveValidationManager* validationManager, IFilter<Piece>* pieceFilter, IBoardAnalyzer* boardAnalyzer, IBoardPopulator* boardPopulator)
     : validationManager(validationManager),
-    moveHandler(moveHandler),
     pieceFilter(pieceFilter),
     boardAnalyzer(boardAnalyzer),
     boardPopulator(boardPopulator)

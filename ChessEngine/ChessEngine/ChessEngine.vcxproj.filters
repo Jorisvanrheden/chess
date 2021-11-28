@@ -31,9 +31,6 @@
     <Filter Include="Header Files\Rules\Move Validation">
       <UniqueIdentifier>{6e4a4817-3ba8-44ce-85a4-a7f287d99d0e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Rules\Move Handlers">
-      <UniqueIdentifier>{fe22c9fc-304a-42fa-9ede-d77ce4ed73d9}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Rules\Move Validation\Logic Validators">
       <UniqueIdentifier>{5e1b266a-ef7b-4849-b148-f8ab63ea8b69}</UniqueIdentifier>
     </Filter>
@@ -139,12 +136,6 @@
     </ClInclude>
     <ClInclude Include="FriendyFireValidatorh.h">
       <Filter>Header Files\Rules\Move Validation\Logic Validators</Filter>
-    </ClInclude>
-    <ClInclude Include="IMoveHandler.h">
-      <Filter>Header Files\Rules\Move Handlers</Filter>
-    </ClInclude>
-    <ClInclude Include="DefaultMoveHandler.h">
-      <Filter>Header Files\Rules\Move Handlers</Filter>
     </ClInclude>
     <ClInclude Include="ISpecification.h">
       <Filter>Header Files\Rules\Specifications</Filter>

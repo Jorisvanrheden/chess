@@ -9,7 +9,6 @@
 #include "FriendyFireValidatorh.h"
 #include "PieceCheckValidator.h"
 
-#include "DefaultMoveHandler.h"
 #include "PieceFilter.h"
 
 class ChessFactoryDefault : public IChessFactory
@@ -33,11 +32,6 @@ public:
 	IBoardPopulator* createBoardPopulator() 
 	{
 		return new DefaultBoardPopulator();
-	}
-
-	IMoveHandler* createMoveHandler() 
-	{
-		return new DefaultMoveHandler();
 	}
 
 	IFilter<Piece>* createPieceFilter() 

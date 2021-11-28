@@ -48,6 +48,20 @@ public:
 
     std::vector<MoveSet> transformMoves(const std::vector<Coordinate>& moves, const Board& board)
     {
+        std::vector<MoveSet> sets = Piece::transformMoves(moves, board);
+
+        //TODO: also provide a target here?
+
+
+        ////if the piece is a king, and the selected target is part of the castling routine
+        ////then return a multiple moveset
+        //if (piece->getID() == PIECE_TYPE::KING) 
+        //{
+        //	King* king = (King*)piece;
+
+        //	MoveSet* castleMoveSet = king->combination->getCastlingMoveSet(board, target);
+        //	if (castleMoveSet) return castleMoveSet;
+        //}
         return std::vector<MoveSet>();
     }
 
