@@ -3,6 +3,7 @@
 #include "Piece.h"
 #include "MoveSetMultiple.h"
 #include "PieceCheckDetector.h"
+#include "SquareAttackDetector.h"
 
 class CastleCombination
 {
@@ -102,16 +103,9 @@ private:
 			Coordinate coord(king->getCurrentCoordinate().getX() + distanceX, king->getCurrentCoordinate().getY() + distanceY);
 			Piece* piece = board.getPieceAt(coord);
 
-            //TODO
-            //- A king-check check must be performed for each of the in between king-rook positions
-            //- Or just check if one of those positions is covered by an enemy 
-            //- Instead of checkdetector, maybe just create a SquareAttackedDetector object or something like that
-            //- To be done tomorrow (SUNDAY) Joris, don't slack
-            PieceCheckDetector checkDetector(king->getID());
-            if (checkDetector.isChecked(board, king->getPlayerType())) return moves;
-
-
-			if (piece) return false;
+            //A king-check check must be performed for each of the in between king-rook positions
+            SqaureAttackDetector attackDetector;
+            if (attackDetector.isAttacked(board, king->getCurrentCoordinate(), king->getPlayerType())) return false;
 		}
 
 		return true;

@@ -179,9 +179,6 @@
     <ClInclude Include="PieceCheckDetector.h">
       <Filter>Header Files\Rules\Check Logic</Filter>
     </ClInclude>
-    <ClInclude Include="IPieceCheckDetector.h">
-      <Filter>Header Files\Rules\Check Logic</Filter>
-    </ClInclude>
     <ClInclude Include="IPlayerSelector.h">
       <Filter>Header Files\Rules\Players</Filter>
     </ClInclude>
@@ -208,6 +205,12 @@
     </ClInclude>
     <ClInclude Include="ChessFactoryDefault.h">
       <Filter>Header Files\Setup</Filter>
+    </ClInclude>
+    <ClInclude Include="IPieceCheckDetector.h">
+      <Filter>Header Files\Rules\Check Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="SquareAttackDetector.h">
+      <Filter>Header Files\Rules\Check Logic</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
