@@ -4,33 +4,19 @@
 #include "Piece.h"
 
 #include "MoveValidationManager.h"
+#include "MoveSet.h"
+
 #include "IMoveHandler.h"
 #include "ISpecification.h"
 #include "IFilter.h"
 #include "IBoardAnalyzer.h"
 #include "IBoardPopulator.h"
-#include "IMoveSet.h"
 
 class Board
 {
 public:
-	Board(MoveValidationManager* validationManager, IMoveHandler* moveHandler, IFilter<Piece>* pieceFilter, IBoardAnalyzer* boardAnalyzer, IBoardPopulator* boardPopulator)
-		: validationManager(validationManager), 
-		  moveHandler(moveHandler), 
-		  pieceFilter(pieceFilter),
-		  boardAnalyzer(boardAnalyzer),
-		  boardPopulator(boardPopulator)
-	{
-		//init empty board
-		matrix = std::vector<std::vector<Piece*>>(boardPopulator->getWidth());
-		for (int i = 0; i < boardPopulator->getWidth(); i++)
-		{
-			std::vector<Piece*> row(boardPopulator->getHeight());
-
-			matrix[i] = row;
-		}
-	}
-	~Board() {}
+    Board(MoveValidationManager* validationManager, IMoveHandler* moveHandler, IFilter<Piece>* pieceFilter, IBoardAnalyzer* boardAnalyzer, IBoardPopulator* boardPopulator);
+    ~Board();
 
 	void populate() 
 	{
@@ -66,15 +52,23 @@ public:
 		return false;
 	}
 
+    
+
 	//return true if the piece has been succesfully moved 
 	bool movePiece(const Coordinate& origin, const Coordinate& target)
 	{
-		if (origin == target) return false;
-
 		Piece* piece = getPieceAt(origin);
 		if (piece != NULL)
 		{
-			moveHandler->movePiece(*this, piece, origin, target);
+            //set the origin to NULL
+            setPieceAt(origin, NULL);
+
+            //set the piece to the new location
+            setPieceAt(target, piece);
+
+            //Verify if this is the correct location to execute this
+            //Update the piece's coordinate history
+            piece->addCoordinateToHistory(target);
 
 			return true;
 		}
@@ -82,17 +76,11 @@ public:
 		return false;
 	}
 
-	bool applyMoveSet(IMoveSet* moveSet) 
-	{
-		bool result = moveSet->move(*this);
-		if (!result) return false;
 
-		history.push_back(moveSet);
+    bool applyMoveSet(MoveSet* moveSet);
+    void undoLatestMoveSet();
 
-		return true;
-	}
-
-	IMoveSet* getMoveSet(const Coordinate& origin, const Coordinate& target) 
+	MoveSet* getMoveSet(const Coordinate& origin, const Coordinate& target) 
 	{
 		return moveHandler->getMoveSet(*this, origin, target);
 	}
@@ -223,19 +211,16 @@ public:
 		if (!isCoordinateValid(coordinate)) return;
 
 		matrix[coordinate.getX()][coordinate.getY()] = piece;
-
-		//Not sure if I want this to be done here.
-		//Also check whether it makes sense to have this coordinate history list per piece?
-		if (piece != NULL)
-		{
-			//update the piece's coordinate history
-			piece->addCoordinateToHistory(coordinate);
-		}
 	}
+
+    std::vector<MoveSet*> getHistory() const
+    {
+        return history;
+    }
 
 private:
 	//Store the history of all movesets in the board
-	std::vector<IMoveSet*> history;
+	std::vector<MoveSet*> history;
 
 	IFilter<Piece>* pieceFilter;
 	IMoveHandler* moveHandler;

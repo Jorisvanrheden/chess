@@ -2,21 +2,12 @@
 
 #include "IMoveHandler.h"
 
-#include "MoveSetSingle.h"
+#include "MoveSet.h"
 
 class DefaultMoveHandler : public IMoveHandler
 {
 public:
-	void movePiece(Board& board, Piece* piece, const Coordinate& origin, const Coordinate& target)
-	{
-		//set the origin to NULL
-		board.setPieceAt(origin, NULL);
-
-		//set the piece to the new location
-		board.setPieceAt(target, piece);		
-	}
-
-	IMoveSet* getMoveSet(Board& board, const Coordinate& origin, const Coordinate& target)
+	MoveSet* getMoveSet(Board& board, const Coordinate& origin, const Coordinate& target)
 	{
 		Piece* piece = board.getPieceAt(origin);
 
@@ -26,11 +17,14 @@ public:
 		{
 			King* king = (King*)piece;
 
-			IMoveSet* castleMoveSet = king->combination->getCastlingMoveSet(board, target);
+			MoveSet* castleMoveSet = king->combination->getCastlingMoveSet(board, target);
 			if (castleMoveSet) return castleMoveSet;
 		}
 
+        std::vector<std::tuple<Coordinate, Coordinate>> moves;
+        moves.push_back(std::tuple<Coordinate, Coordinate>{origin, target});
+
 		//otherwise return a single moveset
-		return new MoveSetSingle(origin, target);
+		return new MoveSet(moves);
 	}
 };

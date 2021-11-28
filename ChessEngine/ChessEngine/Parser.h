@@ -9,9 +9,7 @@
 #include "SamePlayerTypeSpecification.h"
 #include "PieceTypeSpecification.h"
 #include "AndSpecification.h"
-
-#include "MoveSetSingle.h"
-#include "MoveSetMultiple.h"
+#include "MoveSet.h"
 
 #include <fstream>
 #include <iostream>
@@ -36,15 +34,15 @@ public:
 struct PlayerMoveSet
 {
 public:
-	PlayerMoveSet(std::vector<IMoveSet*> moves) : moves(moves) {}
+	PlayerMoveSet(std::vector<MoveSet*> moves) : moves(moves) {}
 
 	//size indicates player size
-	std::vector<IMoveSet*> moves;
+	std::vector<MoveSet*> moves;
 };
 
 struct MoveContext
 {
-	std::vector<IMoveSet*> playerMoveSets;
+	std::vector<MoveSet*> playerMoveSets;
 };
 
 class Parser
@@ -85,7 +83,7 @@ public:
 
 		MoveContext context;
 
-		std::vector<IMoveSet*> moves;
+		std::vector<MoveSet*> moves;
 
 		//moves can be split using the "1." or "2." strings
 		for (int i = 0; i < strings.size(); i++) 
@@ -104,7 +102,7 @@ public:
 				continue;
 			}
 
-			IMoveSet* moveSet = getMoveSet(strings[i]);
+			MoveSet* moveSet = getMoveSet(strings[i]);
 			moves.push_back(moveSet);			
 
 			board.applyMoveSet(moveSet);
@@ -116,7 +114,7 @@ public:
 		return context;
 	}
 
-	IMoveSet* getMoveSet(const std::string& move)
+	MoveSet* getMoveSet(const std::string& move)
 	{
 		//check if the string is a special move and can be processed by the board
 		if (move == CASTLE_SHORT || move == CASTLE_LONG) 
@@ -127,7 +125,7 @@ public:
 		return getParsedMoveSet(move);
 	}
 
-	IMoveSet* getCastlingMoveSet(const std::string& move) 
+	MoveSet* getCastlingMoveSet(const std::string& move) 
 	{
 		PieceTypeSpecification pieceSpec(PIECE_TYPE::KING);
 		SamePlayerTypeSpecification playerSpec(playerSelector.getActivePlayer());
@@ -149,10 +147,15 @@ public:
 		}
 	}
 
-	IMoveSet* getParsedMoveSet(const std::string& move) 
+	MoveSet* getParsedMoveSet(const std::string& move) 
 	{
 		PlayerMove playerMove = parseMove(move);
-		return new MoveSetSingle(playerMove.from, playerMove.to);
+
+        std::vector<std::tuple<Coordinate, Coordinate>> moves;
+
+        moves.push_back(std::tuple<Coordinate, Coordinate>{playerMove.from, playerMove.to});
+
+		return new MoveSet(moves);
 	}
 
 	PlayerMove parseMove(const std::string& moveString) 

@@ -9,7 +9,7 @@
 class MoveValidationManager
 {
 public:
-	bool isMoveValid(const Board& board, Piece* piece, const Coordinate& origin, const Coordinate& target)
+	bool isMoveValid(Board& board, Piece* piece, const Coordinate& origin, const Coordinate& target)
 	{
 		//Go through all logic validators
 		for (auto& validator : validators) 

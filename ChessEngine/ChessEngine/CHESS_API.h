@@ -61,7 +61,7 @@ public:
 		bool containsMove = board->verifyMove(origin, target);		
 		if (containsMove) 
 		{
-			IMoveSet* moveSet = board->getMoveSet(origin, target);
+			MoveSet* moveSet = board->getMoveSet(origin, target);
 			
 			bool moveSetResult = board->applyMoveSet(moveSet);
 			if (moveSetResult) 

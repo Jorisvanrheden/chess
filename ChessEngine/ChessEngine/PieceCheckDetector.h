@@ -32,7 +32,7 @@ public:
 			// - check if the piece's position is in one of those validated moves
 			std::vector<Coordinate> enemyMoves = board.getBasicPieceMoves(enemyPiece->getCurrentCoordinate());
 
-			for (auto& checkablePiece : checkablePieces)
+			for (const auto& checkablePiece : checkablePieces)
 			{
 				if (isPieceChecked(checkablePiece, enemyMoves)) return true;
 			}

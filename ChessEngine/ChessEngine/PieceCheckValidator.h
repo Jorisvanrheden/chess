@@ -12,19 +12,22 @@ public:
 	}
 	~PieceCheckValidator() {}
 
-	bool isMoveValid(const Board& board, Piece* piece, const Coordinate& origin, const Coordinate& target)
+	bool isMoveValid(Board& board, Piece* piece, const Coordinate& origin, const Coordinate& target)
 	{
-		//copy the board state
-		Board copy = Board(board);
+        //Create the moveset from the origin and target
+        std::vector<std::tuple<Coordinate, Coordinate>> moves;
+        moves.push_back(std::tuple<Coordinate, Coordinate>{origin, target});
 
-		//apply the the move to the piece onto the copied board
-		copy.movePiece(origin, target);
+        MoveSet move(moves);
+
+        //apply the the moveset to the board
+        board.applyMoveSet(&move);
 
 		//if the piece is checked, the move is not valid
-		bool result = !checkDetector->isChecked(copy, piece->getPlayerType());
+		bool result = !checkDetector->isChecked(board, piece->getPlayerType());
 
-		//remove the history from the piece since it's played on a copied board
-		piece->removeLastCoordinate();
+		//undo the moveset
+        board.undoLatestMoveSet();
 
 		return result;
 	}

@@ -6,7 +6,7 @@
 #include "GameConstants.h"
 
 class Board;
-class IMoveSet;
+class MoveSet;
 
 class Piece
 {
@@ -14,10 +14,15 @@ public:
 	Piece(const PLAYER_TYPE& type);
 
 	virtual PIECE_TYPE getID() = 0;
+
 	virtual std::vector<Coordinate> findAvailableMoves(const Coordinate& coordinate, const Board& board) = 0;
     virtual std::vector<Coordinate> findAdditionalMoves(const Coordinate& coordinate, const Board& board) 
     {
         return std::vector<Coordinate>();
+    }
+    virtual std::vector<MoveSet> findAvailableMovesets(const Coordinate& coordinate, const Board& board) 
+    {
+        return std::vector<MoveSet>();
     }
 
 	bool isSameType(Piece* piece)

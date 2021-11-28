@@ -75,6 +75,12 @@
     <ClCompile Include="Piece.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="MoveSet.cpp">
+      <Filter>Header Files\Rules\Move Set</Filter>
+    </ClCompile>
+    <ClCompile Include="Board.cpp">
+      <Filter>Header Files\Board</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Piece.h">
@@ -185,15 +191,6 @@
     <ClInclude Include="Parser.h">
       <Filter>Header Files\Parser</Filter>
     </ClInclude>
-    <ClInclude Include="IMoveSet.h">
-      <Filter>Header Files\Rules\Move Set</Filter>
-    </ClInclude>
-    <ClInclude Include="MoveSetSingle.h">
-      <Filter>Header Files\Rules\Move Set</Filter>
-    </ClInclude>
-    <ClInclude Include="MoveSetMultiple.h">
-      <Filter>Header Files\Rules\Move Set</Filter>
-    </ClInclude>
     <ClInclude Include="CastleCombination.h">
       <Filter>Header Files\Rules\Special Moves</Filter>
     </ClInclude>
@@ -208,6 +205,12 @@
     </ClInclude>
     <ClInclude Include="SquareAttackDetector.h">
       <Filter>Header Files\Rules\Check Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="MoveSet.h">
+      <Filter>Header Files\Rules\Move Set</Filter>
+    </ClInclude>
+    <ClInclude Include="MoveContent.h">
+      <Filter>Header Files\Rules\Move Set</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

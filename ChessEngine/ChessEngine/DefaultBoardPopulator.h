@@ -50,7 +50,12 @@ private:
 
 				if (piece)
 				{
-					board.setPieceAt(Coordinate(j, i), piece);
+                    Coordinate target(j, i);
+					board.setPieceAt(target, piece);
+
+                    //Verify if this is the correct location to execute this
+                    //Update the piece's coordinate history
+                    piece->addCoordinateToHistory(target);
 				}
 			}
 		}

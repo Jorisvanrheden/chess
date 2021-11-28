@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Piece.h"
-#include "MoveSetMultiple.h"
 #include "PieceCheckDetector.h"
 #include "SquareAttackDetector.h"
 
@@ -14,12 +13,12 @@ public:
 	}
 	~CastleCombination() {}
 
-	IMoveSet* getMoveSetShortCastle() 
+	MoveSet* getMoveSetShortCastle() 
 	{
 		return getMoveSet(rook_short);
 	}
 
-	IMoveSet* getMoveSetLongCastle()
+	MoveSet* getMoveSetLongCastle()
 	{
 		return getMoveSet(rook_long);
 	}
@@ -56,7 +55,7 @@ public:
 		return moves;
 	}
 
-	IMoveSet* getCastlingMoveSet(const Board& board, const Coordinate& target) 
+	MoveSet* getCastlingMoveSet(const Board& board, const Coordinate& target) 
 	{
 		if (checkIfCastlingPossible(board, rook_short))
 		{
@@ -127,7 +126,7 @@ private:
 		return kingTarget;
 	}
 
-	IMoveSet* getMoveSet(Piece* activeRook) 
+	MoveSet* getMoveSet(Piece* activeRook) 
 	{
 		std::vector<std::tuple<Coordinate, Coordinate>> moves;
 
@@ -143,6 +142,6 @@ private:
 		moves.push_back(std::tuple<Coordinate, Coordinate>{kingOrigin, kingTarget});
 		moves.push_back(std::tuple<Coordinate, Coordinate>{rookOrigin, rookTarget});
 
-		return new MoveSetMultiple(moves);
+		return new MoveSet(moves);
 	}
 };

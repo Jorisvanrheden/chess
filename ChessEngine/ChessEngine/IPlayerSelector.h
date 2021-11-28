@@ -2,7 +2,7 @@
 
 #include <vector>
 #include "Coordinate.h"
-#include "IMoveSet.h"
+#include "Board.h"
 
 class IPlayerSelector 
 {

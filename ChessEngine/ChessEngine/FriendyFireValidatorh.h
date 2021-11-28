@@ -4,7 +4,7 @@
 
 class FriendlyFireValidator : public IMoveValidator
 {
-	bool isMoveValid(const Board& board, Piece* piece, const Coordinate& origin, const Coordinate& target)
+	bool isMoveValid(Board& board, Piece* piece, const Coordinate& origin, const Coordinate& target)
 	{
 		//check if there is already a piece on the target position
 		//- if there is already a piece, it can only be of a different PLAYER_TYPE (as own pieces cannot be consumed)
