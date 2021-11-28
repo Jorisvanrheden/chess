@@ -14,6 +14,45 @@ public:
 		return PIECE_TYPE::PAWN;
 	}
 
+    void addEnPassantSet(std::vector<MoveSet*>& sets, const Board& board)
+    {
+        //En passant checks apply when:
+        //- the enemy pawn is one space next to this pawn
+        //- the previous move on the board was a PAWN that moved up two spaces
+        //- is ENEMY PAWN
+        std::vector<MoveSet*> history = board.getHistory();
+
+        if (history.size() == 0) return;
+
+        MoveSet* move = history[history.size() - 1];
+
+        //Move count should be 1
+        if (move->getMoveCount() > 1) return;
+
+        //Should be ENEMY PAWN
+        Piece* target = board.getPieceAt(move->getTarget(0));
+        if (target->getID() != PIECE_TYPE::PAWN) return;
+        if (target->getPlayerType() == getPlayerType()) return;
+
+        //First check if the enemy pawn is right next to this pawn
+        if (move->getTarget(0).getX() != getCurrentCoordinate().getX()) return;
+
+        //Move distance should be the pawn double move
+        //First hard code it for vertical moves
+        Coordinate moveDiff = move->getMoveDiff(0);
+        if (moveDiff.getY() != DISTANCE_FIRST_MOVE) return;
+
+        //return the position behind the target pawn
+        int targetX = move->getTarget(0).getX();
+        int targetY = move->getTarget(0).getY() + direction.getY() * DISTANCE_DEFAULT;
+
+        std::vector<MoveContent> content;
+        content.push_back(MoveContent(this, getCurrentCoordinate(), Coordinate(targetX, targetY), { target }));
+
+        MoveSet* set = new MoveSet(content);
+        sets.push_back(set);
+    }
+
     void addEnPassantMoves(std::vector<Coordinate>& moves, const Board& board) 
     {
         //En passant checks apply when:
@@ -35,7 +74,7 @@ public:
         if (piece->getPlayerType() == getPlayerType()) return;
 
         //First check if the enemy pawn is right next to this pawn
-        if (move->getTarget(0).getX() != getCurrentCoordinate().getX()) return;
+        if (abs(move->getTarget(0).getX() - getCurrentCoordinate().getX()) != 1) return;
 
         //Move distance should be the pawn double move
         //First hard code it for vertical moves
@@ -85,9 +124,13 @@ public:
 		return moves;
 	}
 
-    std::vector<MoveSet> transformMoves(const std::vector<Coordinate>& moves, const Board& board)
+    std::vector<MoveSet*> transformMoves(const std::vector<Coordinate>& moves, const Board& board)
     {
-        return std::vector<MoveSet>();
+        std::vector<MoveSet*> sets = Piece::transformMoves(moves, board);
+
+        addEnPassantSet(sets, board);
+
+        return sets;
     }
 
 private:

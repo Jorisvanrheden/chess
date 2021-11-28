@@ -46,9 +46,9 @@ public:
         return moves;
     }
 
-    std::vector<MoveSet> transformMoves(const std::vector<Coordinate>& moves, const Board& board)
+    std::vector<MoveSet*> transformMoves(const std::vector<Coordinate>& moves, const Board& board)
     {
-        std::vector<MoveSet> sets = Piece::transformMoves(moves, board);
+        std::vector<MoveSet*> sets = Piece::transformMoves(moves, board);
 
         //TODO: also provide a target here?
 
@@ -62,7 +62,7 @@ public:
         //	MoveSet* castleMoveSet = king->combination->getCastlingMoveSet(board, target);
         //	if (castleMoveSet) return castleMoveSet;
         //}
-        return std::vector<MoveSet>();
+        return std::vector<MoveSet*>();
     }
 
 	CastleCombination* combination;

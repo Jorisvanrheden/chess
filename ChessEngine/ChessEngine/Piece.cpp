@@ -45,22 +45,21 @@ void Piece::getMovesInDirection(std::vector<Coordinate>& moves, const Board& boa
 	}	
 }
 
-std::vector<MoveSet> Piece::transformMoves(const std::vector<Coordinate>& moves, const Board& board)
+std::vector<MoveSet*> Piece::transformMoves(const std::vector<Coordinate>& moves, const Board& board)
 {
-    std::vector<MoveSet> sets;
+    std::vector<MoveSet*> sets;
 
     for (const auto& move : moves) 
     {
         Piece* piece = board.getPieceAt(move);
-        if (piece) 
-        {
-            std::vector<MoveContent> content;
-            content.push_back(MoveContent(this, getCurrentCoordinate(), move, { piece }));
 
-            MoveSet set(content);
+        std::vector<MoveContent> content;
+        std::vector<Piece*> targets;
+        if (piece) targets.push_back(piece);
 
-            sets.push_back(set);
-        }
+        content.push_back(MoveContent(this, getCurrentCoordinate(), move, targets));
+        MoveSet* set = new MoveSet(content);
+        sets.push_back(set);
     }
 
     return sets;
