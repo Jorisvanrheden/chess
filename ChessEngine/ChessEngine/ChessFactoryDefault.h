@@ -7,7 +7,6 @@
 #include "PieceCheckDetector.h"
 
 #include "FriendyFireValidatorh.h"
-#include "EnPassantValidator.h"
 #include "PieceCheckValidator.h"
 
 #include "DefaultMoveHandler.h"
@@ -50,7 +49,6 @@ public:
 	{
 		MoveValidationManager* validationManager = new MoveValidationManager();
 		validationManager->addValidator(new FriendlyFireValidator());
-		validationManager->addValidator(new EnPassantValidator());
 		validationManager->addValidator(new PieceCheckValidator(checkDetector));
 
 		return validationManager;

@@ -35,6 +35,7 @@ public:
 
 	// DATA GETTERS
 	int CHESS_ENGINE_API CHESS_API_GetPlayerCount();
+    void CHESS_ENGINE_API CHESS_API_PrintBoard();
 
 	// INTERACTIVE METHODS
 	std::vector<int> CHESS_ENGINE_API CHESS_API_GetMoves(int x, int y);

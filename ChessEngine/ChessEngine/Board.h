@@ -43,8 +43,8 @@ public:
 
 		if (playerStatus == 0) 
 		{
-			std::cout << "nothing happening" << std::endl;
-		}
+
+        }
 		if (playerStatus == 1)
 		{
 			std::cout << "CHECKED" << std::endl;

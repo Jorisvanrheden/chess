@@ -29,18 +29,19 @@ public:
 		std::vector<Coordinate> moves;
 
         //Castling is not possible in the following cases:
-        //- King has moved already
+        //1.) King has moved already
+        //2.) King is in check
+        //3.) Rook to castle with has moved already
+        //4.) End position of castling brings the king in check
+        //5.) In-between squares of castling brings the king in check
+        //6.) A piece is in between the king and rook
+
+        //1.) King has moved already
         if (king->getMoveCount() > 1) return moves;
 
-        //- King is in check
+        //2.) King is in check
         PieceCheckDetector checkDetector(king->getID());
         if (checkDetector.isChecked(board, king->getPlayerType())) return moves;
-
-        //- Rook to castle with has moved already
-        //- End position of castling brings the king in check
-        //- In-between squares of castling brings the king in check
-
-		//No possibility for castling if the king already moved before		
 
 		if (checkIfCastlingPossible(board, rook_short))
 		{
@@ -85,6 +86,7 @@ private:
 
 	bool checkIfCastlingPossible(const Board& board, Piece* activeRook) 
 	{
+        //3.) Rook to castle with has moved already
 		if (activeRook->getMoveCount() != 1) return false;
 
 		Direction dir(activeRook->getCurrentCoordinate().getX() - king->getCurrentCoordinate().getX(),
@@ -100,12 +102,16 @@ private:
 			int distanceX = i * dir.getX();
 			int distanceY = i * dir.getY();
 
-			Coordinate coord(king->getCurrentCoordinate().getX() + distanceX, king->getCurrentCoordinate().getY() + distanceY);
-			Piece* piece = board.getPieceAt(coord);
+			Coordinate coordinate(king->getCurrentCoordinate().getX() + distanceX, king->getCurrentCoordinate().getY() + distanceY);
 
-            //A king-check check must be performed for each of the in between king-rook positions
+            //4.) End position of castling brings the king in check
+            //5.) In-between squares of castling brings the king in check
             SqaureAttackDetector attackDetector;
-            if (attackDetector.isAttacked(board, king->getCurrentCoordinate(), king->getPlayerType())) return false;
+            if (attackDetector.isAttacked(board, coordinate, king->getPlayerType())) return false;
+
+            //6.) A piece is in between the king and rook
+            Piece* piece = board.getPieceAt(coordinate);
+            if (piece != NULL) return false;
 		}
 
 		return true;

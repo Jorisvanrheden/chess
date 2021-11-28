@@ -131,9 +131,6 @@
     <ClInclude Include="IMoveValidator.h">
       <Filter>Header Files\Rules\Move Validation</Filter>
     </ClInclude>
-    <ClInclude Include="EnPassantValidator.h">
-      <Filter>Header Files\Rules\Move Validation\Logic Validators</Filter>
-    </ClInclude>
     <ClInclude Include="FriendyFireValidatorh.h">
       <Filter>Header Files\Rules\Move Validation\Logic Validators</Filter>
     </ClInclude>

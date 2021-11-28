@@ -28,6 +28,11 @@ int CHESS_API_WRAPPER::CHESS_API_GetPlayerCount()
 	return api->getPlayerCount();
 }
 
+void CHESS_API_WRAPPER::CHESS_API_PrintBoard() 
+{
+    api->print();
+}
+
 std::vector<std::vector<int>> CHESS_API_WRAPPER::CHESS_API_GetBoardStatus(int playerID)
 {
 	return api->getBoardStatus(playerID);

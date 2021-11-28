@@ -82,6 +82,11 @@ public:
 		return playerSelector->getPlayerCount();
 	}
 
+    void print() 
+    {
+        board->print();
+    }
+
 	std::vector<std::vector<int>> getBoardStatus(int playerID)
 	{
 		return board->getBoardStatus(playerID);
