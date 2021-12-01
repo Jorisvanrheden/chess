@@ -133,7 +133,7 @@ public:
         //Maybe don't even apply the entire base class functionality here, otherwise it might get messy?
 
         addEnPassantSet(sets, board);
-
+        
         return sets;
     }
 

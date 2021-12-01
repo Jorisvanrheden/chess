@@ -45,6 +45,29 @@ void Piece::getMovesInDirection(std::vector<Coordinate>& moves, const Board& boa
 	}	
 }
 
+MoveSet* Piece::getMoveSet(const Coordinate& target, const Board& board) 
+{
+    //TODO: THIS NEEDS REFACTORING, just a test to see if this is feasible
+    std::vector<Coordinate> moves = findAvailableMoves(getCurrentCoordinate(), board);
+
+    for (const auto& move : moves)
+    {
+        if (move == target) 
+        {
+            Piece* piece = board.getPieceAt(move);
+
+            std::vector<MoveContent> content;
+            std::vector<Piece*> targets;
+            if (piece) targets.push_back(piece);
+
+            content.push_back(MoveContent(this, getCurrentCoordinate(), move, targets));
+            return new MoveSet(content);
+        }
+    }
+
+    return NULL;
+}
+
 std::vector<MoveSet*> Piece::transformMoves(const std::vector<Coordinate>& moves, const Board& board)
 {
     std::vector<MoveSet*> sets;

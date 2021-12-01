@@ -41,23 +41,10 @@ public:
 		}
 	}
 
-	bool verifyMove(const Coordinate& origin, const Coordinate& target) 
-	{
-		std::vector<Coordinate> moves = getValidatedMoves(origin);
-
-		for (const auto& move : moves) 
-		{
-			if (move == target) return true;
-		}
-		return false;
-	}
-
     bool applyMoveSet(MoveSet* moveSet);
     void undoLatestMoveSet();
 
     MoveSet* getMoveSet(const Coordinate& origin, const Coordinate& target);
-
-	
 
     std::vector<Coordinate> getBasicPieceMoves(const Coordinate& origin) const
     {

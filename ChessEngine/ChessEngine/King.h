@@ -46,23 +46,35 @@ public:
         return moves;
     }
 
+    MoveSet* getMoveSet(const Coordinate& target, const Board& board)
+    {
+        //TODO: THIS NEEDS REFACTORING, just a test to see if this is feasible
+        std::vector<Coordinate> moves = findAvailableMoves(getCurrentCoordinate(), board);
+
+        for (const auto& move : moves)
+        {
+            if (move == target)
+            {
+                Piece* piece = board.getPieceAt(move);
+
+                std::vector<MoveContent> content;
+                std::vector<Piece*> targets;
+                if (piece) targets.push_back(piece);
+
+                content.push_back(MoveContent(this, getCurrentCoordinate(), move, targets));
+                return new MoveSet(content);
+            }
+        }
+
+        //Process castling moves
+        return combination->getCastlingMoveSet(board, target);
+    }
+
     std::vector<MoveSet*> transformMoves(const std::vector<Coordinate>& moves, const Board& board)
     {
         std::vector<MoveSet*> sets = Piece::transformMoves(moves, board);
 
-        //TODO: also provide a target here?
-
-
-        ////if the piece is a king, and the selected target is part of the castling routine
-        ////then return a multiple moveset
-        //if (piece->getID() == PIECE_TYPE::KING) 
-        //{
-        //	King* king = (King*)piece;
-
-        //	MoveSet* castleMoveSet = king->combination->getCastlingMoveSet(board, target);
-        //	if (castleMoveSet) return castleMoveSet;
-        //}
-        return std::vector<MoveSet*>();
+        return sets;
     }
 
 	CastleCombination* combination;

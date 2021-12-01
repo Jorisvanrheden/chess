@@ -80,59 +80,41 @@ void Board::undoLatestMoveSet()
     history.pop_back();
 }
 
+//Given a certain start and end position of a selected piece,
+//The available moveset should be generated
 MoveSet* Board::getMoveSet(const Coordinate& origin, const Coordinate& target)
 {
     Piece* piece = getPieceAt(origin);
-    //Given a certain start and end position of a selected piece,
-    //The available moveset should be generated
 
-    //First:
     //- retrieve a list of possible move sets
-    std::vector<Coordinate> moves = getAllPieceMoves(origin);
-    std::vector<MoveSet*> sets = piece->transformMoves(moves, *this);
 
-    //- compare the start and end position of the initial piece
-    for (auto& set : sets)
-    {
-        MoveContent content = set->getContent(0);
+    //So what we want is:
+    //- One MoveSet per piece, given the origin and the target
 
-        if (content.from == origin && content.to == target)
-        {
-            return set;
-        }
-    }
+    //First get all movesets from a piece
+    //Then filter out the one needed given the target
+    //But this doesnt fully allow data transfer
+    //Instead maybe create a separate getter in PIECE, like:
+    MoveSet* moveSet = piece->getMoveSet(target, *this);
+    return moveSet;
 
-    //- if these positions match, use that move set
+    ////but we dont need all moves, only moves that have the same starting coordinate
+    //std::vector<Coordinate> moves = getAllPieceMoves(origin);
+    //std::vector<MoveSet*> sets = piece->transformMoves(moves, *this);
 
-    /*Piece* piece = getPieceAt(origin);
+    ////- compare the start and end position of the initial piece
+    //for (auto& set : sets)
+    //{
+    //    //Only look for index 0, as castling is the only case where more contents are available
+    //    //For castling, king should be the initiating move
+    //    MoveContent content = set->getContent(0);
 
-    std::vector<Coordinate> moves = board.getAllPieceMoves(origin);
+    //    if (content.from == origin && content.to == target)
+    //    {
+    //        return set;
+    //    }
+    //}
 
-    std::vector<MoveSet> sets = piece->transformMoves(moves, board);
-
-    for (auto& set : sets)
-    {
-        for(auto& content : set.getContent())
-    }*/
-
-    //      return piece->transformMoves(moves, board);
-
-          ////if the piece is a king, and the selected target is part of the castling routine
-          ////then return a multiple moveset
-          //if (piece->getID() == PIECE_TYPE::KING) 
-          //{
-          //	King* king = (King*)piece;
-
-          //	MoveSet* castleMoveSet = king->combination->getCastlingMoveSet(board, target);
-          //	if (castleMoveSet) return castleMoveSet;
-          //}
-
-    //      std::vector<MoveContent> content;
-    //      content.push_back(MoveContent(piece, origin, target, {}));
-
-          ////otherwise return a single moveset
-          //return new MoveSet(content);
-
-    //Should not happen, as moves are already validated
-    return NULL;
+    ////Return null if the given origin and target coordinates are not a valid combination
+    //return NULL;
 }

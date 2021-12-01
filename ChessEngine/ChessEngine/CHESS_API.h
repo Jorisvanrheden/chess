@@ -56,12 +56,12 @@ public:
 			return;
 		}
 
-		//validate if the target is indeed a valid move
-		bool containsMove = board->verifyMove(origin, target);		
-		if (containsMove) 
-		{
-			MoveSet* moveSet = board->getMoveSet(origin, target);
-			
+        //Retrieve the relevant move set associated with the origin and target
+        MoveSet* moveSet = board->getMoveSet(origin, target);
+
+		//Validate if the move set is a valid move
+		if (moveSet)
+		{			
 			bool moveSetResult = board->applyMoveSet(moveSet);
 			if (moveSetResult) 
 			{
