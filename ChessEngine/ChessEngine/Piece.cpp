@@ -67,23 +67,3 @@ MoveSet* Piece::getMoveSet(const Coordinate& target, const Board& board)
 
     return NULL;
 }
-
-std::vector<MoveSet*> Piece::transformMoves(const std::vector<Coordinate>& moves, const Board& board)
-{
-    std::vector<MoveSet*> sets;
-
-    for (const auto& move : moves) 
-    {
-        Piece* piece = board.getPieceAt(move);
-
-        std::vector<MoveContent> content;
-        std::vector<Piece*> targets;
-        if (piece) targets.push_back(piece);
-
-        content.push_back(MoveContent(this, getCurrentCoordinate(), move, targets));
-        MoveSet* set = new MoveSet(content);
-        sets.push_back(set);
-    }
-
-    return sets;
-}

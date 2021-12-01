@@ -114,7 +114,6 @@ public:
         {
             //Overwrite data where possible?
             //TODO: check how to do this nicely
-            //Ideally you don't want to overwrite data, but just make sure your data is correct after the first run
             for (int i = 0; i < moveSet->getMoveCount(); i++)
             {
                 MoveContent content = moveSet->getContent(i);

@@ -21,6 +21,7 @@ int main()
     wrapper.CHESS_API_PrintBoard();
 
     wrapper.CHESS_API_MovePiece(0, 3, 1, 2);
+    wrapper.CHESS_API_PrintBoard();
     /*wrapper.CHESS_API_GetMoves(4, 7);
 
 	wrapper.CHESS_API_MovePiece(4, 7, 2, 7);

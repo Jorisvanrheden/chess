@@ -47,6 +47,11 @@ public:
         return moves[index];
     }
 
+    void setContent(int index, const std::vector<Piece*>& targets) 
+    {
+        moves[index].targets = targets;
+    }
+
 private:
     std::vector<MoveContent> moves;
 };

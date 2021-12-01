@@ -85,10 +85,36 @@ void Board::undoLatestMoveSet()
 MoveSet* Board::getMoveSet(const Coordinate& origin, const Coordinate& target)
 {
     Piece* piece = getPieceAt(origin);
-    if (piece) 
-    {
-        return piece->getMoveSet(target, *this);
-    }
 
-    return NULL;
+    //- retrieve a list of possible move sets
+
+    //So what we want is:
+    //- One MoveSet per piece, given the origin and the target
+
+    //First get all movesets from a piece
+    //Then filter out the one needed given the target
+    //But this doesnt fully allow data transfer
+    //Instead maybe create a separate getter in PIECE, like:
+    MoveSet* moveSet = piece->getMoveSet(target, *this);
+    return moveSet;
+
+    ////but we dont need all moves, only moves that have the same starting coordinate
+    //std::vector<Coordinate> moves = getAllPieceMoves(origin);
+    //std::vector<MoveSet*> sets = piece->transformMoves(moves, *this);
+
+    ////- compare the start and end position of the initial piece
+    //for (auto& set : sets)
+    //{
+    //    //Only look for index 0, as castling is the only case where more contents are available
+    //    //For castling, king should be the initiating move
+    //    MoveContent content = set->getContent(0);
+
+    //    if (content.from == origin && content.to == target)
+    //    {
+    //        return set;
+    //    }
+    //}
+
+    ////Return null if the given origin and target coordinates are not a valid combination
+    //return NULL;
 }
