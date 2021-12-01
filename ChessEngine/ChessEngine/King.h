@@ -51,6 +51,7 @@ public:
         MoveSet* moveSet = Piece::getMoveSet(target, board);
 
         //Process castling moves
+        //TODO: needs fixing, castling doesnt work at the moment
         if (!moveSet) 
         {
             moveSet = combination->getCastlingMoveSet(board, target);
