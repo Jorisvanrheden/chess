@@ -14,13 +14,14 @@ public:
 
 	bool isMoveValid(Board& board, Piece* piece, const Coordinate& origin, const Coordinate& target)
 	{
-        //Create the moveset from the origin and target
-        std::vector<MoveContent> content;
-        content.push_back(MoveContent(piece, origin, target, {}));
-        MoveSet move(content);
+        //TODO: don't pass origin and target, but pass a MoveSet instead
+        //That covers all data, so you don't have to keep constructing these objects 
+        //over and over again
+
+        MoveSet* moveSet = board.getMoveSet(origin, target);
 
         //apply the the moveset to the board
-        board.applyMoveSet(&move);
+        board.applyMoveSet(moveSet);
 
 		//if the piece is checked, the move is not valid
 		bool result = !checkDetector->isChecked(board, piece->getPlayerType());

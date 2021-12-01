@@ -40,14 +40,15 @@ void Board::undoMoveContent(const MoveContent& content)
     //To undo, the active piece must be set back to the from position
     setPieceAt(content.from, content.activePiece);
 
+    //Set the target to NULL - it is important this happens before the targets are reset
+    //In case no target, the square is still set properly, but otherwise targets are overwritten again
+    setPieceAt(content.to, NULL);
+
     //Set the targets back to the pieces that were located there
     for (const auto& target : content.targets)
     {
         setPieceAt(target->getCurrentCoordinate(), target);
     }
-
-    //Set the target to NULL
-    setPieceAt(content.to, NULL);
 
     //Undo the piece history update
     content.activePiece->removeLastCoordinate();
