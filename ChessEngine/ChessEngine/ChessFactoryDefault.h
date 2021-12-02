@@ -4,6 +4,7 @@
 
 #include "BoardAnalyzer.h"
 #include "DefaultBoardPopulator.h"
+#include "TestingBoardPopulator.h"
 #include "PieceCheckDetector.h"
 
 #include "FriendyFireValidatorh.h"
@@ -31,7 +32,8 @@ public:
 
 	IBoardPopulator* createBoardPopulator() 
 	{
-		return new DefaultBoardPopulator();
+		//return new DefaultBoardPopulator();
+        return new TestingBoardPopulator();
 	}
 
 	IFilter<Piece>* createPieceFilter() 

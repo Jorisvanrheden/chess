@@ -3,9 +3,6 @@
 #include "Board.h"
 #include "Parser.h"
 
-#include "DefaultBoardPopulator.h"
-#include "TestingBoardPopulator.h"
-
 #include "PlayerSelector.h"
 #include "BoardAnalyzer.h"
 
@@ -58,6 +55,10 @@ public:
 
         //Retrieve the relevant move set associated with the origin and target
         MoveSet* moveSet = board->getMoveSet(origin, target);
+
+        //TODO: validate if the move can actually be executed
+        //The moveset getter doesn't validate if the king is checked
+        //That is done by the getAllMoves thing, which does the logic validations
 
 		//Validate if the move set is a valid move
 		if (moveSet)

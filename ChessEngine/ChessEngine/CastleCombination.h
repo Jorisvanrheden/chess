@@ -139,7 +139,7 @@ private:
 
         std::vector<MoveContent> content;
         content.push_back(MoveContent(king, kingOrigin, kingTarget, {}));
-        content.push_back(MoveContent(king, rookOrigin, rookTarget, {}));
+        content.push_back(MoveContent(activeRook, rookOrigin, rookTarget, {}));
 
         return new MoveSet(content);
 	}
