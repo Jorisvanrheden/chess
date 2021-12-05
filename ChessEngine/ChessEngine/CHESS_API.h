@@ -53,14 +53,16 @@ public:
 			return;
 		}
 
+        if (!board->isValidMove(origin, target)) 
+        {
+            std::cout << "The attempted move is not valid" << std::endl;
+            return;
+        }
+
         //Retrieve the relevant move set associated with the origin and target
         MoveSet* moveSet = board->getMoveSet(origin, target);
 
-        //TODO: validate if the move can actually be executed
-        //The moveset getter doesn't validate if the king is checked
-        //That is done by the getAllMoves thing, which does the logic validations
-
-		//Validate if the move set is a valid move
+		//Validate the move set
 		if (moveSet)
 		{			
 			bool moveSetResult = board->applyMoveSet(moveSet);

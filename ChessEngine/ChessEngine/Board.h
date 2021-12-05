@@ -96,6 +96,18 @@ public:
 		return logicValidatedMoves;
 	}
 
+    bool isValidMove(const Coordinate& origin, const Coordinate& target) 
+    {
+        std::vector<Coordinate> validMoves = getValidatedMoves(origin);
+
+        for (const auto& move : validMoves) 
+        {
+            if (move == target) return true;
+        }
+
+        return false;
+    }
+
 	bool isCoordinateValid(const Coordinate& coordinate) const
 	{
 		//Boundary checking
